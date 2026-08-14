@@ -1,0 +1,2416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prehospital Drug Reference & Dosage Calculation Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-950: #020617;
+            --bg-900: #0f172a;
+            --bg-850: #16213a;
+            --bg-800: #1e293b;
+            --border-800: #1e293b;
+            --border-700: #334155;
+            --text-100: #f1f5f9;
+            --text-300: #cbd5e1;
+            --text-400: #94a3b8;
+            --text-500: #64748b;
+            --emerald-300: #6ee7b7;
+            --emerald-400: #34d399;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            --teal-300: #5eead4;
+            --teal-500: #14b8a6;
+            --amber-400: #fbbf24;
+            --rose-400: #fb7185;
+            --rose-500: #f43f5e;
+            --rose-600: #e11d48;
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-950);
+            color: var(--text-100);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+        }
+
+        ::selection { background: var(--emerald-500); color: #fff; }
+
+        a { color: inherit; }
+
+        button { font-family: inherit; cursor: pointer; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* ---------- Header ---------- */
+        header.app-header {
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid var(--border-800);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        .header-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 14px 16px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--emerald-600), var(--teal-500));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+            font-size: 18px;
+        }
+
+        .brand-title {
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: -0.01em;
+            background: linear-gradient(90deg, var(--emerald-400), var(--teal-300));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 0;
+        }
+
+        .brand-subtitle {
+            font-size: 12px;
+            color: var(--text-400);
+            margin: 2px 0 0;
+        }
+
+        nav.tabs {
+            display: flex;
+            gap: 8px;
+            background: var(--bg-950);
+            padding: 4px;
+            border-radius: 12px;
+            border: 1px solid var(--border-800);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .tab-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.15s ease;
+            border: none;
+            background: transparent;
+            color: var(--text-400);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover { color: #fff; }
+
+        .tab-btn.active {
+            background: var(--emerald-600);
+            color: #fff;
+            box-shadow: 0 6px 16px rgba(5, 150, 105, 0.3);
+        }
+
+        /* ---------- Main ---------- */
+        main {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px 16px;
+            flex: 1;
+            width: 100%;
+        }
+
+        .guide-toolbar {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+            margin-bottom: 24px;
+        }
+
+        @media (min-width: 768px) {
+            .guide-toolbar { flex-direction: row; }
+        }
+
+        .guide-heading h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .guide-heading p {
+            font-size: 14px;
+            color: var(--text-400);
+            margin: 0;
+        }
+
+        .search-wrap {
+            position: relative;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .search-wrap { width: 384px; }
+        }
+
+        .search-wrap i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-400);
+            font-size: 14px;
+        }
+
+        .search-wrap input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            background: var(--bg-900);
+            border: 1px solid var(--border-700);
+            border-radius: 12px;
+            color: var(--text-100);
+            font-size: 14px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.4);
+        }
+
+        .search-wrap input::placeholder { color: var(--text-400); }
+        .search-wrap input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--emerald-500);
+        }
+
+        #drugGrid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 768px) {
+            #drugGrid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (min-width: 1024px) {
+            #drugGrid { grid-template-columns: 1fr 1fr 1fr; }
+        }
+
+        .drug-card {
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border-800);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: border-color 0.25s ease, transform 0.15s ease;
+        }
+
+        .drug-card:hover {
+            border-color: rgba(16, 185, 129, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .drug-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .pill {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 4px 12px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--emerald-400);
+            border-radius: 999px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .drug-index {
+            font-size: 11px;
+            color: var(--text-500);
+            font-family: monospace;
+        }
+
+        .drug-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 4px;
+            transition: color 0.15s ease;
+        }
+
+        .drug-card:hover h3 { color: var(--emerald-300); }
+
+        .drug-trade {
+            font-size: 12px;
+            color: var(--text-400);
+            font-style: italic;
+            margin: 0 0 16px;
+        }
+
+        .drug-summary p {
+            font-size: 12px;
+            color: var(--text-300);
+            margin: 0 0 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .drug-summary .dosage-line {
+            color: rgba(52, 211, 153, 0.9);
+            font-family: monospace;
+        }
+
+        .drug-card-footer {
+            padding-top: 16px;
+            margin-top: 16px;
+            border-top: 1px solid rgba(30, 41, 59, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--emerald-400);
+            font-weight: 500;
+        }
+
+        .drug-card-footer i { transition: transform 0.15s ease; }
+        .drug-card:hover .drug-card-footer i { transform: translateX(4px); }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 48px 0;
+            color: var(--text-400);
+        }
+
+        .empty-state i {
+            font-size: 32px;
+            margin-bottom: 12px;
+            color: var(--amber-400);
+        }
+
+        /* ---------- Quiz ---------- */
+        .quiz-panel {
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+        }
+
+        @media (min-width: 768px) {
+            .quiz-panel { padding: 32px; }
+        }
+
+        .quiz-panel-head {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-800);
+        }
+
+        @media (min-width: 768px) {
+            .quiz-panel-head { flex-direction: row; align-items: center; }
+        }
+
+        .quiz-panel-head h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--emerald-400);
+            margin: 0 0 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quiz-panel-head p {
+            font-size: 14px;
+            color: var(--text-300);
+            margin: 0;
+        }
+
+        #quiz-stats {
+            font-size: 14px;
+            background: var(--bg-900);
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-800);
+            font-family: monospace;
+            color: var(--emerald-300);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        #quiz-stats .divider { color: #475569; }
+        #quiz-stats i { margin-right: 4px; color: var(--text-400); }
+        #quiz-stats .trophy { color: var(--amber-400); }
+        #quiz-stats strong { color: #fff; }
+
+        #quiz-controls {
+            margin-top: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-800);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 14px;
+            border: none;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--emerald-600);
+            color: #fff;
+            box-shadow: 0 10px 20px rgba(5, 150, 105, 0.3);
+        }
+        .btn-primary:hover { background: var(--emerald-500); }
+
+        .btn-secondary {
+            background: var(--bg-800);
+            color: #fff;
+        }
+        .btn-secondary:hover { background: var(--border-700); }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .question-card {
+            background: var(--bg-900);
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid var(--border-800);
+        }
+
+        .question-card .badge {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--emerald-400);
+            border-radius: 999px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .question-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin: 8px 0 0;
+            line-height: 1.5;
+        }
+
+        @media (min-width: 768px) {
+            .question-card h3 { font-size: 20px; }
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-800);
+            background: var(--bg-900);
+            color: var(--text-100);
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: rgba(16, 185, 129, 0.5);
+            background: var(--bg-850);
+        }
+
+        .option-btn .opt-inner {
+            display: flex;
+            align-items: center;
+        }
+
+        .opt-letter {
+            width: 24px;
+            height: 24px;
+            border-radius: 999px;
+            background: var(--bg-800);
+            color: var(--text-400);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-family: monospace;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .option-btn .opt-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .option-btn.correct {
+            background: rgba(6, 78, 59, 0.4);
+            border-color: var(--emerald-500);
+            color: #bbf7d0;
+            box-shadow: 0 10px 20px rgba(6, 95, 70, 0.3);
+        }
+        .option-btn.correct .opt-letter {
+            background: var(--emerald-600);
+            color: #fff;
+        }
+
+        .option-btn.incorrect {
+            background: rgba(76, 5, 25, 0.4);
+            border-color: var(--rose-500);
+            color: #fecdd3;
+        }
+        .option-btn.incorrect .opt-letter {
+            background: var(--rose-600);
+            color: #fff;
+        }
+
+        .option-btn.faded {
+            background: rgba(15, 23, 42, 0.5);
+            border-color: var(--border-800);
+            color: var(--text-500);
+            opacity: 0.6;
+        }
+
+        .explanation-box {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--border-800);
+            padding: 20px;
+            border-radius: 16px;
+            margin-top: 24px;
+        }
+
+        .explanation-box h4 {
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 0 8px;
+        }
+
+        .explanation-box h4.correct-text { color: var(--emerald-400); }
+        .explanation-box h4.incorrect-text { color: var(--rose-400); }
+
+        .explanation-box p {
+            font-size: 12px;
+            color: var(--text-300);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .results-wrap {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .results-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, var(--emerald-600), var(--teal-500));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            color: #fff;
+            font-size: 30px;
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
+        }
+
+        .results-badge {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 6px 16px;
+            border-radius: 999px;
+            border: 1px solid;
+            display: inline-block;
+        }
+
+        .results-badge.good {
+            color: var(--emerald-400);
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .results-badge.needs-review {
+            color: var(--amber-400);
+            background: rgba(251, 191, 36, 0.1);
+            border-color: rgba(251, 191, 36, 0.2);
+        }
+
+        .results-wrap h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            margin: 12px 0 4px;
+        }
+
+        .results-percentage {
+            font-size: 18px;
+            color: var(--emerald-400);
+            font-family: monospace;
+            margin: 4px 0;
+        }
+
+        .results-message {
+            font-size: 14px;
+            color: var(--text-400);
+            max-width: 420px;
+            margin: 12px auto 0;
+        }
+
+        .results-actions {
+            padding-top: 24px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .hidden { display: none !important; }
+
+        /* ---------- Footer ---------- */
+        footer.app-footer {
+            background: var(--bg-900);
+            border-top: 1px solid var(--border-800);
+            padding: 24px 16px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-400);
+            margin-top: 48px;
+        }
+
+        /* ---------- Modal ---------- */
+        #drugModal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal-box {
+            border: 1px solid var(--border-700);
+            width: 100%;
+            max-width: 720px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 24px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            padding: 32px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            color: var(--text-400);
+            font-size: 16px;
+            font-weight: 700;
+            background: var(--bg-800);
+            width: 40px;
+            height: 40px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .modal-close:hover { color: #fff; background: var(--border-700); }
+
+        .modal-content-wrap { display: flex; flex-direction: column; gap: 20px; }
+
+        .modal-content-wrap h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            margin: 8px 0 4px;
+        }
+
+        .modal-content-wrap .modal-trade {
+            font-size: 12px;
+            color: var(--text-400);
+            font-style: italic;
+            margin: 0;
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            font-size: 14px;
+        }
+
+        @media (min-width: 768px) {
+            .modal-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .modal-block {
+            background: rgba(15, 23, 42, 0.8);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-800);
+        }
+
+        .modal-block h4 {
+            font-weight: 600;
+            margin: 0 0 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .modal-block h4.emerald { color: var(--emerald-400); }
+        .modal-block h4.rose { color: var(--rose-400); }
+        .modal-block h4.amber { color: var(--amber-400); }
+
+        .modal-block p {
+            color: var(--text-300);
+            font-size: 12px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .modal-block p.mono {
+            color: var(--emerald-300);
+            font-family: monospace;
+        }
+
+        .modal-meta {
+            background: rgba(15, 23, 42, 0.8);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-800);
+            font-size: 12px;
+        }
+
+        .modal-meta p { margin: 0 0 8px; }
+        .modal-meta p:last-child { margin-bottom: 0; }
+        .modal-meta p span { color: var(--text-300); }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="header-inner">
+            <div class="brand">
+                <div class="brand-icon"><i class="fa-solid fa-ambulance"></i></div>
+                <div>
+                    <p class="brand-title">EFSC Paramedic Drug Reference & Quiz</p>
+                    <p class="brand-subtitle">Prehospital Pharmacology & EMS Mastery Workspace</p>
+                </div>
+            </div>
+
+            <nav class="tabs">
+                <button onclick="switchTab('guide')" id="nav-guide" class="tab-btn active">
+                    <i class="fa-solid fa-book-medical"></i>
+                    <span>Drug Guide</span>
+                </button>
+                <button onclick="switchTab('quiz')" id="nav-quiz" class="tab-btn">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Dosage Quiz (50 Qs)</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- TAB 1: DRUG GUIDE -->
+        <div id="tab-guide" class="tab-content active">
+            <div class="guide-toolbar glass-panel">
+                <div class="guide-heading">
+                    <h2><i class="fa-solid fa-pills" style="color: var(--emerald-400);"></i> Prehospital Medication Reference</h2>
+                    <p>Searchable clinical index of emergency drugs based on EFSC EMS reference standards.</p>
+                </div>
+                <div class="search-wrap">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="drugSearch" oninput="filterDrugs()" placeholder="Search by name, class, indication...">
+                </div>
+            </div>
+
+            <div id="drugGrid">
+                <!-- Drug cards populated dynamically by JS -->
+            </div>
+        </div>
+
+        <!-- TAB 2: DOSAGE QUIZ -->
+        <div id="tab-quiz" class="tab-content">
+            <div class="quiz-panel glass-panel">
+                <div class="quiz-panel-head">
+                    <div>
+                        <h2><i class="fa-solid fa-calculator"></i> EMS Dosage Calculation & Pharmacology Quiz</h2>
+                        <p>50 rigorous prehospital calculation and pharmacology scenarios based on the EFSC guide.</p>
+                    </div>
+                    <div id="quiz-stats">
+                        <span><i class="fa-solid fa-list-check"></i> Question <strong id="current-q-num">1</strong> / 50</span>
+                        <span class="divider">|</span>
+                        <span><i class="fa-solid fa-trophy trophy"></i> Score: <strong id="current-score">0</strong></span>
+                    </div>
+                </div>
+
+                <div id="quiz-container">
+                    <!-- Quiz question injected here -->
+                </div>
+
+                <div id="quiz-controls">
+                    <button id="prev-btn" onclick="prevQuestion()" class="btn btn-secondary" disabled>
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Previous</span>
+                    </button>
+                    <button id="next-btn" onclick="nextQuestion()" class="btn btn-primary">
+                        <span>Next Question</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="app-footer">
+        <p>EFSC Paramedic Clinical Reference & Quiz Studio &bull; Designed for Advanced Life Support (ALS) & Prehospital Training</p>
+    </footer>
+
+    <!-- Drug Detail Modal -->
+    <div id="drugModal" class="hidden">
+        <div class="modal-box glass-panel">
+            <button onclick="closeModal()" class="modal-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+const drugsData = [
+            {
+                name: "ACTIVATED CHARCOAL",
+                class: "Adsorbent",
+                tradeNames: "Actidose, Charcodote, Insta-Char, LiquiChar",
+                mechanism: "Adsorbs toxic substances from the GI Tract; Prevents adsorption within the GI tract. Onset of action is immediate.",
+                indications: "Most oral poisonings and medication overdoses; can be used after evacuation of poisons.",
+                contraindications: "Oral administration to comatose patient; after ingestion of corrosives, caustics or petroleum distillates; simultaneous administration with other oral drugs.",
+                adverseReactions: "May induce nausea and vomiting; constipation; black stools.",
+                drugInteractions: "Bonds with and generally inactivates whatever it is mixed with.",
+                howSupplied: "25 gm / 125 ml bottle (200 mg/ml); 50 gm / 250 ml bottle (200 mg/ml)",
+                dosage: "Adult: 1-2 gm/kg PO or via NGT. Pediatric: 1-2 gm/kg PO or via NGT.",
+                special: "Does not adsorb cyanide, lithium, iron, lead and arsenic. Often used with magnesium citrate."
+            },
+            {
+                name: "ADENOSINE",
+                class: "Antidysrhythmic",
+                tradeNames: "Adenocard",
+                mechanism: "Slows conduction time through the AV Node; can interrupt re-entrant pathways; slows heart rate; acts directly on sinus pacemaker cells. Drug of choice for PSVT.",
+                indications: "Conversion of PSVT to sinus rhythm. May convert PSVT due to WPW syndrome. Not effective converting A-Fib/Flutter.",
+                contraindications: "2nd or 3rd-degree block or Sick Sinus Syndrome; Ventricular Tachycardia; Hypersensitivity.",
+                adverseReactions: "Facial flushing, shortness of breath, chest pain, headache, paresthesia, palpitations, hypotension, nausea, metallic taste.",
+                drugInteractions: "Methylxanthines antagonize; Dipyridamole potentiates; Carbamazepine may potentiate AV block.",
+                howSupplied: "3 mg/ml in 2-ml flip-top vials for IV injection or pre-filled syringe.",
+                dosage: "Adult: 6 mg rapid IV over 1-3 sec; repeat 12 mg after 1-2 min if needed (Max total = 30 mg). Pediatric: 0.1 - 0.2 mg/kg rapid IV (Max single dose = 12 mg).",
+                special: "Administer in large proximal vein with rapid saline flush due to ultra-short half-life (12 seconds)."
+            },
+            {
+                name: "ALBUTEROL",
+                class: "Sympathomimetic, bronchodilator",
+                tradeNames: "Proventil, Ventolin",
+                mechanism: "Selective beta-2 agonist which stimulates adrenergic receptors resulting in smooth muscle relaxation in bronchial tree and peripheral vasculature.",
+                indications: "Treatment of bronchospasm in reversible obstructive airway disease (COPD/asthma). Prevention of exercise-induced bronchospasm.",
+                contraindications: "Known prior hypersensitivity; Tachycardia dysrhythmias (especially digitalis-induced).",
+                adverseReactions: "Restlessness, tremors, dizziness, palpitations, tachycardia, nervousness, peripheral vasodilation, nausea, vomiting, hyperglycemia, increased BP, paradoxical bronchospasm.",
+                drugInteractions: "Tricyclic antidepressants potentiate; Beta-blockers are antagonistic; may potentiate hypokalemia from diuretics.",
+                howSupplied: "Solution for aerosolization: 0.5% (5 mg/ml); MDI: 90 mcg/spray; Syrup: 2 mg/5 ml.",
+                dosage: "Adult: 2.5 mg pre-mixed in 2.5 mL via nebulizer. Pediatric: 0.15 mg/kg in 2.5–3.0 mL NS via nebulizer.",
+                special: "Onset 5-15 min, duration 3-4 hours. Pregnancy Safety: Category C."
+            },
+            {
+                name: "AMINOPHYLLINE",
+                class: "Xanthine bronchodilator (theophylline derivative)",
+                tradeNames: "N/A",
+                mechanism: "Respiratory stimulator and bronchodilator.",
+                indications: "Limited usefulness in EMS; refractory COPD patients, interfacility transfers, bronchospasm.",
+                contraindications: "Allergy to xanthines (caffeine); cardiac dysrhythmias.",
+                adverseReactions: "Tachycardia, palpitations, PVCs, angina pectoris, headache, seizure, nausea and vomiting.",
+                drugInteractions: "Beta blockers oppose effects; Barbiturates and phenytoin decrease levels.",
+                howSupplied: "500 mg/10 ml ampule; 500 mg/20 ml ampule; 250 mg/ml preload.",
+                dosage: "Adult Loading: 5-6 mg/kg in 60-100 ml over 30 min (max 20 mg/min). Pediatric Loading: 5-6 mg/kg in 50-100 ml.",
+                special: "Therapeutic to toxic ratio is narrow! Halve doses in patients already taking theophylline."
+            },
+            {
+                name: "AMIODARONE",
+                class: "Antidysrhythmic",
+                tradeNames: "Cordarone, Pacerone",
+                mechanism: "Prolongation of Action Potential; non-competitive alpha/beta blocking; Primary K+ channel blocker with Na+ and Ca++ channel blocking effects.",
+                indications: "Life-threatening ventricular and supraventricular dysrhythmias, particularly VF, VT, and atrial fibrillation.",
+                contraindications: "2nd or 3rd Degree heart block; medication-induced V-tach; hypotension, bradycardia, Torsades de Pointes.",
+                adverseReactions: "Hypotension, bradycardia, PEA, CHF, nausea, fever, abnormal LFTs, thrombocytopenia.",
+                drugInteractions: "Incompatible with Sodium Bicarbonate. Compatible with Dopamine, Dobutamine, Lidocaine, NTG, Norepinephrine.",
+                howSupplied: "150 mg in 3 ml vials.",
+                dosage: "Adult Cardiac Arrest: 300 mg slow IV push in 10 ml NS, followed by 150 mg for recurrent VF/VT. VT with pulse: 150 mg over 10 mins.",
+                special: "Protect from light in long-term storage. Hypotension managed by slowing infusion and IV normal saline."
+            },
+            {
+                name: "AMYL NITRITE, SODIUM NITRITE, SODIUM THIOSULFATE",
+                class: "Cyanide Antidote Kit",
+                tradeNames: "Cyanide Antidote Kit",
+                mechanism: "Amyl/Sodium nitrite forms methemoglobin with cyanide ions; Sodium thiosulfate produces thiocyanate for excretion.",
+                indications: "Cyanide or hydrocyanic acid poisoning.",
+                contraindications: "Not applicable in life-threatening cyanide poisoning.",
+                adverseReactions: "Excessive doses produce severe, life-threatening methemoglobinemia.",
+                drugInteractions: "None.",
+                howSupplied: "Amyl nitrite in pledgettes; kit components for IV administration.",
+                dosage: "Adult/Pediatric: Amyl nitrite breathe 30 sec out of every minute. Sodium Nitrite and Thiosulfate via IV per kit directions.",
+                special: "Must be used in conjunction with high-flow oxygen administration."
+            },
+            {
+                name: "ASPIRIN",
+                class: "Platelet inhibitor, NSAID",
+                tradeNames: "ASA, Bayer, Ecotrin, St. Joseph's",
+                mechanism: "Blocks formation of thromboxane A2, prohibiting platelet aggregation.",
+                indications: "New onset chest pain suggestive of Acute Myocardial Infarction; suspicion of ACS.",
+                contraindications: "Hypersensitivity; active gastrointestinal bleeding; caution in asthma.",
+                adverseReactions: "Heartburn, GI bleeding, nausea, vomiting, wheezing in allergic patients, prolonged bleeding.",
+                drugInteractions: "Caution in patients allergic to NSAIDs.",
+                howSupplied: "81 mg, 160 mg, or 325 mg tablets (chewable and standard).",
+                dosage: "Adult: 162 mg or 324 mg PO (chewed preferred).",
+                special: "Pregnancy Safety: Category D. Not recommended in pediatric population."
+            },
+            {
+                name: "ATENOLOL",
+                class: "Beta Blocker, Anti-hypertensive",
+                tradeNames: "Tenormin",
+                mechanism: "Selectively blocks Beta-1 adrenergic receptors in the myocardium, reducing heart rate, force of contraction, cardiac output, and BP.",
+                indications: "Acute coronary syndromes; ventricular fibrillation.",
+                contraindications: "Sinus bradycardia, greater than 1st-degree heart block, CHF, cardiogenic shock.",
+                adverseReactions: "Bradycardia, hypotension, dizziness, bronchospasm.",
+                drugInteractions: "Atropine/anticholinergics increase absorption; NSAIDs decrease hypotensive effects.",
+                howSupplied: "0.5 mg/ml ampules.",
+                dosage: "Adult: 5 mg slow IV over 5 minutes; may repeat in 10 minutes.",
+                special: "Monitor ECG and vital signs continuously during slow administration."
+            },
+            {
+                name: "ATROPINE SULFATE",
+                class: "Anticholinergic agent (Parasympatholytic)",
+                tradeNames: "Atropine",
+                mechanism: "Inhibits acetylcholine at parasympathetic neuroeffector sites; increases heart rate in life-threatening brady-dysrhythmias.",
+                indications: "Hemodynamically significant bradycardia; drug of choice for organophosphate poisoning; bronchospasm.",
+                contraindications: "Tachycardia; hypersensitivity; unstable cardiovascular status in acute hemorrhage/ischemia; narrow-angle glaucoma.",
+                adverseReactions: "Headache, dizziness, palpitations, tachycardia, dysrhythmias, blurred vision, dry mouth, urinary retention, paradoxical bradycardia if pushed too slowly.",
+                drugInteractions: "Enhanced by antihistamines, procainamide, quinidine, antipsychotics, antidepressants.",
+                howSupplied: "Prefilled syringes: 1.0 mg in 10 ml; various injection solutions and autoinjectors.",
+                dosage: "Adult Bradycardia: 0.5 mg IV every 3-5 min (max total 0.04 mg/kg). Organophosphate: 2-5 mg IV every 10-15 min. Pediatric Bradycardia: 0.02 mg/kg IV/IO.",
+                special: "Pregnancy Safety: Category C. Moderate doses dilate pupils."
+            },
+            {
+                name: "BUMETANIDE",
+                class: "Loop diuretic",
+                tradeNames: "Bumex",
+                mechanism: "Decreases reabsorption of Na+ and Cl- in the ascending loop of Henle and distal tubule.",
+                indications: "Edema from CHF and hepatic cirrhosis.",
+                contraindications: "Anuria, severe electrolyte depletion.",
+                adverseReactions: "Hypokalemia, dehydration, dizziness, hyperglycemia.",
+                drugInteractions: "Antihypertensives, thiazides, nitrates.",
+                howSupplied: "0.25 mg/ml IV injection; PO tablets.",
+                dosage: "Adult: 0.5 – 1 mg IV q 8 hours (Do not exceed 10 mg/day).",
+                special: "Bumetanide is 40 times stronger than furosemide, with quicker onset and shorter half-life."
+            },
+            {
+                name: "CALCIUM CHLORIDE / CALCIUM GLUCONATE",
+                class: "Electrolyte",
+                tradeNames: "Calcium Chloride / Calcium Gluconate",
+                mechanism: "Increases cardiac contractile state (positive inotropic effect); enhances ventricular automaticity.",
+                indications: "Hypocalcemia, magnesium sulfate overdose, hyperkalemia, calcium channel blocker toxicity, insect sting adjunct.",
+                contraindications: "Hypercalcemia, VF during resuscitation, digitalis toxicity.",
+                adverseReactions: "Bradycardia, asystole, hypotension, peripheral vasodilation, local tissue necrosis, coronary/cerebral artery spasm.",
+                drugInteractions: "Worsens digitalis toxicity; antagonizes Verapamil. Flush lines before/after sodium bicarbonate.",
+                howSupplied: "10% solution in 10 ml ampules/vials/syringes (100 mg/ml).",
+                dosage: "Adult: 2-4 mg/kg of 10% solution slow IV over 5 min (max 1 gm). Pediatric: 20 mg/kg slow IV/IO (max 1 gm).",
+                special: "Extravasation causes severe tissue necrosis. Push slowly."
+            },
+            {
+                name: "CYANOKIT (Hydroxocobalamin)",
+                class: "Antidote",
+                tradeNames: "Cyanokit",
+                mechanism: "Chelates cyanide ion to form cyanocobalamin, which is cleared in the urine.",
+                indications: "Cyanide or hydrocyanic acid poisoning.",
+                contraindications: "None in confirmed cyanide poisoning.",
+                adverseReactions: "Red skin and urine discoloration, elevated blood pressure.",
+                drugInteractions: "None.",
+                howSupplied: "5 Gram vial with reconstitution kit.",
+                dosage: "Adult: 5 Grams over 5 minutes IV. May repeat once for total of 10 Grams.",
+                special: "Onset 2-15 minutes. Half-life 26-31 hours."
+            },
+            {
+                name: "DEXAMETHASONE SODIUM PHOSPHATE",
+                class: "Corticosteroid",
+                tradeNames: "Decadron",
+                mechanism: "Suppresses acute and chronic inflammation; provides potent immunosuppressive effects.",
+                indications: "Anaphylaxis, asthma, spinal cord injury, croup, elevated ICP, adjunct in shock.",
+                contraindications: "Hypersensitivity.",
+                adverseReactions: "Hypertension, sodium/water retention, GI bleeding. None typically from single acute dose.",
+                drugInteractions: "Calcium, Metaraminol.",
+                howSupplied: "4 mg/ml vials.",
+                dosage: "Adult: 4 - 24 mg IV/IM. Pediatric: 0.5 – 1 mg/kg IV.",
+                special: "May elevate blood glucose. Use large muscle for IM injections."
+            },
+            {
+                name: "DEXTROSE",
+                class: "Carbohydrate, hypertonic solution",
+                tradeNames: "D50%, D25%, D10%",
+                mechanism: "Rapidly increases serum glucose levels; provides short-term osmotic diuresis.",
+                indications: "Hypoglycemia, altered level of consciousness, coma or seizure of unknown etiology.",
+                contraindications: "Intracranial hemorrhage, delirium tremens, ineffective without thiamine.",
+                adverseReactions: "Tissue necrosis with extravasation; warmth, pain, burning, thrombophlebitis.",
+                drugInteractions: "Sodium bicarbonate, coumadin.",
+                howSupplied: "25 gm / 50 ml pre-filled syringes (500 mg/ml).",
+                dosage: "Adult: 12.5-25 gm of 50% solution slow IV. Pediatric: 0.5-1 gm/kg (D50 or D25) slow IV.",
+                special: "Administer thiamine prior to D50 in known chronic alcoholics. Always check blood glucose first."
+            },
+            {
+                name: "DIAZEPAM",
+                class: "Benzodiazepine, sedative-hypnotic, anticonvulsant",
+                tradeNames: "Valium, Diastat",
+                mechanism: "Potentiates inhibitory neurotransmitters (GABA); raises seizure threshold; induces amnesia and sedation.",
+                indications: "Acute anxiety, alcohol withdrawal, muscle relaxation, status epilepticus, procedural sedation, delirium tremens.",
+                contraindications: "Hypersensitivity, glaucoma, coma, shock, acute substance abuse, head injury.",
+                adverseReactions: "Respiratory depression, hypotension, drowsiness, ataxia, reflex tachycardia, thrombosis/phlebitis.",
+                drugInteractions: "Incompatible in solution with most drugs and IV fluids.",
+                howSupplied: "10 mg/5 ml prefilled syringes, ampules, vials.",
+                dosage: "Adult Seizure: 5-10 mg IV q 10-15 min (max 30 mg). Pediatric Seizure: 0.2-0.3 mg/kg IV (max 10 mg). Rectal gel: 0.5 mg/kg.",
+                special: "Reduce dose by 50% in elderly patients. Short duration of anticonvulsant effect."
+            },
+            {
+                name: "DIGOXIN",
+                class: "Cardiac glycoside",
+                tradeNames: "Lanoxin",
+                mechanism: "Increases myocardial contractility (positive inotropic effect) via Na+/K+ ATPase inhibition; decreases AV nodal conduction velocity.",
+                indications: "Congestive Heart Failure, Supraventricular Tachycardias (A-Fib/Flutter).",
+                contraindications: "VF/VT, digitalis toxicity, hypersensitivity.",
+                adverseReactions: "Fatigue, dizziness, AV block, nausea, vomiting, visual yellow halos.",
+                drugInteractions: "Quinidine, amiodarone, calcium channel blockers.",
+                howSupplied: "0.25 mg/ml in ampules.",
+                dosage: "Adult: 0.25 – 0.50 mg slow IV.",
+                special: "Extravasation causes tissue necrosis. Continuous ECG monitoring required."
+            },
+            {
+                name: "DILTIAZEM HCL",
+                class: "Calcium channel blocker",
+                tradeNames: "Cardizem, Dilacor",
+                mechanism: "Blocks calcium ion influx into cardiac and vascular smooth muscle; dilates coronary and peripheral arteries, reduces preload/afterload.",
+                indications: "Control of rapid ventricular rates in A-flutter, A-fibrillation, PSVT; angina pectoris.",
+                contraindications: "Hypotension, sick sinus syndrome, 2nd/3rd degree AV block, cardiogenic shock, WPW syndrome, wide-complex tachycardias.",
+                adverseReactions: "Bradycardia, AV blocks, chest pain, CHF, syncope, V-Fib, V-tach, dizziness, headache.",
+                drugInteractions: "Avoid concurrent IV use with Beta-blockers due to synergistic cardiac depression.",
+                howSupplied: "25 mg/5 ml vial; 50 mg/10 ml vial; Lyo-Ject syringe.",
+                dosage: "Adult: Initial bolus 0.25 mg/kg (~20 mg) IV over 2 min. May re-bolus in 15 min at 0.35 mg/kg. Maintenance drip: 5-15 mg/hr.",
+                special: "Refrigerate storage, but stable at room temp for up to 30 days."
+            },
+            {
+                name: "DIPHENHYDRAMINE",
+                class: "Antihistamine, anticholinergic",
+                tradeNames: "Benadryl",
+                mechanism: "Blocks histamine receptors; decreases vasodilation and motion sickness; reverses extrapyramidal reactions.",
+                indications: "Allergic reactions, anaphylaxis, acute dystonic reactions (phenothiazines), blood transfusion reactions, motion sickness.",
+                contraindications: "Asthma, glaucoma, neonates, pregnancy (first trimester), MAOI use.",
+                adverseReactions: "Sedation, hypotension, seizures, visual disturbances, urinary retention, palpitations, dry mouth, paradoxical CNS excitation in children.",
+                drugInteractions: "Potentiates alcohol and CNS depressants; MAOIs prolong anticholinergic effects.",
+                howSupplied: "25/50 mg tablets/capsules; 50/100 mg prefilled syringes/vials; elixir 12.5 mg/5 ml.",
+                dosage: "Adult: 25 - 50 mg IM/IV/PO. Pediatric: 1-2 mg/kg IV/IO slowly or IM.",
+                special: "Pregnancy Safety: Category B. Used alongside epinephrine and steroids in anaphylaxis."
+            },
+            {
+                name: "DOBUTAMINE",
+                class: "Sympathomimetic",
+                tradeNames: "Dobutrex",
+                mechanism: "Stimulates beta-1 adrenergic receptors to increase myocardial contractility and stroke volume with minimal heart rate change.",
+                indications: "To increase cardiac output in congestive heart failure and cardiogenic shock.",
+                contraindications: "Hypersensitivity, ventricular tachycardia, idiopathic hypertrophic subaortic stenosis (IHSS).",
+                adverseReactions: "Headache, tremors, increased heart rate/BP, PVCs, anginal chest pain, nausea, dyspnea.",
+                drugInteractions: "Beta-blockers antagonize effects; MAOIs/tricyclics potentiate vasopressor responses.",
+                howSupplied: "Vials/infusion solutions.",
+                dosage: "Adult/Pediatric: 2 – 20 mcg/kg/min IV infusion titrated to effect.",
+                special: "Onset 2-10 minutes. Short half-life."
+            },
+            {
+                name: "DOPAMINE",
+                class: "Sympathomimetic, inotropic agent",
+                tradeNames: "Intropin",
+                mechanism: "Immediate precursor to norepinephrine. Stimulates dopaminergic, beta, and alpha receptors depending on dosage.",
+                indications: "Cardiogenic, septic, or spinal shock; hypotension with low cardiac output states.",
+                contraindications: "Hypovolemic shock, pheochromocytoma, tachydysrhythmias, VF.",
+                adverseReactions: "Cardiac dysrhythmias, hypertension, increased myocardial oxygen demand, tissue necrosis with extravasation.",
+                drugInteractions: "Incompatible in alkaline solutions; MAOIs enhance effects; Phenytoin may cause severe hypotension/bradycardia.",
+                howSupplied: "200 mg/5 ml, 400 mg/5 ml vials; premixed 400 mg in 250 ml D5W.",
+                dosage: "Adult/Pediatric: 2 – 20 mcg/kg/min IV infusion titrated to effect.",
+                special: "Dose-dependent: Renal (2-4 mcg/kg/min), Inotropic/Beta (4-10 mcg/kg/min), Alpha/Vasoconstriction (10-20 mcg/kg/min)."
+            },
+            {
+                name: "EPINEPHRINE",
+                class: "Sympathomimetic",
+                tradeNames: "Adrenalin, EpiPen",
+                mechanism: "Direct-acting alpha and beta agonist. Alpha: vasoconstriction. Beta-1: inotrope, chronotrope. Beta-2: bronchodilation.",
+                indications: "Cardiac arrest (asystole, PEA, VF), severe bronchospasm/asthma, anaphylaxis and severe allergic reactions.",
+                contraindications: "Hypertension, hypothermia, pulmonary edema, coronary insufficiency, hypovolemic shock.",
+                adverseReactions: "Hypertension, dysrhythmias, pulmonary edema, anxiety, angina, headache, nausea.",
+                drugInteractions: "Potentiates other sympathomimetics; deactivated by alkaline solutions; MAOIs potentiate effects.",
+                howSupplied: "1 mg/ml (1:1,000) ampules; 0.1 mg/ml (1:10,000) prefilled syringes; EpiPen (0.3 mg), EpiPen Jr (0.15 mg).",
+                dosage: "Adult Anaphylaxis/Asthma: 0.3-0.5 mg (1:1,000) IM. Cardiac Arrest: 1 mg (1:10,000) IV/IO every 3-5 min. Infusion: 1-10 mcg/min. Pediatric: 0.01 mg/kg.",
+                special: "Pregnancy Safety: Category C. Dilute 1:1,000 with 10 mL NS if using IV in arrest settings."
+            },
+            {
+                name: "ETOMIDATE",
+                class: "Hypnotic",
+                tradeNames: "Amidate",
+                mechanism: "Ultra-short-acting nonbarbiturate hypnotic with no analgesic effects; produces rapid induction of anesthesia.",
+                indications: "To induce sedation for rapid sequence endotracheal intubation.",
+                contraindications: "Hypersensitivity. Use caution in marked hypotension, severe asthma, or cardiovascular disease.",
+                adverseReactions: "Myoclonic skeletal muscle movements, apnea, hyper/hypotension, laryngospasm, nausea, hiccups.",
+                drugInteractions: "None in emergency setting.",
+                howSupplied: "Vials for IV injection.",
+                dosage: "Adult: 0.1 – 0.3 mg/kg IV over 15-30 seconds. Pediatric (>10 yr): same as adult.",
+                special: "Does not possess analgesic properties (pain meds required for painful procedures). Flumazenil does not reverse it."
+            },
+            {
+                name: "FENTANYL CITRATE",
+                class: "Narcotic Analgesic",
+                tradeNames: "Sublimaze",
+                mechanism: "Synthetic opioid agonist. 100 mcg is approximately equivalent in analgesic potency to 10 mg morphine.",
+                indications: "Analgesia and anesthesia for moderate to severe pain.",
+                contraindications: "MAOI use within 14 days, myasthenia gravis.",
+                adverseReactions: "Respiratory depression, muscle rigidity, hypotension, bradycardia, nausea.",
+                drugInteractions: "Alcohol and other CNS depressants increase sedative effects.",
+                howSupplied: "50 mcg/ml vials and carpujects.",
+                dosage: "Adult: 1 mcg/kg slow IV push (max single dose 150 mcg).",
+                special: "Protect from light. Monitor vital signs and ECG continuously."
+            },
+            {
+                name: "FLUMAZENIL",
+                class: "Benzodiazepine Antagonist",
+                tradeNames: "Romazicon",
+                mechanism: "Competitive benzodiazepine receptor antagonist; inhibits activity at GABA/benzodiazepine receptor complex.",
+                indications: "Reversal of respiratory depression and sedative effects due to benzodiazepines.",
+                contraindications: "Patients with seizure history, tricyclic antidepressant (TCA) overdose, head injury.",
+                adverseReactions: "Nausea/vomiting, anxiety, tremors, precipitation of severe withdrawal/seizures.",
+                drugInteractions: "Does not reverse narcotic overdoses.",
+                howSupplied: "0.5 mg/5 ml and 1 mg/10 ml vials.",
+                dosage: "Adult: 0.2 mg IV over 30 seconds; repeat every minute to max of 3 mg.",
+                special: "Administer slowly. Can trigger refractory seizures in chronic benzo users or TCA overdoses."
+            },
+            {
+                name: "FUROSEMIDE",
+                class: "Loop diuretic",
+                tradeNames: "Lasix",
+                mechanism: "Inhibits electrolyte reabsorption (Na+, Cl-, K+) in the ascending Loop of Henle.",
+                indications: "Congestive Heart Failure, pulmonary edema, hypertensive crisis.",
+                contraindications: "Hypovolemia, anuria, hypotension, hypersensitivity, hepatic coma.",
+                adverseReactions: "Hypovolemia, hypokalemia, hyponatremia, dehydration, dry mouth, ototoxicity/deafness with rapid push.",
+                drugInteractions: "Potentiates lithium toxicity and digitalis toxicity via electrolyte depletion.",
+                howSupplied: "Vials: 20 mg/2 ml, 40 mg/4 ml, 100 mg/5 ml.",
+                dosage: "Adult: 40 - 120 mg slow IV injection. Pediatric: 1 mg/kg/dose IV/IO.",
+                special: "Pregnancy Safety: Category C. Protect from light."
+            },
+            {
+                name: "GLUCAGON",
+                class: "Hyperglycemic agent, pancreatic hormone",
+                tradeNames: "GlucaGen",
+                mechanism: "Increases blood glucose by stimulating glycogenolysis. Relaxes GI smooth muscle and stabilizes cardiac rhythm in beta-blocker overdose.",
+                indications: "Altered LOC when hypoglycemia is suspected; inotropic agent in beta-blocker overdose.",
+                contraindications: "Hyperglycemia, hypersensitivity.",
+                adverseReactions: "Nausea and vomiting, tachycardia, hypertension, dizziness.",
+                drugInteractions: "Oral anticoagulants may increase anticoagulant effect.",
+                howSupplied: "1 mg powder vial with 1 ml diluent.",
+                dosage: "Adult Hypoglycemia: 1 mg IM/SC/IV. Beta-blocker overdose: 3-10 mg IV over 3-5 min. Pediatric: 0.03-0.1 mg/kg.",
+                special: "Ineffective if patient has depleted glycogen stores (e.g. chronic starvation, chronic alcoholism)."
+            },
+            {
+                name: "GLUCOSE, ORAL",
+                class: "Hyperglycemic agent",
+                tradeNames: "Glutose, Insta-Glucose",
+                mechanism: "Provides rapidly absorbed glucose to raise blood glucose levels.",
+                indications: "Hypoglycemia in conscious patients with intact gag reflex.",
+                contraindications: "Unconscious patients, known inability to swallow, hyperglycemia.",
+                adverseReactions: "Nausea, vomiting.",
+                drugInteractions: "None.",
+                howSupplied: "15-25 gm tubes or packets.",
+                dosage: "Adult/Pediatric (>3 yrs): 15-25 gm PO.",
+                special: "Must be able to swallow and protect airway."
+            },
+            {
+                name: "HALOPERIDOL",
+                class: "Tranquilizer, antiemetic, antipsychotic",
+                tradeNames: "Haldol",
+                mechanism: "Blocks dopamine receptors in brain; has strong antipsychotic and sedative properties.",
+                indications: "Acute psychotic states, severe behavioral emergencies, delirium.",
+                contraindications: "Coma, CNS depression, Parkinson's disease, hypersensitivity, severe cardiac disease.",
+                adverseReactions: "Extrapyramidal symptoms, hypotension, tachycardia, dizziness, neuroleptic malignant syndrome.",
+                drugInteractions: "Potentiates CNS depressants, alcohol, narcotics.",
+                howSupplied: "5 mg/ml ampules, vials, syringes.",
+                dosage: "Adult: 2 – 5 mg IM or slow IV.",
+                special: "Monitor ECG for QT prolongation."
+            },
+            {
+                name: "HEPARIN SODIUM",
+                class: "Anticoagulant",
+                tradeNames: "Heparin",
+                mechanism: "Prevents conversion of fibrinogen to fibrin; inhibits clotting factors (thrombin).",
+                indications: "Acute myocardial infarction, pulmonary embolism, deep vein thrombosis.",
+                contraindications: "Active bleeding, severe thrombocytopenia, severe hypertension, recent surgery.",
+                adverseReactions: "Bleeding, bruising, thrombocytopenia, allergic reactions.",
+                drugInteractions: "NSAIDs, antiplatelet agents increase bleeding risk.",
+                howSupplied: "Multiple concentrations in vials and pre-filled syringes.",
+                dosage: "Adult ACS/STEMI: 60 units/kg IV bolus (max 4,000 units), followed by infusion of 12 units/kg/hr.",
+                special: "Monitor aPTT."
+            },
+            {
+                name: "HYDROCORTISONE SODIUM SUCCINATE",
+                class: "Corticosteroid, anti-inflammatory",
+                tradeNames: "Solu-Cortef",
+                mechanism: "Decreases inflammation by stabilizing leukocyte membranes; suppresses immune response.",
+                indications: "Severe allergic reactions, anaphylaxis, status asthmaticus, adrenal crisis.",
+                contraindications: "Systemic fungal infections, hypersensitivity.",
+                adverseReactions: "Fluid retention, hypertension, hyperglycemia, GI bleeding.",
+                drugInteractions: "Insulin requirements may increase.",
+                howSupplied: "100 mg, 250 mg, 500 mg mix-o-vials.",
+                dosage: "Adult: 100 - 500 mg IV/IM. Pediatric: 2 mg/kg IV/IO (max 100 mg).",
+                special: "Onset takes several hours."
+            },
+            {
+                name: "IPRATROPIUM BROMIDE",
+                class: "Anticholinergic, bronchodilator",
+                tradeNames: "Atrovent",
+                mechanism: "Inhibits interaction of acetylcholine at receptor sites on bronchial smooth muscle, causing bronchodilation and reducing secretions.",
+                indications: "Persistent bronchospasm, COPD, asthma (often paired with albuterol).",
+                contraindications: "Hypersensitivity to atropine or ipratropium, angle-closure glaucoma.",
+                adverseReactions: "Dry mouth, blurred vision, palpitations, anxiety, coughing, nausea.",
+                drugInteractions: "Other anticholinergics.",
+                howSupplied: "Inhalation solution: 0.02% (0.5 mg in 2.5 ml).",
+                dosage: "Adult/Pediatric (>1 yr): 0.5 mg (in 2.5 ml NS) via nebulizer every 20 min (max 3 doses).",
+                special: "Avoid eye contact during nebulization."
+            },
+            {
+                name: "KETAMINE HCL",
+                class: "Dissociative anesthetic, analgesic",
+                tradeNames: "Ketalar",
+                mechanism: "Blocks NMDA receptors, producing dissociative anesthesia accompanied by profound analgesia, normal pharyngeal-laryngeal reflexes, and normal or enhanced cardio-respiratory tone.",
+                indications: "Procedural sedation, severe pain management, rapid sequence intubation (RSI), excited delirium.",
+                contraindications: "Conditions where significant hypertension would be hazardous (aneurysm, severe CAD), hypersensitivity.",
+                adverseReactions: "Emergence reactions (hallucinations, vivid dreams), hypertension, tachycardia, laryngospasm, increased ICP/IOP.",
+                drugInteractions: "Potentiates CNS depressants; Barbiturates/narcotics prolong recovery.",
+                howSupplied: "10 mg/ml, 50 mg/ml, 100 mg/ml vials.",
+                dosage: "Adult Sedation/RSI: 1-2 mg/kg IV or 4 mg/kg IM. Analgesia: 0.1-0.3 mg/kg IV. Pediatric: 1-2 mg/kg IV.",
+                special: "Maintain quiet environment during recovery to minimize emergence delirium (treat with small dose of midazolam if needed)."
+            },
+            {
+                name: "KETOROLAC TROMETHAMINE",
+                class: "Nonsteroidal Anti-inflammatory Drug (NSAID)",
+                tradeNames: "Toradol",
+                mechanism: "Inhibits prostaglandin synthesis, producing peripheral analgesia, anti-inflammatory, and antipyretic effects.",
+                indications: "Short-term management of moderate to severe acute pain.",
+                contraindications: "Active peptic ulcer disease, GI bleeding, renal impairment, allergy to aspirin/NSAIDs, CABG surgery.",
+                adverseReactions: "Nausea, dyspepsia, GI pain, edema, dizziness, drowsiness, bleeding.",
+                drugInteractions: "Other NSAIDs, anticoagulants.",
+                howSupplied: "15 mg/ml or 30 mg/ml vials/carpujects.",
+                dosage: "Adult: 15-30 mg IV/IM or 30-60 mg IM single dose. Pediatric: Not recommended.",
+                special: "Do not exceed 5 days total combined use."
+            },
+            {
+                name: "LABETALOL HCL",
+                class: "Alpha/Beta-blocker",
+                tradeNames: "Normodyne, Trandate",
+                mechanism: "Blocks alpha-1 and beta adrenergic receptors, decreasing heart rate, blood pressure, and vascular resistance without significantly decreasing cardiac output.",
+                indications: "Severe hypertension, hypertensive emergencies.",
+                contraindications: "Bronchial asthma, overt cardiac failure, greater than 1st-degree heart block, cardiogenic shock, bradycardia.",
+                adverseReactions: "Hypotension, dizziness, fatigue, nausea, bronchospasm, heart failure.",
+                drugInteractions: "Additive hypotensive effects with other antihypertensives.",
+                howSupplied: "5 mg/ml in 20 ml ampules/vials.",
+                dosage: "Adult: 10-20 mg slow IV push over 2 minutes; may repeat/double every 10 minutes to max 150-300 mg.",
+                special: "Continuous blood pressure and ECG monitoring required."
+            },
+            {
+                name: "LEVALBUTEROL HCL",
+                class: "Sympathomimetic, bronchodilator",
+                tradeNames: "Xopenex",
+                mechanism: "R-isomer of albuterol; selective beta-2 agonist causing relaxation of bronchial smooth muscle.",
+                indications: "Treatment of acute bronchospasm in asthma and COPD.",
+                contraindications: "Hypersensitivity to albuterol or levalbuterol, tachydysrhythmias.",
+                adverseReactions: "Tremor, nervousness, dizziness, tachycardia, palpitations, nausea.",
+                drugInteractions: "Sympathomimetics, beta-blockers.",
+                howSupplied: "Inhalation solution: 0.63 mg/3 ml, 1.25 mg/3 ml.",
+                dosage: "Adult/Pediatric (>6 yrs): 1.25 mg in 3 ml NS via nebulizer.",
+                special: "Produces fewer tachycardia side effects than racemic albuterol in some patients."
+            },
+            {
+                name: "LIDOCAINE HCL",
+                class: "Antiarrhythmic, local anesthetic",
+                tradeNames: "Xylocaine",
+                mechanism: "Suppresses ventricular automaticity by decreasing phase 4 depolarization; raises ventricular fibrillation threshold.",
+                indications: "Cardiac arrest from VF/VT, refractory stable VT, local anesthetic for IO infusion.",
+                contraindications: "Hypersensitivity, 2nd or 3rd-degree heart block in absence of pacemaker, idioventricular rhythms.",
+                adverseReactions: "Confusion, seizures, hypotension, bradycardia, paresthesia, nausea, vomiting.",
+                drugInteractions: "Beta-blockers and cimetidine decrease metabolism and increase toxicity.",
+                howSupplied: "Prefilled syringes: 100 mg/5 ml (2%); drip solutions (2g/500ml).",
+                dosage: "Adult Arrest/VF/VT: 1 - 1.5 mg/kg IV/IO. Repeat at 0.5 - 0.75 mg/kg every 5-10 min (max 3 mg/kg). Infusion: 1-4 mg/min.",
+                special: "Reduce dose by 50% in patients over 70 or with liver/heart failure."
+            },
+            {
+                name: "LORAZEPAM",
+                class: "Benzodiazepine, anticonvulsant, sedative",
+                tradeNames: "Ativan",
+                mechanism: "Potentiates action of GABA, raises seizure threshold, produces sedation and amnesia.",
+                indications: "Status epilepticus, severe anxiety, sedation for cardioversion or intubation.",
+                contraindications: "Acute narrow-angle glaucoma, severe shock, coma, hypersensitivity.",
+                adverseReactions: "Respiratory depression, hypotension, sedation, amnesia, ataxia, confusion.",
+                drugInteractions: "CNS depressants and alcohol enhance sedation and respiratory depression.",
+                howSupplied: "2 mg/ml or 4 mg/ml vials/syringes.",
+                dosage: "Adult Status Epilepticus: 2 - 4 mg slow IV/IM (may repeat in 10-15 min). Pediatric: 0.05 - 0.1 mg/kg IV.",
+                special: "Refrigeration required for long-term storage."
+            },
+            {
+                name: "MAGNESIUM SULFATE",
+                class: "Electrolyte, anticonvulsant, antiarrhythmic",
+                tradeNames: "Magnesium Sulfate",
+                mechanism: "Reduces striated muscle contraction and blocks neuromuscular transmission by decreasing acetylcholine release; essential cofactor for enzymatic reactions.",
+                indications: "Torsades de Pointes, refractory VF/VT arrest, eclampsia of pregnancy, severe asthma exacerbation.",
+                contraindications: "Heart block, myocardial damage, renal failure, hypermagnesemia.",
+                adverseReactions: "Hypotension, flushing, bradycardia, respiratory depression, drowsiness, depressed reflexes.",
+                drugInteractions: "CNS depressants, cardiac glycosides.",
+                howSupplied: "50% solution in 2 gm/4 ml or 10 gm/20 ml vials/syringes.",
+                dosage: "Adult Torsades/Arrest: 1 - 2 gm in 10 ml D5W IV over 5-20 min. Asthma: 2 gm in 50-100 ml NS over 20 min. Eclampsia: 4-6 gm.",
+                special: "Keep calcium chloride available as an antagonist for magnesium overdose."
+            },
+            {
+                name: "MANNITOL",
+                class: "Osmotic diuretic",
+                tradeNames: "Osmitrol",
+                mechanism: "Increases osmotic pressure of glomerular filtrate, inhibiting water and electrolyte reabsorption; reduces intracranial and intraocular pressure.",
+                indications: "Acute cerebral edema, reduction of intracranial pressure (ICP) or intraocular pressure, toxic overdose.",
+                contraindications: "Severe renal disease, active intracranial bleeding, severe pulmonary edema, severe dehydration.",
+                adverseReactions: "Fluid overload, electrolyte imbalance, headache, nausea, tachycardia, chest pain, phlebitis.",
+                drugInteractions: "May potentiate toxicity of digitalis.",
+                howSupplied: "10% (100 mg/ml) and 20% (200 mg/ml) in 250ml/500ml bottles.",
+                dosage: "Adult: 0.25 – 2 gm/kg IV infusion over 30-60 minutes.",
+                special: "Crystallizes at low temperatures (use in-line filter)."
+            },
+            {
+                name: "MEPERIDINE HCL",
+                class: "Narcotic analgesic",
+                tradeNames: "Demerol",
+                mechanism: "Synthetic opioid agonist; alters pain perception and emotional response to pain.",
+                indications: "Moderate to severe pain (less preferred today compared to fentanyl/morphine).",
+                contraindications: "MAOI use within 14 days, hypersensitivity, respiratory depression, acute asthma.",
+                adverseReactions: "Respiratory depression, hypotension, sedation, nausea, vomiting, seizures (normeperidine toxicity).",
+                drugInteractions: "Severe fatal reactions with MAOIs; enhances CNS depressants.",
+                howSupplied: "50 mg/ml, 100 mg/ml vials/syringes.",
+                dosage: "Adult: 50 - 100 mg IM or slow IV.",
+                special: "Not recommended for repeated dosing due to toxic metabolite accumulation."
+            },
+            {
+                name: "METHYLPREDNISOLONE SODIUM SUCCINATE",
+                class: "Corticosteroid",
+                tradeNames: "Solu-Medrol",
+                mechanism: "Anti-inflammatory and immunosuppressive agent; prevents release of substances causing inflammation.",
+                indications: "Anaphylaxis, severe asthma, COPD exacerbation, spinal cord injury.",
+                contraindications: "Systemic fungal infections, premature infants, hypersensitivity.",
+                adverseReactions: "Fluid retention, hypertension, hyperglycemia, GI bleeding, euphoria, depression.",
+                drugInteractions: "Hypoglycemic agents, diuretics.",
+                howSupplied: "40 mg, 125 mg, 500 mg mix-o-vials.",
+                dosage: "Adult: 125 mg IV/IM. Pediatric: 2 mg/kg IV/IO (max 125 mg).",
+                special: "Onset of action takes 1 to 2 hours."
+            },
+            {
+                name: "MIDAZOLAM HCL",
+                class: "Benzodiazepine, short-acting sedative",
+                tradeNames: "Versed",
+                mechanism: "Potentiates GABA; produces amnestic, sedative, anticonvulsant, and skeletal muscle relaxant effects.",
+                indications: "Status epilepticus, sedation for cardioversion, intubation, or painful procedures, severe anxiety.",
+                contraindications: "Acute narrow-angle glaucoma, shock, coma, severe hypotension, hypersensitivity.",
+                adverseReactions: "Respiratory depression, apnea, hypotension, drowsiness, slurred speech, headache, nausea.",
+                drugInteractions: "CNS depressants, alcohol, narcotics enhance sedation and respiratory depression.",
+                howSupplied: "1 mg/ml or 5 mg/ml vials/carpujects.",
+                dosage: "Adult: 2 - 5 mg slow IV or 5-10 mg IM. Pediatric: 0.05 - 0.1 mg/kg IV/IM.",
+                special: "Twice to three times as potent as diazepam. Flumazenil is the reversal agent."
+            },
+            {
+                name: "MORPHINE SULFATE",
+                class: "Narcotic analgesic",
+                tradeNames: "Duramorph, Astramorph",
+                mechanism: "Natural opioid agonist; binds to opiate receptors in CNS, altering pain perception and producing vasodilation.",
+                indications: "Management of moderate to severe pain, chest pain associated with AMI, pulmonary edema.",
+                contraindications: "Hypovolemia, hypotension, head injury, intracranial bleeding, respiratory depression, asthma.",
+                adverseReactions: "Respiratory depression, hypotension, bradycardia, sedation, nausea, vomiting, histamine release.",
+                drugInteractions: "CNS depressants, alcohol, MAOIs.",
+                howSupplied: "10 mg/ml pre-filled syringes or vials.",
+                dosage: "Adult Pain: 2 - 5 mg slow IV push q 5 min (max 10-20 mg). Pulmonary Edema: 2-4 mg slow IV.",
+                special: "Naloxone is the reversal agent. Causes venous pooling (helpful in pulmonary edema)."
+            },
+            {
+                name: "NALOXONE HCL",
+                class: "Opioid antagonist",
+                tradeNames: "Narcan",
+                mechanism: "Competitive opioid receptor antagonist; reverses respiratory depression, sedation, and hypotensive effects of opioids.",
+                indications: "Suspected opioid overdose, coma of unknown etiology, reversal of post-op opioid depression.",
+                contraindications: "Hypersensitivity to naloxone, neonates born to addicted mothers (relative).",
+                adverseReactions: "Abrupt opioid withdrawal (agitation, nausea, vomiting, tachycardia, hypertension, seizures), pulmonary edema.",
+                drugInteractions: "Short duration may necessitate repeat dosing.",
+                howSupplied: "0.4 mg/ml, 1 mg/ml vials, pre-loaded syringes, nasal spray (4 mg).",
+                dosage: "Adult: 0.4 - 2 mg IV/IM/IN/IO. Titrate to effective respiratory effort. Pediatric: 0.1 mg/kg.",
+                special: "Half-life is shorter than many opioids; monitor patient for recurring respiratory depression."
+            },
+            {
+                name: "NITROGLYCERIN",
+                class: "Vasodilator, nitrate",
+                tradeNames: "Nitrostat, Nitro-Bid, Trinitrin",
+                mechanism: "Relaxes vascular smooth muscle resulting in peripheral vasodilation, decreased venous return (preload), decreased myocardial oxygen demand, and coronary artery dilation.",
+                indications: "Chest pain associated with angina pectoris and acute myocardial infarction, acute congestive heart failure / pulmonary edema.",
+                contraindications: "Hypotension (SBP < 90 mmHg), severe bradycardia/tachycardia, use of phosphodiesterase inhibitors (Viagra/Cialis within 24-48 hrs), right ventricular infarction.",
+                adverseReactions: "Headache, hypotension, dizziness, tachycardia, flushing, nausea, vomiting.",
+                drugInteractions: "Additive hypotension with alcohol, antihypertensives, and ED medications (sildenafil, etc.).",
+                howSupplied: "Sublingual tablets: 0.4 mg; SL spray: 0.4 mg/spray; Topical paste: 2%; IV infusion.",
+                dosage: "Adult SL: 0.4 mg SL q 3-5 min (up to 3 doses). Transdermal: 1-2 inches paste. IV Infusion: 10-20 mcg/min titrated.",
+                special: "Store in dark, cool glass container. Causes classic throbbing headache."
+            },
+            {
+                name: "NOREPINEPHRINE BITARTRATE",
+                class: "Sympathomimetic, vasopressor",
+                tradeNames: "Levophed",
+                mechanism: "Potent alpha-1 and beta-1 agonist; causes intense peripheral vasoconstriction and strong inotropic myocardial stimulation.",
+                indications: "Severe cardiogenic shock, neurogenic shock, septic shock, significant hypotension refractory to other measures.",
+                contraindications: "Hypotension due to hypovolemia (must correct volume first), mesenteric thrombosis.",
+                adverseReactions: "Severe hypertension, reflex bradycardia, tissue necrosis with extravasation, arrhythmias, headache.",
+                drugInteractions: "MAOIs, tricyclic antidepressants intensify pressor response.",
+                howSupplied: "4 mg/4 ml ampules; 4 mg in 250 ml D5W or NS infusion.",
+                dosage: "Adult: 0.1 – 0.5 mcg/kg/min IV infusion titrated to blood pressure.",
+                special: "Extravasation causes severe tissue necrosis. Infuse via central line if possible or large proximal vein."
+            },
+            {
+                name: "ONDANSETRON HCL",
+                class: "Antiemetic, 5-HT3 receptor antagonist",
+                tradeNames: "Zofran",
+                mechanism: "Blocks serotonin receptors peripherally on vagal nerve terminals and centrally in the chemoreceptor trigger zone.",
+                indications: "Prevention and treatment of nausea and vomiting.",
+                contraindications: "Hypersensitivity, prolonged QT syndrome.",
+                adverseReactions: "Headache, dizziness, fatigue, constipation, transient ECG changes (QT prolongation), diarrhea.",
+                drugInteractions: "Caution with drugs that prolong QT interval.",
+                howSupplied: "2 mg/ml vials/ampules; 4 mg dissolving tablets (ODT).",
+                dosage: "Adult: 4 mg IV/IM/ODT (may repeat once in 10 min). Pediatric (>6 months): 0.1 mg/kg IV/IO.",
+                special: "Does not cause extrapyramidal movement disorders common with phenothiazines."
+            },
+            {
+                name: "OXYGEN",
+                class: "Gas, medicinal gas",
+                tradeNames: "Oxygen",
+                mechanism: "Reverses hypoxemia, supports cellular metabolism, improves tissue oxygenation.",
+                indications: "Hypoxemia, acute chest pain, trauma, shock, respiratory distress, any suspected medical or traumatic emergency.",
+                contraindications: "None in emergency settings (use caution in select chronic COPD patients if hypoventilation occurs).",
+                adverseReactions: "Dry mucous membranes, oxygen toxicity with prolonged high concentration use, respiratory depression in chronic CO2 retainers.",
+                drugInteractions: "None.",
+                howSupplied: "Compressed gas cylinders (Green/White medical tanks).",
+                dosage: "Adult/Pediatric: Nasal cannula (1-6 L/min), Non-rebreather mask (10-15 L/min), BVM (15 L/min).",
+                special: "Always monitor pulse oximetry and clinical response."
+            },
+            {
+                name: "OXYTOCIN",
+                class: "Hormone, uterine stimulant",
+                tradeNames: "Pitocin",
+                mechanism: "Stimulates uterine smooth muscle contraction; produces milk ejection in lactating women; has weak vasopressor and antidiuretic effects.",
+                indications: "Postpartum hemorrhage after delivery of infant and placenta.",
+                contraindications: "Undelivered fetus, cephalopelvic disproportion, severe toxemia, hypersensitivity.",
+                adverseReactions: "Hypertension, hypotension, cardiac arrhythmias, uterine rupture, nausea, vomiting, water intoxication.",
+                drugInteractions: "Vasoconstrictors.",
+                howSupplied: "10 USP units/ml in vials/ampules.",
+                dosage: "Adult Postpartum: 10 USP units IM after delivery of placenta, or 10-20 units added to 1,000 ml IV fluids infused at 20-30 drops/min.",
+                special: "Monitor uterine tone and blood loss."
+            },
+            {
+                name: "PRALIDOXIME CHLORIDE (2-PAM)",
+                class: "Cholinesterase reactivator, antidote",
+                tradeNames: "Protopam",
+                mechanism: "Reactivates cholinesterase enzyme blocked by organophosphate pesticides and nerve agents, allowing breakdown of acetylcholine.",
+                indications: "Organophosphate insecticide poisoning, nerve agent exposure (used after atropine).",
+                contraindications: "Hypersensitivity, asthma, myasthenia gravis, carbamate poisoning (Sevin).",
+                adverseReactions: "Tachycardia, blurred vision, dizziness, headache, muscle weakness, laryngospasm.",
+                drugInteractions: "Barbiturates.",
+                howSupplied: "1 gram vial with diluent; auto-injectors (Duodote).",
+                dosage: "Adult: 1 - 2 grams IV infusion over 15-30 min or IM. Pediatric: 20-50 mg/kg IV.",
+                special: "Must be administered in conjunction with Atropine for effective organophosphate reversal."
+            },
+            {
+                name: "PROMETHAZINE HCL",
+                class: "Antiemetic, antihistamine, phenothiazine",
+                tradeNames: "Phenergan",
+                mechanism: "Blocks H1 histamine receptors; has sedative, antiemetic, and anticholinergic properties.",
+                indications: "Nausea, vomiting, motion sickness, sedation, potentiation of analgesic narcotics.",
+                contraindications: "Coma, CNS depression, children under 2 years of age, hypersensitivity.",
+                adverseReactions: "Sedation, drowsiness, hypotension, extrapyramidal symptoms, severe tissue necrosis if extravasated.",
+                drugInteractions: "CNS depressants, alcohol, narcotics.",
+                howSupplied: "25 mg/ml or 50 mg/ml vials/syringes.",
+                dosage: "Adult: 12.5 - 25 mg IV or deep IM.",
+                special: "Give deep IM or dilute and push slowly via IV; IV extravasation causes severe tissue damage."
+            },
+            {
+                name: "SODIUM BICARBONATE",
+                class: "Alkalinizing agent, electrolyte",
+                tradeNames: "Sodium Bicarbonate",
+                mechanism: "Buffers hydrogen ions, increasing blood pH; reverses metabolic acidosis and counteracts certain toxic ingestions (tricyclics).",
+                indications: "Severe metabolic acidosis, prolonged cardiac arrest, tricyclic antidepressant (TCA) overdose, hyperkalemia, alkalinization for rhabdomyolysis.",
+                contraindications: "Metabolic and respiratory alkalosis, hypokalemia, chloride depletion, severe heart failure.",
+                adverseReactions: "Metabolic alkalosis, hypokalemia, hypernatremia, tissue necrosis with extravasation, paradoxical intracellular acidosis.",
+                drugInteractions: "Incompatible with many drugs (especially catecholamines and calcium salts - flush lines).",
+                howSupplied: "Prefilled syringes: 50 mEq in 50 ml (8.4%). Pediatric: 4.2% (10 mEq in 10 ml).",
+                dosage: "Adult Cardiac Arrest / Overdose: 1 mEq/kg slow IV push. Repeat at 0.5 mEq/kg q 10 min.",
+                special: "Inactivates catecholamines (epinephrine, dopamine) if mixed in same line without flushing."
+            },
+            {
+                name: "SUCCINYLCHOLINE CHLORIDE",
+                class: "Neuromuscular blocking agent (Depolarizing)",
+                tradeNames: "Anectine, Quelicin",
+                mechanism: "Depolarizes motor endplate at neuromuscular junction, causing muscular fasciculations followed by sustained paralysis.",
+                indications: "Rapid sequence intubation (RSI) to facilitate endotracheal intubation.",
+                contraindications: "Personal/family history of malignant hyperthermia, acute burn or crush injuries (>24 hrs old), neuromuscular disease, eye injuries.",
+                adverseReactions: "Muscle fasciculations, hyperkalemia, malignant hyperthermia, bradycardia, transient increased intraocular/intracranial pressure.",
+                drugInteractions: "Oxytocin, beta-blockers, organophosphates prolong block.",
+                howSupplied: "20 mg/ml in vials and prefilled syringes.",
+                dosage: "Adult/Pediatric: 1.5 mg/kg rapid IV/IO.",
+                special: "Does not provide sedation or analgesia! Patient must be sedated (e.g. etomidate, ketamine) prior to paralytic administration."
+            },
+            {
+                name: "THIAMINE",
+                class: "Vitamin B1, nutritional supplement",
+                tradeNames: "Betalin, Vitamin B1",
+                mechanism: "Essential coenzyme for carbohydrate metabolism; enables glucose utilization.",
+                indications: "Wernicke-Korsakoff syndrome, delirium tremens, suspected chronic alcoholism or severe malnutrition prior to dextrose administration.",
+                contraindications: "Hypersensitivity.",
+                adverseReactions: "Rare; occasional anaphylactic reactions with IV administration.",
+                drugInteractions: "None.",
+                howSupplied: "100 mg/ml vials.",
+                dosage: "Adult: 100 mg slow IV or IM.",
+                special: "Administer before or concurrently with Dextrose in alcoholic or malnourished patients to prevent Wernicke's encephalopathy."
+            },
+            {
+                name: "VASOPRESSIN",
+                class: "Vasopressor, antidiuretic hormone",
+                tradeNames: "Pitressin",
+                mechanism: "Direct stimulation of smooth muscle V1 receptors, causing potent peripheral vasoconstriction.",
+                indications: "Alternative vasopressor in adult cardiac arrest (VF/pulseless VT, asystole, PEA).",
+                contraindications: "Responsive patients with coronary artery disease.",
+                adverseReactions: "Elevated blood pressure, myocardial ischemia, angina, abdominal cramps, nausea.",
+                drugInteractions: "Alcohol, lithium.",
+                howSupplied: "20 units/ml ampules/vials.",
+                dosage: "Adult Cardiac Arrest: 40 units IV/IO single dose (can replace 1st or 2nd dose of epinephrine).",
+                special: "Potent coronary and peripheral vasoconstrictor."
+            },
+            {
+                name: "VECURONIUM BROMIDE",
+                class: "Neuromuscular blocking agent (Non-depolarizing)",
+                tradeNames: "Norcuron",
+                mechanism: "Non-depolarizing neuromuscular blocker; competes with acetylcholine for receptors at motor endplate, producing skeletal muscle paralysis.",
+                indications: "Rapid sequence intubation (RSI), maintenance of skeletal muscle relaxation during mechanical ventilation.",
+                contraindications: "Hypersensitivity, inability to control airway or ventilate patient.",
+                adverseReactions: "Prolonged paralysis, histamine release, hypotension, tachycardia.",
+                drugInteractions: "Incompatible with alkaline solutions; general anesthetics prolong block.",
+                howSupplied: "Powder vials: 10 mg or 20 mg with diluent.",
+                dosage: "Adult/Pediatric: 0.1 – 0.2 mg/kg IV push.",
+                special: "Longer onset than succinylcholine (2-3 minutes). Does not affect consciousness or pain."
+            },
+            {
+                name: "INSULIN",
+                class: "Antidiabetic",
+                tradeNames: "Humulin, Novolin, Lantus, Humolog, Novolog",
+                mechanism: "Allows glucose transport into cells of all tissues; converts glycogen to fat; produces intracellular shift of potassium and magnesium.",
+                indications: "Not typically used in the emergency prehospital setting. Diabetic ketoacidosis or other hyperglycemic states; hyperkalemia (with D50); non-ketotic hyperosmolar coma.",
+                contraindications: "Hypoglycemia, hypokalemia.",
+                adverseReactions: "Hypokalemia, hypoglycemia, weakness, fatigue, confusion, headache, tachycardia, nausea, diaphoresis.",
+                drugInteractions: "Incompatible in solution with all other drugs. Corticosteroids, dobutamine, epinephrine and thiazide diuretics decrease hypoglycemic effects.",
+                howSupplied: "10 ml vials of 100 units/ml.",
+                dosage: "Adult: 10-25 units regular insulin IV, followed by infusion of 0.1 units/kg/hr. Pediatric: 0.1-0.2 units/kg/hr IV or IM.",
+                special: "Drug of choice for diabetes control in pregnancy. Requires refrigeration. Most rapid absorption in abdominal wall."
+            },
+            {
+                name: "METOPROLOL",
+                class: "Antianginal, Antihypertensive, Beta Blocker",
+                tradeNames: "Lopressor",
+                mechanism: "Selective inhibitor of beta1-adrenergic receptors; little or no effect on beta2 receptors at doses under 100 mg.",
+                indications: "Hypertension and angina pectoris; prevention of MI; atrial fibrillation/flutter; to reduce sympathetic stimuli in acute MI.",
+                contraindications: "Hypersensitivity; sinus bradycardia; heart block greater than first degree (without pacemaker); cardiogenic shock; uncompensated cardiac failure; 2nd/3rd trimester pregnancy.",
+                adverseReactions: "Bronchospasm, bradycardia, palpitations, edema, CHF, reduced peripheral circulation, drowsiness, insomnia.",
+                drugInteractions: "Digoxin effects may be additive. Glucagon's hyperglycemic action may be blunted. Verapamil/diltiazem have synergistic effects - avoid concurrent IV use.",
+                howSupplied: "5-ml (1 mg/ml) ampules for IV administration.",
+                dosage: "Adult: Hypertension 1.25-5 mg IV q 6-12 hrs. Acute MI: 5 mg IV q 5-10 min up to 3 doses.",
+                special: "Not recommended in pediatric population. Pregnancy Safety: Category C (D in 2nd/3rd trimester)."
+            },
+            {
+                name: "NERVE AGENT ANTIDOTES (AUTO-INJECTORS)",
+                class: "Antidote combination (Anticholinergic + Cholinesterase reactivator)",
+                tradeNames: "DuoDote, MARK 1 Kit",
+                mechanism: "Atropine blocks acetylcholine at parasympathetic sites; Pralidoxime chloride reactivates cholinesterase.",
+                indications: "Nerve agent or organophosphate poisoning.",
+                contraindications: "None in a true nerve agent exposure.",
+                adverseReactions: "Tachycardia, dry mouth, blurred vision, agitation (from atropine component); dizziness, blurred vision, tachycardia (from pralidoxime component).",
+                drugInteractions: "None significant in the emergency setting.",
+                howSupplied: "DuoDote: single dual-chambered auto-injector (2.1 mg atropine / 600 mg pralidoxime chloride) - 1 injection. MARK 1 Kit: separate atropine (2 mg/0.7 ml) and pralidoxime (600 mg/2 ml) auto-injectors.",
+                dosage: "Adult: 1 injection (DuoDote) or 1 set (MARK 1) IM into outer thigh; repeat per protocol/severity.",
+                special: "Administer promptly with suspected nerve agent exposure; multiple auto-injector sets may be required for severe exposure."
+            },
+            {
+                name: "NIFEDIPINE",
+                class: "Calcium channel blocker",
+                tradeNames: "Procardia, Adalat",
+                mechanism: "Selectively blocks calcium ion influx across cell membranes of cardiac and vascular smooth muscle without changing serum calcium concentrations.",
+                indications: "Hypertensive crisis, angina pectoris.",
+                contraindications: "Hypotension.",
+                adverseReactions: "Hypotension; bradycardia.",
+                drugInteractions: "Increases risk of phenytoin toxicity.",
+                howSupplied: "10 mg capsule.",
+                dosage: "Adult: 10 mg SL/PO. Puncture capsule several times and place under tongue.",
+                special: "Onset 10 min, peak 30 min, duration 2 hrs. Monitor blood pressure carefully."
+            },
+            {
+                name: "NITRO PASTE",
+                class: "Vasodilator",
+                tradeNames: "Nitrol",
+                mechanism: "Smooth muscle relaxant acting on vascular, bronchial, uterine and intestinal smooth muscle; dilates arterioles and veins, reducing preload/afterload and myocardial oxygen demand.",
+                indications: "Angina pectoris and chest pain associated with acute MI; CHF/pulmonary edema; hypertension.",
+                contraindications: "Hypotension, hypovolemia, intracranial bleeding or head injury.",
+                adverseReactions: "Headache, hypotension, syncope, reflex tachycardia, flushing, nausea, vomiting, diaphoresis, muscle twitching.",
+                drugInteractions: "Additive with other vasodilators.",
+                howSupplied: "Topical ointment 2% (30g, 60g tubes).",
+                dosage: "Adult: Apply 1 inch to skin, cover with plastic wrap and secure with tape (≈15 mg nitroglycerin per inch).",
+                special: "Apply in thin uniform layer to non-hairy area; avoid using fingers. Onset 30 min, duration 18-24 hrs."
+            },
+            {
+                name: "NITROUS OXIDE",
+                class: "General Anesthetic",
+                tradeNames: "Nitronox",
+                mechanism: "Blended 50% nitrous oxide/50% oxygen; self-administered CNS depressant with potent analgesic and low anesthetic potency; effects dissipate quickly (2-5 min) after cessation.",
+                indications: "Pain of musculoskeletal origin (especially fractures), burns, suspected ischemic chest pain, severe anxiety/hyperventilation.",
+                contraindications: "Patient unable to understand verbal instructions, intoxication, altered mental status after head injury, COPD, thoracic injury, bowel obstruction.",
+                adverseReactions: "Dizziness, light-headedness, altered mental status, hallucinations, nausea and vomiting.",
+                drugInteractions: "Potentiates other CNS depressants (narcotics, sedatives, hypnotics, alcohol).",
+                howSupplied: "Portable Nitronox tank/mask unit.",
+                dosage: "Adult/Pediatric: Self-administered inhalation until pain relieved or patient drops mask.",
+                special: "Use only in well-ventilated areas; scavenging system recommended in the back of the ambulance."
+            },
+            {
+                name: "PANCURONIUM",
+                class: "Non-depolarizing neuromuscular blocker",
+                tradeNames: "Pavulon",
+                mechanism: "Competes with acetylcholine at postsynaptic receptor sites, paralyzing muscle fibers; minimal histamine release so does not typically cause bronchospasm or hypotension.",
+                indications: "To facilitate endotracheal intubation.",
+                contraindications: "Hypersensitivity to the drug or bromides.",
+                adverseReactions: "Skeletal muscle weakness, respiratory depression, increased pulse/BP, ventricular extrasystoles, salivation.",
+                drugInteractions: "Lidocaine, procainamide, beta blockers, magnesium sulfate, quinidine, verapamil enhance blockade. Succinylcholine increases onset/depth.",
+                howSupplied: "5 mg/5 ml vials.",
+                dosage: "Adult/Pediatric: 0.04-0.1 mg/kg IV.",
+                special: "No effect on mental status - sedate patient first if not unconscious. Onset 30-45 sec, duration 30-60 min."
+            },
+            {
+                name: "PROCAINAMIDE",
+                class: "Antidysrhythmic Class Ia",
+                tradeNames: "Pronestyl",
+                mechanism: "Suppresses phase IV depolarization in ventricular muscle and Purkinje fibers, reducing automaticity; suppresses reentry dysrhythmias by slowing intraventricular conduction.",
+                indications: "Suppress PVCs or VT with a pulse refractory to Lidocaine; PSVT with wide-complex tachycardia of unknown origin (drug of choice with WPW).",
+                contraindications: "2nd/3rd degree block; Torsades de Pointes; lupus; digitalis toxicity; myasthenia gravis.",
+                adverseReactions: "PR/QRS/QT widening, AV block, cardiac arrest, hypotension, seizures, nausea, vomiting, reflex tachycardia.",
+                drugInteractions: "None significant with other emergency drugs.",
+                howSupplied: "1 gram in 10 ml vial (100 mg/ml); 1 gram in 2 ml vials (500 mg/ml) for infusion.",
+                dosage: "Adult: 20-30 mg/min IV up to max total 17 mg/kg. Maintenance infusion 1-4 mg/min. Pediatric: 2-6 mg/kg IV/IO at less than 20 mg/min.",
+                special: "Discontinue if hypotension develops, QRS widens by 50%, or 17 mg/kg total is reached."
+            },
+            {
+                name: "PROPOFOL",
+                class: "Sedative/Hypnotic",
+                tradeNames: "Diprivan",
+                mechanism: "Appears to inhibit GABA activity in the brain.",
+                indications: "Induction and maintenance of sedation.",
+                contraindications: "Hypersensitivity, hypotension.",
+                adverseReactions: "Hypotension, respiratory depression, nausea/vomiting.",
+                drugInteractions: "Use caution with other drugs causing respiratory depression.",
+                howSupplied: "100 mg in 10 ml; 200 mg in 20 ml.",
+                dosage: "Adult: 2-2.5 mg/kg IV. Pediatric: 1 mg/kg.",
+                special: "Use lower doses for geriatric patients. Onset 30 sec, duration 3-10 min."
+            },
+            {
+                name: "PROPRANOLOL",
+                class: "Beta Blocker",
+                tradeNames: "Inderal",
+                mechanism: "Nonselective beta blocker of cardiac and bronchial adrenoreceptors; reduces heart rate, myocardial irritability, and force of contraction; decreases AV/intraventricular conduction velocity.",
+                indications: "To convert VF and pulseless VT refractory to lidocaine/bretylium; to convert selected supraventricular tachydysrhythmias.",
+                contraindications: "Greater than first-degree heart block, CHF, cardiogenic shock, significant valvular disease, bronchial asthma/bronchospasm, severe COPD.",
+                adverseReactions: "Bradycardia, AV block, hypotension, bronchospasm, dyspnea, fatigue, dizziness, drug-induced psychosis (rare).",
+                drugInteractions: "Phenothiazines add hypotensive effects. Beta-agonists antagonize. Atropine and TCAs block bradycardia.",
+                howSupplied: "1 mg/ml ampules.",
+                dosage: "Adult: 1-3 mg slow IV over 2-5 min, not exceeding 1 mg/min; may repeat to total 0.1 mg/kg. Pediatric: 0.01 mg/kg slow IV.",
+                special: "Withhold if HR <60 bpm or systolic BP <90 mmHg. Onset <2 min, duration 2-6 hrs."
+            },
+            {
+                name: "RACEMIC EPINEPHRINE",
+                class: "Sympathomimetic",
+                tradeNames: "Racepinephrine, MicroNEFRIN",
+                mechanism: "Agonist of B2 receptors causing bronchodilation; relieves subglottic edema. Isomer differs chemically from standard epinephrine.",
+                indications: "Asthmatic bronchospasm; croup.",
+                contraindications: "Epiglottitis.",
+                adverseReactions: "Tachycardia, arrhythmia.",
+                drugInteractions: "None noted.",
+                howSupplied: "0.5 ml of 2.25% solution.",
+                dosage: "Adult/Pediatric: 11.25 mg nebulized (0.5 ml solution mixed in 3 ml NS).",
+                special: "Cannot be created from standard 1:1000 epinephrine. Onset <5 min, duration 1-3 hrs."
+            },
+            {
+                name: "ROCURONIUM BROMIDE",
+                class: "Non-depolarizing neuromuscular blocker",
+                tradeNames: "Zemuron",
+                mechanism: "Blocks the effects of acetylcholine at the neuromuscular junction, achieving skeletal muscle paralysis.",
+                indications: "Induction of skeletal muscle paralysis to facilitate endotracheal intubation.",
+                contraindications: "Hypersensitivity.",
+                adverseReactions: "Tachycardia, bronchospasm.",
+                drugInteractions: "None specifically noted.",
+                howSupplied: "50 mg/5 ml.",
+                dosage: "Adult/Pediatric: 0.6 mg/kg IV.",
+                special: "Faster onset (1-2 min) than most non-depolarizing agents; duration 30-60 min."
+            },
+            {
+                name: "STREPTOKINASE",
+                class: "Thrombolytic agent",
+                tradeNames: "N/A",
+                mechanism: "Combines with plasminogen to produce an activator complex that converts free plasminogen to plasmin, which degrades fibrin and fibrinogen causing clot lysis.",
+                indications: "Acute evolving MI; massive pulmonary emboli; arterial thrombosis/embolism; to clear arteriovenous cannulas.",
+                contraindications: "Hypersensitivity; active bleeding; recent surgery (2-4 wks) or CVA; prolonged CPR; intracranial/intraspinal pathology; recent significant trauma; uncontrolled hypertension.",
+                adverseReactions: "Bleeding (GU, GI, intracranial, other sites), allergic reactions, hypotension, chest/abdominal pain, reperfusion dysrhythmias.",
+                drugInteractions: "Aspirin, heparin, and other anticoagulants increase bleeding risk.",
+                howSupplied: "250,000, 750,000, and 1.5 million IU vials.",
+                dosage: "Adult: 500,000-1,500,000 IU diluted to 45 ml IV over 1 hour. Pediatric: safety not established.",
+                special: "Do not give IM injections to patients receiving thrombolytics. Obtain coagulation studies before administration."
+            },
+            {
+                name: "TERBUTALINE",
+                class: "Sympathomimetic",
+                tradeNames: "Brethine",
+                mechanism: "Stimulates the sympathetic nervous system to relax smooth muscle, causing bronchodilation and relaxation of uterine muscle.",
+                indications: "Bronchospasm; preterm labor (tocolysis).",
+                contraindications: "Hypersensitivity.",
+                adverseReactions: "Tachycardia, hypertension, anxiety.",
+                drugInteractions: "None specifically noted.",
+                howSupplied: "1 mg/ml.",
+                dosage: "Adult: 0.25 mg SQ for bronchospasm, may repeat in 20 min. Tocolysis: 2.5-5 mcg/min IV.",
+                special: "Onset 6-15 min, peak 30 min, duration 1-4 hrs."
+            },
+            {
+                name: "TISSUE PLASMINOGEN ACTIVATOR (tPA)",
+                class: "Thrombolytic agent",
+                tradeNames: "Alteplase, Activase",
+                mechanism: "Binds to fibrin-bound plasminogen at the clot site, converting it to plasmin, which digests fibrin strands and restores perfusion.",
+                indications: "Acute evolving MI; massive pulmonary emboli; arterial thrombosis/embolism; to clear arteriovenous cannulas.",
+                contraindications: "Recent surgery (within 3 wks); active bleeding; recent CVA; prolonged CPR; intracranial/intraspinal surgery; recent significant trauma; uncontrolled hypertension (BP >200 mmHg).",
+                adverseReactions: "GI/GU/intracranial bleeding, hypotension, allergic reactions, chest/abdominal pain, CVA, reperfusion dysrhythmias.",
+                drugInteractions: "Aspirin, heparin, and other anticoagulants increase hemorrhage risk.",
+                howSupplied: "20 mg with 20 ml diluent vial; 50 mg with 50 ml diluent vial.",
+                dosage: "Adult: 10 mg bolus IV over 2 min, then 50 mg over 1st hr, 20 mg over 2nd hr, 20 mg over 3rd hr (total 100 mg per Medical Direction).",
+                special: "Pregnancy: contraindicated. Do not give IM injections to patients receiving tPA."
+            },
+            {
+                name: "TRANEXAMIC ACID (TXA)",
+                class: "Anti-fibrinolytic Agent/Hemostatic",
+                tradeNames: "Cyklokapron",
+                mechanism: "Prevents enzymes in the body from breaking down clots by inhibiting fibrinolysis.",
+                indications: "Major hemorrhage; heavy menstrual bleeding.",
+                contraindications: "None noted.",
+                adverseReactions: "Seizures, vision problems, venous/arterial blood clots.",
+                drugInteractions: "None specifically noted.",
+                howSupplied: "1,000 mg in 10 ml vial (100 mg/ml).",
+                dosage: "Adult: 1 gram IV over 10 minutes.",
+                special: "Used early in major trauma hemorrhage protocols."
+            },
+            {
+                name: "VERAPAMIL",
+                class: "Calcium channel blocker",
+                tradeNames: "Calan, Isoptin, Verelan",
+                mechanism: "Inhibits calcium ion influx through slow channels into myocardial and arterial smooth muscle cells; dilates coronary arteries and slows SA/AV node conduction.",
+                indications: "PSVT; atrial fibrillation/flutter with rapid ventricular response.",
+                contraindications: "Severe hypotension, AV block, cardiogenic shock, WPW syndrome.",
+                adverseReactions: "Dizziness, headache, bradycardia, hypotension.",
+                drugInteractions: "Beta blockers increase risk of CHF, bradycardia, or heart block. Calcium chloride is an antagonist.",
+                howSupplied: "5 mg/2 ml, 10 mg/4 ml vials.",
+                dosage: "Adult: 2.5-5 mg IV; may repeat double dose in 15-30 min, not to exceed 30 mg in 30 min.",
+                special: "Transient hypotension may occur with IV administration. Onset 5 min, duration 10-60 min."
+            }
+        ];
+const quizData = [
+            {
+                q: "A patient weighing 80 kg requires Adenocard (Adenosine) for PSVT. What is the standard initial adult IV rapid push dosage?",
+                options: ["3 mg", "6 mg", "12 mg", "20 mg"],
+                correct: 1,
+                explanation: "The standard initial adult dose for Adenosine is 6 mg rapid IV push over 1-3 seconds, followed by a rapid saline flush."
+            },
+            {
+                q: "You are preparing Albuterol for an adult experiencing severe bronchospasm. What is the standard pre-mixed unit dose for nebulization?",
+                options: ["1.25 mg in 3 mL", "2.5 mg in 2.5 mL", "5.0 mg in 5 mL", "10 mg in 10 mL"],
+                correct: 1,
+                explanation: "Adult albuterol nebulizer dose is 2.5 mg pre-mixed in 2.5 mL via nebulizer."
+            },
+            {
+                q: "A 70 kg adult cardiac arrest patient is in refractory ventricular fibrillation. What is the initial recommended IV/IO push dose of Amiodarone?",
+                options: ["150 mg", "300 mg", "450 mg", "600 mg"],
+                correct: 1,
+                explanation: "For adult cardiac arrest (VF/VT), the initial dose of Amiodarone is 300 mg slow IV push, followed by 150 mg if recurrent."
+            },
+            {
+                q: "A patient suffering from suspected Acute Coronary Syndrome (ACS) should receive how much Aspirin?",
+                options: ["81 mg PO", "162 - 324 mg PO (chewed)", "500 mg IV", "650 mg Rectal"],
+                correct: 1,
+                explanation: "The standard prehospital dose for Aspirin in ACS is 162 mg to 324 mg PO, preferably chewed for rapid mucosal absorption."
+            },
+            {
+                q: "What is the primary physiological mechanism of Atropine Sulfate when administered for hemodynamically significant bradycardia?",
+                options: ["Alpha-1 adrenergic stimulation", "Parasympatholytic (inhibits acetylcholine at parasympathetic sites)", "Beta-2 bronchodilation", "Direct sodium channel blockade"],
+                correct: 1,
+                explanation: "Atropine is an anticholinergic (parasympatholytic) agent that inhibits acetylcholine at parasympathetic neuroeffector sites, increasing heart rate."
+            },
+            {
+                q: "What is the maximum total cumulative adult dose of Atropine Sulfate for bradycardia per EMS protocols?",
+                options: ["0.02 mg/kg or 1.0 mg total", "0.04 mg/kg or 3.0 mg total", "0.1 mg/kg or 5.0 mg total", "No maximum"],
+                correct: 1,
+                explanation: "The maximum total cumulative dose of Atropine for bradycardia is 0.04 mg/kg, generally not exceeding 3.0 mg in adults."
+            },
+            {
+                q: "A patient weighing 100 kg requires Calcium Chloride 10% solution for hyperkalemia. Calculate the maximum initial adult dose (2-4 mg/kg max 1 gm).",
+                options: ["100 mg", "200 mg", "1,000 mg (1 gm)", "2,500 mg"],
+                correct: 2,
+                explanation: "Using 2-4 mg/kg or fixed dosing up to a max of 1 gram (1,000 mg), the maximum initial adult dose is 1 gm."
+            },
+            {
+                q: "What is the immediate indication and standard adult dose for Dextrose 50% (D50W) in suspected hypoglycemia?",
+                options: ["12.5 - 25 gm slow IV", "50 gm rapid IV", "5 gm IM", "100 gm PO"],
+                correct: 0,
+                explanation: "Adult hypoglycemia is treated with 12.5 to 25 grams of 50% Dextrose (25-50 mL of D50) slow IV."
+            },
+            {
+                q: "When administering Dextrose 50% to a chronic alcoholic patient, what vitamin/supplement should be considered beforehand?",
+                options: ["Vitamin C", "Thiamine (Vitamin B1)", "Folic Acid", "Calcium Gluconate"],
+                correct: 1,
+                explanation: "Thiamine (100 mg) should be administered prior to or concurrently with Dextrose in chronic alcoholics to prevent Wernicke's encephalopathy."
+            },
+            {
+                q: "What is the standard adult IV/IO cardiac arrest dose of Epinephrine (1:10,000)?",
+                options: ["0.1 mg", "0.5 mg", "1.0 mg", "5.0 mg"],
+                correct: 2,
+                explanation: "In cardiac arrest, the standard adult dose of Epinephrine (1:10,000) is 1.0 mg IV/IO every 3-5 minutes."
+            },
+            {
+                q: "What is the correct IM concentration and dose of Epinephrine for severe anaphylaxis in an adult?",
+                options: ["0.3 - 0.5 mg of 1:1,000 IM", "1.0 mg of 1:10,000 IV", "0.01 mg of 1:10,000 IM", "5.0 mg via nebulizer"],
+                correct: 0,
+                explanation: "For adult anaphylaxis, 0.3 to 0.5 mg of 1:1,000 Epinephrine is administered intramuscularly (IM)."
+            },
+            {
+                q: "Fentanyl Citrate is a synthetic opioid. How does its analgesic potency compare to Morphine Sulfate?",
+                options: ["1/10th as potent as morphine", "Equal potency to morphine", "Approximately 100 mcg Fentanyl equals 10 mg Morphine", "10 times more potent than fentanyl"],
+                correct: 2,
+                explanation: "Fentanyl is approximately 100 times more potent than morphine (100 mcg Fentanyl ~ 10 mg Morphine)."
+            },
+            {
+                q: "What is the primary clinical indication for Flumazenil (Romazicon) in the prehospital setting?",
+                options: ["Reversal of opioid respiratory depression", "Reversal of benzodiazepine sedative effects", "Treatment of organophosphate poisoning", "Reversal of neuromuscular blockade"],
+                correct: 1,
+                explanation: "Flumazenil is a competitive benzodiazepine receptor antagonist used to reverse sedative and respiratory depression caused by benzodiazepines."
+            },
+            {
+                q: "Why must Flumazenil be used with extreme caution in patients with a history of seizures or TCA overdose?",
+                options: ["It causes severe hypotension", "It can precipitate refractory, life-threatening seizures", "It neutralizes all antibiotics", "It causes immediate cardiac arrest"],
+                correct: 1,
+                explanation: "Flumazenil can lower the seizure threshold and trigger severe, refractory seizures in chronic benzodiazepine users or tricyclic antidepressant overdoses."
+            },
+            {
+                q: "What is the standard adult slow IV push dose range for Furosemide (Lasix) in acute pulmonary edema?",
+                options: ["5 - 10 mg", "40 - 120 mg", "500 mg", "1,000 mg"],
+                correct: 1,
+                explanation: "The standard adult dose for Furosemide in acute pulmonary edema is 40 to 120 mg slow IV injection."
+            },
+            {
+                q: "When treating a suspected beta-blocker overdose with refractory bradycardia and hypotension, what is a specific secondary indication for Glucagon?",
+                options: ["Hyperglycemia induction", "Positive inotropic and chronotropic cardiac stabilization", "Seizure suppression", "Potassium excretion"],
+                correct: 1,
+                explanation: "Glucagon bypasses beta receptors to activate adenylate cyclase, increasing cAMP and acting as an effective inotropic/chronotropic agent in beta-blocker overdose."
+            },
+            {
+                q: "What is the principal indication for Naloxone (Narcan)?",
+                options: ["Benzodiazepine overdose", "Opioid-induced central nervous system and respiratory depression", "Barbiturate toxicity", "Organophosphate poisoning"],
+                correct: 1,
+                explanation: "Naloxone is an opioid antagonist specifically indicated for reversing respiratory depression and sedation caused by narcotic/opioid overdoses."
+            },
+            {
+                q: "What is the standard prehospital sublingual (SL) adult dose of Nitroglycerin?",
+                options: ["0.1 mg", "0.4 mg", "1.0 mg", "5.0 mg"],
+                correct: 1,
+                explanation: "The standard sublingual dose for Nitroglycerin tablets or spray is 0.4 mg every 3-5 minutes up to 3 doses."
+            },
+            {
+                q: "Which of the following is an absolute contraindication for administering Nitroglycerin?",
+                options: ["History of mild hypertension", "Patient SBP < 90 mmHg or use of PDE-5 inhibitors (Viagra/Cialis)", "Heart rate of 80 bpm", "Mild headache"],
+                correct: 1,
+                explanation: "Nitroglycerin is strictly contraindicated in patients with hypotension (SBP < 90 mmHg) or those who have taken phosphodiesterase-5 inhibitors within 24-48 hours."
+            },
+            {
+                q: "What is the adult dosage and route for Ondansetron (Zofran) when treating acute nausea and vomiting?",
+                options: ["4 mg IV/IM/ODT", "20 mg IV", "50 mg IM", "100 mg PO"],
+                correct: 0,
+                explanation: "The standard adult dose for Ondansetron is 4 mg administered via IV, IM, or orally disintegrating tablet (ODT)."
+            },
+            {
+                q: "What is the primary action of Sodium Bicarbonate in prolonged cardiac arrest or TCA overdose?",
+                options: ["Suppresses ventricular ectopy", "Buffers hydrogen ions to combat severe metabolic acidosis", "Reverses opioid depression", "Increases blood glucose"],
+                correct: 1,
+                explanation: "Sodium Bicarbonate provides bicarbonate ions that buffer excess hydrogen ions, elevating blood pH during prolonged arrest or toxic ingestions."
+            },
+            {
+                q: "Which medication incompatibility is critical to remember when administering Sodium Bicarbonate through an IV line?",
+                options: ["It inactivates and precipitates with catecholamines (Epinephrine, Dopamine) and Calcium salts", "It explodes when mixed with Normal Saline", "It destroys Dextrose", "It dissolves plastic IV bags"],
+                correct: 0,
+                explanation: "Sodium Bicarbonate forms precipitates and inactivates catecholamines and calcium salts; the IV line must be thoroughly flushed before and after administration."
+            },
+            {
+                q: "Succinylcholine is a depolarizing neuromuscular blocker. What clinical sign immediately precedes full skeletal muscle paralysis?",
+                options: ["Muscle fasciculations", "Severe bronchospasm", "Hypertension", "Immediate cardiac arrest"],
+                correct: 0,
+                explanation: "Depolarization by succinylcholine causes transient muscle twitching or fasciculations prior to complete neuromuscular blockade and paralysis."
+            },
+            {
+                q: "Why is Thiamine (Vitamin B1) administered prior to Dextrose in chronic alcoholics or malnourished patients?",
+                options: ["To prevent severe hypoglycemia", "To prevent Wernicke-Korsakoff syndrome / Wernicke's encephalopathy", "To lower blood pressure", "To stop vomiting"],
+                correct: 1,
+                explanation: "Thiamine acts as an essential coenzyme required for glucose metabolism; administering glucose without thiamine can precipitate acute Wernicke's encephalopathy in deficient patients."
+            },
+            {
+                q: "What is the adult cardiac arrest alternative dose for Vasopressin when replacing Epinephrine?",
+                options: ["10 units IV/IO", "20 units IV/IO", "40 units IV/IO single dose", "100 units IV/IO"],
+                correct: 2,
+                explanation: "Vasopressin may be administered as a single 40 unit IV/IO dose to replace the first or second dose of epinephrine in adult cardiac arrest."
+            },
+            {
+                q: "A pediatric patient weighing 20 kg requires Epinephrine for anaphylaxis at 0.01 mg/kg. What is the calculated dose?",
+                options: ["0.02 mg", "0.2 mg", "2.0 mg", "20 mg"],
+                correct: 1,
+                explanation: "20 kg × 0.01 mg/kg = 0.2 mg of Epinephrine."
+            },
+            {
+                q: "Calculate the pediatric fluid bolus for a 15 kg child presenting with hypovolemic shock using the standard 20 mL/kg rule.",
+                options: ["150 mL", "200 mL", "300 mL", "500 mL"],
+                correct: 2,
+                explanation: "15 kg × 20 mL/kg = 300 mL normal saline bolus."
+            },
+            {
+                q: "A patient is prescribed Dopamine infusion at 5 mcg/kg/min. What receptor category is primarily stimulated at this 'beta/inotropic' dose range?",
+                options: ["Renal dopaminergic receptors only", "Beta-1 myocardial receptors (increasing contractility and heart rate)", "Alpha-1 peripheral vasoconstriction only", "Parasympathetic receptors"],
+                correct: 1,
+                explanation: "Dopamine doses between 5-10 mcg/kg/min primarily stimulate beta-1 adrenergic receptors, enhancing myocardial contractility."
+            },
+            {
+                q: "Which EFSC drug is classified as a Calcium Channel Blocker specifically indicated for rapid ventricular rate control in atrial fibrillation or PSVT?",
+                options: ["Amiodarone", "Diltiazem (Cardizem)", "Atropine", "Digoxin"],
+                correct: 1,
+                explanation: "Diltiazem is a calcium channel blocker used to control rapid ventricular rates in atrial fibrillation, flutter, and PSVT."
+            },
+            {
+                q: "What is a major hazard of rapid IV push administration of Furosemide (Lasix)?",
+                options: ["Immediate cardiac arrest", "Permanent or transient ototoxicity / deafness", "Severe hyperglycemia", "Acute renal failure"],
+                correct: 1,
+                explanation: "Pushing Furosemide too rapidly can cause transient or permanent ototoxicity and hearing loss."
+            },
+            {
+                q: "What is the mechanism of action of Activated Charcoal in oral poisonings?",
+                options: ["Chemical neutralization in the stomach", "Physical adsorption of toxins onto its porous surface to prevent GI absorption", "Cellular binding in the bloodstream", "Osmotic catharsis"],
+                correct: 1,
+                explanation: "Activated charcoal features a vast porous surface area that adsorbs toxic substances within the gastrointestinal tract, preventing systemic absorption."
+            },
+            {
+                q: "Which toxin or substance does Activated Charcoal NOT effectively adsorb?",
+                options: ["Aspirin", "Cyanide, lithium, iron, and heavy metals", "Acetaminophen", "Barbiturates"],
+                correct: 1,
+                explanation: "Activated charcoal does not reliably adsorb smaller molecules/elements like cyanide, lithium, iron, lead, and arsenic."
+            },
+            {
+                q: "What is the recommended adult initial IV dose of Ketamine for procedural sedation or RSI?",
+                options: ["0.1 - 0.3 mg/kg", "1 - 2 mg/kg IV", "10 - 20 mg/kg", "50 mg fixed dose"],
+                correct: 1,
+                explanation: "The standard adult induction/sedation dose for Ketamine is 1 to 2 mg/kg IV (or 4 mg/kg IM)."
+            },
+            {
+                q: "What characteristic side effect or emergence reaction can occur as a patient recovers from Ketamine anesthesia?",
+                options: ["Profound bradycardia", "Vivid dreams, hallucinations, and emergence delirium", "Immediate renal shutdown", "Uncontrollable sneezing"],
+                correct: 1,
+                explanation: "Ketamine can cause emergence reactions including vivid dreams, delirium, and hallucinations, which can be mitigated with quiet surroundings or small benzodiazepine doses."
+            },
+            {
+                q: "Ketorolac (Toradol) belongs to which drug class?",
+                options: ["Narcotic opioid analgesic", "Nonsteroidal Anti-inflammatory Drug (NSAID)", "Corticosteroid", "Barbiturate sedative"],
+                correct: 1,
+                explanation: "Ketorolac is a potent parenteral Nonsteroidal Anti-inflammatory Drug (NSAID) that inhibits prostaglandin synthesis."
+            },
+            {
+                q: "What is the primary indication for Magnesium Sulfate in prehospital obstetrical emergencies?",
+                options: ["Induction of labor", "Seizure prophylaxis and treatment in eclampsia / pre-eclampsia", "Uterine relaxation for breech birth", "Postpartum hemorrhage control"],
+                correct: 1,
+                explanation: "Magnesium sulfate is the drug of choice for controlling and preventing seizures associated with pregnancy-induced eclampsia."
+            },
+            {
+                q: "What antidote must be immediately available when administering Magnesium Sulfate parenteral infusions?",
+                options: ["Naloxone", "Calcium Chloride or Calcium Gluconate", "Flumazenil", "Atropine"],
+                correct: 1,
+                explanation: "Calcium salts (Calcium Chloride/Gluconate) act as direct pharmacological antagonists to reverse magnesium toxicity (respiratory depression, loss of reflexes)."
+            },
+            {
+                q: "What is the maximum single adult IV push dose of Fentanyl Citrate typically recommended in prehospital protocols?",
+                options: ["50 mcg", "150 mcg", "500 mcg", "1,000 mcg"],
+                correct: 1,
+                explanation: "Standard prehospital single-dose limits for Fentanyl generally cap initial IV administration at 150 mcg (or 1 mcg/kg)."
+            },
+            {
+                q: "Which medication is an ultra-short-acting non-barbiturate hypnotic used for RSI induction that produces minimal hemodynamic change?",
+                options: ["Midazolam", "Etomidate (Amidate)", "Diazepam", "Ketamine"],
+                correct: 1,
+                explanation: "Etomidate is an ultra-short-acting hypnotic agent prized for RSI because it preserves cardiovascular stability better than traditional barbiturates."
+            },
+            {
+                q: "What is a notable limitation of Etomidate during emergency intubation or procedures?",
+                options: ["It causes severe hypotension", "It provides zero analgesic (pain-relieving) properties", "It paralyzes skeletal muscle", "It lowers blood glucose"],
+                correct: 1,
+                explanation: "Etomidate is purely a hypnotic/sedative and possesses no analgesic properties; separate pain management must be provided for painful procedures."
+            },
+            {
+                q: "What is the primary mechanism of Labetalol when treating hypertensive emergencies?",
+                options: ["Pure beta-2 bronchodilation", "Combined alpha-1 and beta-adrenergic receptor blockade", "Direct renal vasodilation", "Calcium channel antagonism"],
+                correct: 1,
+                explanation: "Labetalol blocks both alpha-1 and beta-adrenergic receptors, reducing blood pressure and heart rate without reflex tachycardia."
+            },
+            {
+                q: "A pediatric patient weighing 10 kg requires Diphenhydramine (Benadryl) at 1 mg/kg for an allergic reaction. What is the dose?",
+                options: ["5 mg", "10 mg", "25 mg", "50 mg"],
+                correct: 1,
+                explanation: "10 kg × 1 mg/kg = 10 mg of Diphenhydramine."
+            },
+            {
+                q: "What is the primary indication for Oxytocin (Pitocin) in EMS?",
+                options: ["Inducing labor in the field", "Postpartum hemorrhage following delivery of the placenta", "Treating eclamptic seizures", "Relieving uterine cramping"],
+                correct: 1,
+                explanation: "Oxytocin is administered postpartum to stimulate uterine contractions and control postpartum hemorrhage after delivery of the infant and placenta."
+            },
+            {
+                q: "What is the recommended adult dose of Diazepam (Valium) for status epilepticus?",
+                options: ["1 - 2 mg", "5 - 10 mg slow IV", "50 mg", "100 mg"],
+                correct: 1,
+                explanation: "The standard adult seizure dose for Diazepam is 5 to 10 mg slow IV, repeated every 10-15 minutes as needed up to 30 mg."
+            },
+            {
+                q: "Which nerve agent or pesticide antidote kit pairs Atropine with Pralidoxime (2-PAM)?",
+                options: ["Cyanide Antidote Kit", "Duodote / Nerve Agent Antidote Kit", "Universal Toxin Kit", "Hepatic Coma Kit"],
+                correct: 1,
+                explanation: "Pralidoxime (2-PAM) and Atropine are combined in nerve agent antidote kits (like Duodote) to reactivate acetylcholinesterase and block excessive acetylcholine."
+            },
+            {
+                q: "What is the onset and duration half-life characteristic of Adenosine?",
+                options: ["Onset 10 mins, duration 4 hours", "Ultra-short half-life of approximately 10-12 seconds", "Onset 1 hour, duration 24 hours", "Onset immediate, duration 2 hours"],
+                correct: 1,
+                explanation: "Adenosine has an extremely brief half-life of 10 to 12 seconds, requiring rapid IV push through a proximal site with an immediate saline flush."
+            },
+            {
+                q: "What is the classification and mechanism of Ipratropium Bromide (Atrovent)?",
+                options: ["Sympathomimetic beta agonist", "Anticholinergic bronchodilator that inhibits acetylcholine at bronchial receptor sites", "Corticosteroid anti-inflammatory", "Narcotic analgesic"],
+                correct: 1,
+                explanation: "Ipratropium is an anticholinergic agent that blocks acetylcholine receptors in bronchial smooth muscle, causing bronchodilation and decreased secretions."
+            },
+            {
+                q: "Why is Lidocaine administered prior to or during intraosseous (IO) infusion of conscious adult patients?",
+                options: ["To prevent bone infection", "To provide local anesthetic pain relief from the pressure of fluid infusion into the marrow cavity", "To increase heart rate", "To accelerate drug absorption"],
+                correct: 1,
+                explanation: "Infusing fluids into the bone marrow cavity is intensely painful in conscious patients; slow IO lidocaine flushing numbs the intramedullary nerves."
+            },
+            {
+                q: "What is the primary clinical goal of administering Norepinephrine (Levophed) in septic or cardiogenic shock?",
+                options: ["Severe diuresis", "Potent alpha-1 vasoconstriction and beta-1 inotropy to restore adequate mean arterial pressure", "Immediate sedation", "Bronchodilation"],
+                correct: 1,
+                explanation: "Norepinephrine provides potent alpha-mediated peripheral vasoconstriction and beta-1 inotropic support to stabilize blood pressure in refractory shock."
+            },
+            {
+                q: "When reviewing prehospital pharmacology, what is the golden rule of medication administration safety?",
+                options: ["Administer medications as fast as possible", "Verify the right patient, right medication, right dose, right route, right time, and right documentation (The 'Rights')", "Always double EFSC drug doses", "Never check vital signs"],
+                correct: 1,
+                explanation: "Always adhere to the fundamental 'Rights' of medication administration to ensure patient safety and clinical efficacy."
+            }
+        ];
+        // Application State
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let userAnswers = {};
+
+        // Switch Tabs function
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+
+            const gBtn = document.getElementById('nav-guide');
+            const qBtn = document.getElementById('nav-quiz');
+
+            if (tabId === 'guide') {
+                gBtn.classList.add('active');
+                qBtn.classList.remove('active');
+                renderDrugs(drugsData);
+            } else {
+                qBtn.classList.add('active');
+                gBtn.classList.remove('active');
+                renderQuizQuestion();
+            }
+        }
+
+        // Render Drug Guide Grid
+        function renderDrugs(list) {
+            const grid = document.getElementById('drugGrid');
+            grid.innerHTML = '';
+            if (list.length === 0) {
+                grid.innerHTML = `<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i><p>No medications found matching your search criteria.</p></div>`;
+                return;
+            }
+
+            list.forEach((drug, index) => {
+                const card = document.createElement('div');
+                card.className = "drug-card glass-panel";
+                card.onclick = () => openDrugModal(drug);
+                card.innerHTML = `
+                    <div>
+                        <div class="drug-card-top">
+                            <span class="pill">${drug.class}</span>
+                            <span class="drug-index">#${index + 1}</span>
+                        </div>
+                        <h3>${drug.name}</h3>
+                        <p class="drug-trade">Trade: ${drug.tradeNames}</p>
+                        <div class="drug-summary">
+                            <p><strong>Indications:</strong> ${drug.indications}</p>
+                            <p class="dosage-line"><strong>Dosage:</strong> ${drug.dosage}</p>
+                        </div>
+                    </div>
+                    <div class="drug-card-footer">
+                        <span>View Full Monograph</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter Drugs based on Search Input
+        function filterDrugs() {
+            const query = document.getElementById('drugSearch').value.toLowerCase();
+            const filtered = drugsData.filter(d =>
+                d.name.toLowerCase().includes(query) ||
+                d.class.toLowerCase().includes(query) ||
+                d.tradeNames.toLowerCase().includes(query) ||
+                d.indications.toLowerCase().includes(query)
+            );
+            renderDrugs(filtered);
+        }
+
+        // Drug Modal Handler
+        function openDrugModal(drug) {
+            const modal = document.getElementById('drugModal');
+            const content = document.getElementById('modalContent');
+            content.innerHTML = `
+                <div class="modal-content-wrap">
+                    <div>
+                        <span class="pill">${drug.class}</span>
+                        <h2>${drug.name}</h2>
+                        <p class="modal-trade">Trade Names: ${drug.tradeNames}</p>
+                    </div>
+
+                    <div class="modal-grid">
+                        <div class="modal-block">
+                            <h4 class="emerald"><i class="fa-solid fa-gears"></i> Mechanism of Action</h4>
+                            <p>${drug.mechanism}</p>
+                        </div>
+                        <div class="modal-block">
+                            <h4 class="emerald"><i class="fa-solid fa-circle-check"></i> Indications</h4>
+                            <p>${drug.indications}</p>
+                        </div>
+                    </div>
+
+                    <div class="modal-block">
+                        <h4 class="emerald"><i class="fa-solid fa-syringe"></i> Dosage & Administration</h4>
+                        <p class="mono">${drug.dosage}</p>
+                    </div>
+
+                    <div class="modal-grid">
+                        <div class="modal-block">
+                            <h4 class="rose"><i class="fa-solid fa-triangle-exclamation"></i> Contraindications</h4>
+                            <p>${drug.contraindications}</p>
+                        </div>
+                        <div class="modal-block">
+                            <h4 class="amber"><i class="fa-solid fa-shield-halved"></i> Adverse Reactions</h4>
+                            <p>${drug.adverseReactions}</p>
+                        </div>
+                    </div>
+
+                    <div class="modal-meta">
+                        <p><strong>Drug Interactions:</strong> <span>${drug.drugInteractions}</span></p>
+                        <p><strong>How Supplied:</strong> <span>${drug.howSupplied}</span></p>
+                        <p><strong>Special Considerations:</strong> <span>${drug.special}</span></p>
+                    </div>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('drugModal').classList.add('hidden');
+        }
+
+        // Render Quiz Question
+        function renderQuizQuestion() {
+            const container = document.getElementById('quiz-container');
+            const qNumEl = document.getElementById('current-q-num');
+            const scoreEl = document.getElementById('current-score');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+
+            qNumEl.innerText = currentQuizIndex + 1;
+            scoreEl.innerText = quizScore;
+            prevBtn.disabled = currentQuizIndex === 0;
+
+            if (currentQuizIndex === quizData.length - 1) {
+                nextBtn.innerHTML = '<span>Finish & Results</span> <i class="fa-solid fa-flag-checkered"></i>';
+            } else {
+                nextBtn.innerHTML = '<span>Next Question</span> <i class="fa-solid fa-arrow-right"></i>';
+            }
+
+            const qObj = quizData[currentQuizIndex];
+            const selectedOpt = userAnswers[currentQuizIndex];
+
+            let html = `
+                <div class="question-card">
+                    <span class="badge">Question ${currentQuizIndex + 1} of 50</span>
+                    <h3>${qObj.q}</h3>
+                </div>
+
+                <div class="options-grid">
+            `;
+
+            qObj.options.forEach((opt, idx) => {
+                let stateClass = "";
+                let iconHtml = `<span class="opt-letter">${String.fromCharCode(65 + idx)}</span>`;
+
+                if (selectedOpt !== undefined) {
+                    if (idx === qObj.correct) {
+                        stateClass = "correct";
+                        iconHtml = `<span class="opt-letter"><i class="fa-solid fa-check"></i></span>`;
+                    } else if (idx === selectedOpt && selectedOpt !== qObj.correct) {
+                        stateClass = "incorrect";
+                        iconHtml = `<span class="opt-letter"><i class="fa-solid fa-xmark"></i></span>`;
+                    } else {
+                        stateClass = "faded";
+                    }
+                }
+
+                html += `
+                    <button onclick="selectAnswer(${idx})" class="option-btn ${stateClass}">
+                        <div class="opt-inner">
+                            ${iconHtml}
+                            <span class="opt-text">${opt}</span>
+                        </div>
+                    </button>
+                `;
+            });
+
+            html += `</div>`;
+
+            if (selectedOpt !== undefined) {
+                html += `
+                    <div class="explanation-box">
+                        <h4 class="${selectedOpt === qObj.correct ? 'correct-text' : 'incorrect-text'}">
+                            <i class="fa-solid ${selectedOpt === qObj.correct ? 'fa-circle-check' : 'fa-triangle-exclamation'}"></i>
+                            ${selectedOpt === qObj.correct ? 'Correct!' : 'Incorrect'}
+                        </h4>
+                        <p><strong>Clinical Rationale:</strong> ${qObj.explanation}</p>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        // Handle Answer Selection
+        function selectAnswer(optIdx) {
+            if (userAnswers[currentQuizIndex] !== undefined) return; // already answered
+
+            userAnswers[currentQuizIndex] = optIdx;
+            const qObj = quizData[currentQuizIndex];
+            if (optIdx === qObj.correct) {
+                quizScore++;
+            }
+            renderQuizQuestion();
+        }
+
+        // Quiz Navigation
+        function nextQuestion() {
+            if (currentQuizIndex < quizData.length - 1) {
+                currentQuizIndex++;
+                renderQuizQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuizIndex > 0) {
+                currentQuizIndex--;
+                renderQuizQuestion();
+            }
+        }
+
+        // Show Final Quiz Results
+        function showQuizResults() {
+            const container = document.getElementById('quiz-container');
+            document.getElementById('quiz-controls').classList.add('hidden');
+            document.getElementById('quiz-stats').classList.add('hidden');
+
+            const percentage = Math.round((quizScore / quizData.length) * 100);
+            let badgeClass = "good";
+            let message = "Outstanding paramedic pharmacology mastery!";
+            if (percentage < 70) {
+                badgeClass = "needs-review";
+                message = "Review the Drug Guide and try again to master all calculation scenarios.";
+            }
+
+            container.innerHTML = `
+                <div class="results-wrap">
+                    <div class="results-icon">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <div>
+                        <span class="results-badge ${badgeClass}">Quiz Completed</span>
+                        <h2>Final Score: ${quizScore} / 50</h2>
+                        <p class="results-percentage">${percentage}% Accuracy</p>
+                        <p class="results-message">${message}</p>
+                    </div>
+
+                    <div class="results-actions">
+                        <button onclick="resetQuiz()" class="btn btn-primary">
+                            <i class="fa-solid fa-rotate-right"></i>
+                            <span>Retake Quiz</span>
+                        </button>
+                        <button onclick="switchTab('guide')" class="btn btn-secondary">
+                            <i class="fa-solid fa-book-medical"></i>
+                            <span>Return to Drug Guide</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function resetQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            userAnswers = {};
+            document.getElementById('quiz-controls').classList.remove('hidden');
+            document.getElementById('quiz-stats').classList.remove('hidden');
+            renderQuizQuestion();
+        }
+
+        // Initialize on Load
+        window.onload = function() {
+            renderDrugs(drugsData);
+        };
+    </script>
+</body>
+</html>
