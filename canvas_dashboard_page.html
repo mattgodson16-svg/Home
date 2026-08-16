@@ -1,198 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EMT Clinical Portal Dashboard</title>
-    <style>
-        :root {
-            --primary: #1e3a8a;
-            --primary-dark: #1e293b;
-            --accent: #3b82f6;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #334155;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --radius: 8px;
-        }
+<!-- Orlando Health Melbourne Hospital Card -->
+<div class="site-card">
+  <div class="site-card-header">
+    <h3>Orlando Health Melbourne Hospital</h3>
+    <span class="badge">OHMH</span>
+  </div>
+  <div class="site-card-body">
+    <p><strong>Address:</strong> 250 N Wickham Rd, Melbourne, FL 32935</p>
+    <p><strong>Clinical Focus:</strong> Emergency Department, ICU, Acute Care</p>
+  </div>
+  <div class="site-card-actions">
+    <a href="https://maps.google.com/?q=250+N+Wickham+Rd,+Melbourne,+FL+32935" target="_blank" class="btn btn-gps">
+      📍 GPS Navigation
+    </a>
+    <button class="btn btn-map" onclick="openModal('ohmh-parking')">🅿️ Parking Map</button>
+  </div>
+</div>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.5;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 30px;
-            border-radius: var(--radius);
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-        }
-
-        header p {
-            color: #93c5fd;
-            font-size: 1rem;
-        }
-
-        section {
-            margin-bottom: 40px;
-        }
-
-        h2 {
-            font-size: 1.4rem;
-            color: var(--primary-dark);
-            margin-bottom: 20px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--border);
-        }
-
-        .document-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-        }
-
-        .doc-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-        }
-
-        .doc-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            border-color: var(--accent);
-        }
-
-        .doc-icon {
-            font-size: 2rem;
-            background: #eff6ff;
-            padding: 10px;
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .doc-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .doc-title {
-            font-weight: 600;
-            color: var(--primary-dark);
-            font-size: 1rem;
-            margin-bottom: 4px;
-        }
-
-        .doc-subtitle {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-            .doc-card {
-                box-shadow: none;
-                border: 1px solid #ccc;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>EMT Clinical Portal</h1>
-            <p>Access your required clinical paperwork, resource guides, and rotation documents below.</p>
-        </header>
-
-        <section>
-            <h2>Clinical Paperwork & Resources</h2>
-            <div class="document-grid">
-                <a href="https://easternflorida.instructure.com/courses/1512147/files?preview=69473078" class="doc-card" target="_blank">
-                    <span class="doc-icon">📄</span>
-                    <div class="doc-info">
-                        <span class="doc-title">Clinical Document 1</span>
-                        <span class="doc-subtitle">View in Canvas Repository</span>
-                    </div>
-                </a>
-                <a href="https://easternflorida.instructure.com/courses/1512147/files?preview=69473079" class="doc-card" target="_blank">
-                    <span class="doc-icon">📄</span>
-                    <div class="doc-info">
-                        <span class="doc-title">Clinical Document 2</span>
-                        <span class="doc-subtitle">View in Canvas Repository</span>
-                    </div>
-                </a>
-                <a href="https://easternflorida.instructure.com/courses/1512147/files?preview=69473082" class="doc-card" target="_blank">
-                    <span class="doc-icon">📄</span>
-                    <div class="doc-info">
-                        <span class="doc-title">Clinical Document 3</span>
-                        <span class="doc-subtitle">View in Canvas Repository</span>
-                    </div>
-                </a>
-                <a href="https://easternflorida.instructure.com/courses/1512147/files?preview=69473083" class="doc-card" target="_blank">
-                    <span class="doc-icon">📄</span>
-                    <div class="doc-info">
-                        <span class="doc-title">Clinical Document 4</span>
-                        <span class="doc-subtitle">View in Canvas Repository</span>
-                    </div>
-                </a>
-                <a href="https://easternflorida.instructure.com/courses/1512147/files?preview=69473084" class="doc-card" target="_blank">
-                    <span class="doc-icon">📄</span>
-                    <div class="doc-info">
-                        <span class="doc-title">Clinical Document 5</span>
-                        <span class="doc-subtitle">View in Canvas Repository</span>
-                    </div>
-                </a>
-                <a href="https://easternflorida.instructure.com/courses/1512147/files?preview=69473090" class="doc-card" target="_blank">
-                    <span class="doc-icon">📄</span>
-                    <div class="doc-info">
-                        <span class="doc-title">Clinical Document 6</span>
-                        <span class="doc-subtitle">View in Canvas Repository</span>
-                    </div>
-                </a>
-                <a href="https://easternflorida.instructure.com/courses/1512147/files?preview=69473091" class="doc-card" target="_blank">
-                    <span class="doc-icon">📄</span>
-                    <div class="doc-info">
-                        <span class="doc-title">Clinical Document 7</span>
-                        <span class="doc-subtitle">View in Canvas LMS</span>
-                    </div>
-                </a>
-            </div>
-        </section>
-    </div>
-</body>
-</html>
+<!-- Orlando Health Sebastian River Hospital Card -->
+<div class="site-card">
+  <div class="site-card-header">
+    <h3>Orlando Health Sebastian River Hospital</h3>
+    <span class="badge">OHSRH</span>
+  </div>
+  <div class="site-card-body">
+    <p><strong>Address:</strong> 13695 US Highway 1, Sebastian, FL 32958</p>
+    <p><strong>Clinical Focus:</strong> Emergency Department, Surgical / Acute Care</p>
+  </div>
+  <div class="site-card-actions">
+    <a href="https://maps.google.com/?q=13695+US+Highway+1,+Sebastian,+FL+32958" target="_blank" class="btn btn-gps">
+      📍 GPS Navigation
+    </a>
+    <button class="btn btn-map" onclick="openModal('ohsrh-parking')">🅿️ Parking Map</button>
+  </div>
+</div>
