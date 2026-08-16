@@ -152,27 +152,93 @@
       background-color: #f1f5f9;
     }
 
-    /* Custom Message Modal Overlay */
+    /* Document Modal Viewer Overlay */
     .modal-overlay {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.6);
       justify-content: center;
       align-items: center;
       z-index: 1000;
+      padding: 20px;
+      box-sizing: border-box;
     }
     .modal-box {
       background: white;
-      padding: 25px;
       border-radius: 8px;
-      max-width: 400px;
-      width: 90%;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      text-align: center;
+      max-width: 800px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      overflow: hidden;
     }
-    .modal-box h3 { margin-top: 0; color: var(--primary-color); }
-    .modal-box p { margin-bottom: 20px; }
+    .modal-header {
+      background: var(--primary-color);
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-header h3 {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .modal-content {
+      padding: 25px;
+      overflow-y: auto;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #2d3748;
+    }
+    .modal-footer {
+      background: #f1f5f9;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* Document Internal Styles */
+    .doc-paper {
+      background: white;
+      border: 1px solid #cbd5e1;
+      padding: 20px;
+      border-radius: 4px;
+    }
+    .doc-paper h4 {
+      color: var(--primary-color);
+      margin-top: 0;
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 6px;
+    }
+    .doc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+    .doc-table th, .doc-table td {
+      border: 1px solid #cbd5e1;
+      padding: 8px 12px;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    .doc-table th {
+      background-color: #f8fafc;
+      color: var(--primary-color);
+    }
   </style>
 </head>
 <body>
@@ -187,6 +253,7 @@
 
   <h2>Paperwork & Evaluation References</h2>
   <div class="grid-container">
+    <!-- Professional Behavior Card -->
     <div class="card">
       <div class="card-header">
         <h3>Professional Behavior</h3>
@@ -196,10 +263,11 @@
         <p>Standard rubric for evaluating student professionalism, communication, and attitude on shift.</p>
       </div>
       <div class="card-actions">
-        <a href="#" class="btn btn-outline" onclick="showPortalModal('Opening Professional Behavior Evaluation Document'); return false;">📄 View Form</a>
+        <button class="btn btn-outline" onclick="openDocumentModal('professional')">📄 View Form</button>
       </div>
     </div>
 
+    <!-- Clinical Cover Sheet Card -->
     <div class="card">
       <div class="card-header">
         <h3>Clinical Cover Sheet</h3>
@@ -209,10 +277,11 @@
         <p>Mandatory cover sheet accompanying all completed clinical shift documentation packets.</p>
       </div>
       <div class="card-actions">
-        <a href="#" class="btn btn-outline" onclick="showPortalModal('Opening Clinical Cover Sheet'); return false;">📄 View Form</a>
+        <button class="btn btn-outline" onclick="openDocumentModal('coversheet')">📄 View Form</button>
       </div>
     </div>
 
+    <!-- Clinical ER Demo Sheet Card -->
     <div class="card">
       <div class="card-header">
         <h3>Clinical ER Demo Sheet</h3>
@@ -222,10 +291,11 @@
         <p>Demonstration verification tracking sheet for Emergency Room clinical competencies.</p>
       </div>
       <div class="card-actions">
-        <a href="#" class="btn btn-outline" onclick="showPortalModal('Opening Clinical ER Demo Sheet'); return false;">📄 View Form</a>
+        <button class="btn btn-outline" onclick="openDocumentModal('demosheet')">📄 View Form</button>
       </div>
     </div>
 
+    <!-- Master Signature Log Card -->
     <div class="card">
       <div class="card-header">
         <h3>Master Signature Log</h3>
@@ -235,10 +305,11 @@
         <p>Official preceptor and instructor signature verification log for clinical hours.</p>
       </div>
       <div class="card-actions">
-        <a href="#" class="btn btn-outline" onclick="showPortalModal('Opening Master Signature Log'); return false;">📄 View Form</a>
+        <button class="btn btn-outline" onclick="openDocumentModal('signaturelog')">📄 View Form</button>
       </div>
     </div>
 
+    <!-- Preceptor Evaluation Card -->
     <div class="card">
       <div class="card-header">
         <h3>Preceptor Evaluation</h3>
@@ -248,14 +319,13 @@
         <p>End-of-shift feedback and grading rubric completed by assigned site preceptors.</p>
       </div>
       <div class="card-actions">
-        <a href="#" class="btn btn-outline" onclick="showPortalModal('Opening Preceptor Evaluation Form'); return false;">📄 View Form</a>
+        <button class="btn btn-outline" onclick="openDocumentModal('preceptoreval')">📄 View Form</button>
       </div>
     </div>
   </div>
 
   <h2>Clinical Sites & Navigation</h2>
   <div class="grid-container">
-    
     <!-- Palm Bay Hospital -->
     <div class="card">
       <div class="card-header">
@@ -267,7 +337,7 @@
       </div>
       <div class="card-actions">
         <a href="https://maps.google.com/?q=Palm+Bay+Hospital" target="_blank" class="btn btn-primary">📍 GPS</a>
-        <button class="btn btn-outline" onclick="showPortalModal('Loading PBH Parking Map')">🅿️ Parking</button>
+        <button class="btn btn-outline" onclick="openParkingModal('Palm Bay Hospital', 'Park in designated employee/student auxiliary parking lots in the rear of the main ED entrance. Display EFSC clinical parking placard prominently on dashboard.')">🅿️ Parking</button>
       </div>
     </div>
 
@@ -282,7 +352,7 @@
       </div>
       <div class="card-actions">
         <a href="https://maps.google.com/?q=Holmes+Regional+Medical+Center" target="_blank" class="btn btn-primary">📍 GPS</a>
-        <button class="btn btn-outline" onclick="showPortalModal('Loading HRMC Parking Map')">🅿️ Parking</button>
+        <button class="btn btn-outline" onclick="openParkingModal('Holmes Regional Medical Center', 'Park in the main Visitor/Student parking garage off Hickory St. Enter through the main lobby or EMS/ER entrance with student ID badge.')">🅿️ Parking</button>
       </div>
     </div>
 
@@ -297,7 +367,7 @@
       </div>
       <div class="card-actions">
         <a href="https://maps.google.com/?q=Cape+Canaveral+Hospital" target="_blank" class="btn btn-primary">📍 GPS</a>
-        <button class="btn btn-outline" onclick="showPortalModal('Loading CCH Parking Map')">🅿️ Parking</button>
+        <button class="btn btn-outline" onclick="openParkingModal('Cape Canaveral Hospital', 'Park in outer perimeter parking spaces near the south entrance. Check in at security for temporary visitor/student badge.')">🅿️ Parking</button>
       </div>
     </div>
 
@@ -312,7 +382,7 @@
       </div>
       <div class="card-actions">
         <a href="https://maps.google.com/?q=Coastal+Parking+Lot" target="_blank" class="btn btn-primary">📍 GPS</a>
-        <button class="btn btn-outline" onclick="showPortalModal('Loading Staging Map')">🅿️ Info</button>
+        <button class="btn btn-outline" onclick="openParkingModal('Coastal Parking Lot', 'Staging area for off-site clinical carpooling and instructor check-ins. Park in marked stalls only.')">🅿️ Info</button>
       </div>
     </div>
 
@@ -328,7 +398,7 @@
       </div>
       <div class="card-actions">
         <a href="https://maps.google.com/?q=250+N+Wickham+Rd,+Melbourne,+FL+32935" target="_blank" class="btn btn-primary">📍 GPS</a>
-        <button class="btn btn-outline" onclick="showPortalModal('Loading OHMH Parking Map')">🅿️ Parking</button>
+        <button class="btn btn-outline" onclick="openParkingModal('Orlando Health Melbourne Hospital', 'Park in the north visitor parking lot off Wickham Rd. Enter through the main ED reception and sign in as EFSC student clinician.')">🅿️ Parking</button>
       </div>
     </div>
 
@@ -344,7 +414,7 @@
       </div>
       <div class="card-actions">
         <a href="https://maps.google.com/?q=13695+US+Highway+1,+Sebastian,+FL+32958" target="_blank" class="btn btn-primary">📍 GPS</a>
-        <button class="btn btn-outline" onclick="showPortalModal('Loading OHSRH Parking Map')">🅿️ Parking</button>
+        <button class="btn btn-outline" onclick="openParkingModal('Orlando Health Sebastian River Hospital', 'Park in designated student parking spaces near the outpatient entrance. Wear your EFSC badge visibly at all times.')">🅿️ Parking</button>
       </div>
     </div>
 
@@ -352,22 +422,239 @@
 
 </div>
 
-<div id="portalModal" class="modal-overlay">
+<!-- Universal Document & Parking Viewer Modal -->
+<div id="documentModal" class="modal-overlay">
   <div class="modal-box">
-    <h3>EMS Portal Notification</h3>
-    <p id="modalMessage">Notification message goes here.</p>
-    <button class="btn btn-primary" onclick="closePortalModal()" style="width:100%;">OK</button>
+    <div class="modal-header">
+      <h3 id="modalTitle">Document Viewer</h3>
+      <button class="modal-close" onclick="closeDocumentModal()">&times;</button>
+    </div>
+    <div class="modal-content" id="modalBody">
+      <!-- Dynamic Document Content Injected Here -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print / Save PDF</button>
+      <button class="btn btn-outline" onclick="closeDocumentModal()">Close</button>
+    </div>
   </div>
 </div>
 
 <script>
-  function showPortalModal(message) {
-    document.getElementById('modalMessage').textContent = message;
-    document.getElementById('portalModal').style.display = 'flex';
+  // Document Templates Database
+  const documents = {
+    professional: `
+      <div class="doc-paper">
+        <h4>Professional Behavior Evaluation Rubric</h4>
+        <p><strong>Student Name:</strong> ___________________________ &nbsp;&nbsp;&nbsp; <strong>Date:</strong> _______________</p>
+        <p><strong>Clinical Site / Preceptor:</strong> __________________________________________________</p>
+        <p><em>Instructions: Preceptor is requested to evaluate student across the following professional standards (Scale: 1 = Unsatisfactory, 2 = Satisfactory, 3 = Exemplary).</em></p>
+        
+        <table class="doc-table">
+          <tr>
+            <th>Evaluation Category</th>
+            <th>Score (1-3)</th>
+            <th>Preceptor Comments</th>
+          </tr>
+          <tr>
+            <td><strong>Appearance & Hygiene:</strong> Uniform clean, hair secured, ID badge worn.</td>
+            <td>[ &nbsp; ]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><strong>Attitude & Initiative:</strong> Eager to learn, respectful, helpful during downtime.</td>
+            <td>[ &nbsp; ]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><strong>Communication:</strong> Professional tone with patients, staff, and peers.</td>
+            <td>[ &nbsp; ]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><strong>Safety & Ethics:</strong> Maintains patient confidentiality and aseptic technique.</td>
+            <td>[ &nbsp; ]</td>
+            <td></td>
+          </tr>
+        </table>
+        <p><strong>Total Score:</strong> _______ / 12 &nbsp;&nbsp;&nbsp;&nbsp; <strong>Preceptor Signature:</strong> ___________________________</p>
+      </div>
+    `,
+    coversheet: `
+      <div class="doc-paper">
+        <h4>Clinical Packet Cover Sheet - Fall 2026</h4>
+        <p>This cover sheet must accompany all completed physical shift paperwork packets submitted to the clinical coordinator.</p>
+        <table class="doc-table">
+          <tr>
+            <td width="35%"><strong>Student Full Name:</strong></td>
+            <td>________________________________________________</td>
+          </tr>
+          <tr>
+            <td><strong>Course Number / Title:</strong></td>
+            <td>EMS / EMT Clinical Practicum</td>
+          </tr>
+          <tr>
+            <td><strong>Shift Date(s):</strong></td>
+            <td>________________________________________________</td>
+          </tr>
+          <tr>
+            <td><strong>Assigned Hospital / Site:</strong></td>
+            <td>________________________________________________</td>
+          </tr>
+          <tr>
+            <td><strong>Total Shift Hours:</strong></td>
+            <td>_______ Hours</td>
+          </tr>
+        </table>
+        <p><strong>Attached Checklist Verification:</strong></p>
+        <p>[ &nbsp; ] Preceptor Shift Evaluation Form(s)<br>
+           [ &nbsp; ] Patient / Skill Encounter Log (FISDAP Match)<br>
+           [ &nbsp; ] Master Signature Verification Log</p>
+        <p><strong>Student Signature:</strong> ___________________________ &nbsp;&nbsp;&nbsp; <strong>Date Submitted:</strong> _______________</p>
+      </div>
+    `,
+    demosheet: `
+      <div class="doc-paper">
+        <h4>Clinical ER Competency Demonstration Sheet</h4>
+        <p><strong>Student Name:</strong> ___________________________ &nbsp;&nbsp;&nbsp; <strong>Unit / ER:</strong> _______________</p>
+        <table class="doc-table">
+          <tr>
+            <th>Skill / Competency</th>
+            <th>Attempt 1</th>
+            <th>Attempt 2</th>
+            <th>Preceptor Initials</th>
+          </tr>
+          <tr>
+            <td>Venipuncture / IV Initiation</td>
+            <td>[ &nbsp; ] Pass / [ &nbsp; ] Fail</td>
+            <td>[ &nbsp; ] Pass / [ &nbsp; ] Fail</td>
+            <td>__________</td>
+          </tr>
+          <tr>
+            <td>IV Medication Administration</td>
+            <td>[ &nbsp; ] Pass / [ &nbsp; ] Fail</td>
+            <td>[ &nbsp; ] Pass / [ &nbsp; ] Fail</td>
+            <td>__________</td>
+          </tr>
+          <tr>
+            <td>Advanced Airway / Bag-Valve-Mask</td>
+            <td>[ &nbsp; ] Pass / [ &nbsp; ] Fail</td>
+            <td>[ &nbsp; ] Pass / [ &nbsp; ] Fail</td>
+            <td>__________</td>
+          </tr>
+          <tr>
+            <td>Patient Assessment & Vitals</td>
+            <td>[ &nbsp; ] Pass / [ &nbsp; ] Fail</td>
+            <td>[ &nbsp; ] Pass / [ &nbsp; ] Fail</td>
+            <td>__________</td>
+          </tr>
+        </table>
+        <p><strong>Comments / Feedback:</strong><br>____________________________________________________________________________________</p>
+      </div>
+    `,
+    signaturelog: `
+      <div class="doc-paper">
+        <h4>Master Preceptor Signature Log</h4>
+        <p>All clinical preceptors verifying student hours or skill sheets must sign and print their name below.</p>
+        <table class="doc-table">
+          <tr>
+            <th>Preceptor Printed Name</th>
+            <th>Title / Credentials</th>
+            <th>Hospital / Agency</th>
+            <th>Sample Signature / Initials</th>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <p><em>Note: This sheet remains active for the entire semester and must be turned in with your final clinical portfolio.</em></p>
+      </div>
+    `,
+    preceptoreval: `
+      <div class="doc-paper">
+        <h4>End-of-Shift Preceptor Evaluation Form</h4>
+        <p><strong>Student Name:</strong> ___________________________ &nbsp;&nbsp;&nbsp; <strong>Date:</strong> _______________</p>
+        <p><strong>Facility:</strong> _________________________________ &nbsp;&nbsp;&nbsp; <strong>Preceptor Name:</strong> _________________</p>
+        <table class="doc-table">
+          <tr>
+            <th>Performance Area</th>
+            <th>Rating (1 = Needs Imp, 2 = Competent, 3 = Outstanding)</th>
+          </tr>
+          <tr>
+            <td>Patient Assessment & History Taking</td>
+            <td>[ &nbsp; ] 1 &nbsp;&nbsp;&nbsp; [ &nbsp; ] 2 &nbsp;&nbsp;&nbsp; [ &nbsp; ] 3</td>
+          </tr>
+          <tr>
+            <td>Technical Skills & Dexterity</td>
+            <td>[ &nbsp; ] 1 &nbsp;&nbsp;&nbsp; [ &nbsp; ] 2 &nbsp;&nbsp;&nbsp; [ &nbsp; ] 3</td>
+          </tr>
+          <tr>
+            <td>Teamwork & Communication</td>
+            <td>[ &nbsp; ] 1 &nbsp;&nbsp;&nbsp; [ &nbsp; ] 2 &nbsp;&nbsp;&nbsp; [ &nbsp; ] 3</td>
+          </tr>
+          <tr>
+            <td>Critical Thinking & Decision Making</td>
+            <td>[ &nbsp; ] 1 &nbsp;&nbsp;&nbsp; [ &nbsp; ] 2 &nbsp;&nbsp;&nbsp; [ &nbsp; ] 3</td>
+          </tr>
+        </table>
+        <p><strong>Strengths Observed:</strong><br>____________________________________________________________________________________</p>
+        <p><strong>Areas for Improvement:</strong><br>____________________________________________________________________________________</p>
+        <p><strong>Preceptor Signature:</strong> ___________________________ &nbsp;&nbsp;&nbsp; <strong>Total Shift Hours Approved:</strong> _______</p>
+      </div>
+    `
+  };
+
+  function openDocumentModal(docKey) {
+    const titles = {
+      professional: 'Professional Behavior Evaluation Form',
+      coversheet: 'Clinical Shift Cover Sheet',
+      demosheet: 'Clinical ER Competency Demo Sheet',
+      signaturelog: 'Master Preceptor Signature Log',
+      preceptoreval: 'End-of-Shift Preceptor Evaluation'
+    };
+    
+    document.getElementById('modalTitle').textContent = titles[docKey] || 'Clinical Document';
+    document.getElementById('modalBody').innerHTML = documents[docKey] || '<p>Document content loading...</p>';
+    document.getElementById('documentModal').style.display = 'flex';
   }
 
-  function closePortalModal() {
-    document.getElementById('portalModal').style.display = 'none';
+  function openParkingModal(hospitalName, parkingInfo) {
+    document.getElementById('modalTitle').textContent = hospitalName + ' - Parking Instructions';
+    document.getElementById('modalBody').innerHTML = `
+      <div class="doc-paper">
+        <h4>Parking & Staging Guide</h4>
+        <p><strong>Facility:</strong> ${hospitalName}</p>
+        <p style="font-size: 1.05rem; margin-top: 15px; padding: 12px; background: #f8fafc; border-left: 4px solid var(--primary-color);">
+          ${parkingInfo}
+        </p>
+        <p style="margin-top: 20px;"><em>Always verify current hospital badge requirements with your clinical coordinator prior to your shift.</em></p>
+      </div>
+    `;
+    document.getElementById('documentModal').style.display = 'flex';
+  }
+
+  function closeDocumentModal() {
+    document.getElementById('documentModal').style.display = 'none';
   }
 </script>
 
