@@ -28,28 +28,11 @@
   /* Hero */
   .hero {
     background: linear-gradient(to right, #0f172a, #1e1b4b, #1e3a8a);
-    padding: 32px;
+    padding: 36px 32px;
     color: #ffffff;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 24px;
-  }
-  .hero-img-wrap {
-    flex: 1 1 260px;
-    display: flex;
-    justify-content: center;
-  }
-  .hero-img-wrap img {
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.1);
-    max-height: 144px;
-    width: 100%;
-    object-fit: cover;
   }
   .hero-text {
-    flex: 2 1 400px;
+    max-width: 800px;
     text-align: left;
   }
   .badge {
@@ -138,6 +121,7 @@
     transition: all 0.15s ease;
     font-family: inherit;
     width: 100%;
+    text-decoration: none;
   }
   .paperwork-btn:hover {
     border-color: #6366f1;
@@ -163,86 +147,6 @@
   .paperwork-btn:hover .view-pill {
     background: #4f46e5;
     color: #ffffff;
-  }
-
-  /* Document viewer */
-  .viewer {
-    margin-top: 24px;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    background: #f8fafc;
-    overflow: hidden;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  }
-  .viewer.hidden { display: none; }
-  .viewer-header {
-    background: #0f172a;
-    color: #ffffff;
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .viewer-title {
-    font-size: 14px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .viewer-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .btn-print {
-    font-size: 12px;
-    background: #059669;
-    color: #ffffff;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-weight: 600;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  }
-  .btn-print:hover { background: #047857; }
-  .btn-newtab {
-    font-size: 12px;
-    background: #4f46e5;
-    color: #ffffff;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-weight: 500;
-    text-decoration: none;
-  }
-  .btn-newtab:hover { background: #4338ca; }
-  .btn-close {
-    color: #94a3b8;
-    background: none;
-    border: none;
-    font-size: 14px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  .btn-close:hover { color: #ffffff; }
-  .viewer-frame-wrap {
-    width: 100%;
-    height: 500px;
-    background: #ffffff;
-    position: relative;
-  }
-  .viewer-frame-wrap iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
   }
 
   .tip-bar {
@@ -330,6 +234,7 @@
     border: none;
     cursor: pointer;
     font-family: inherit;
+    text-decoration: none;
   }
   .btn-map:hover { background: #e2e8f0; }
   .btn-directions {
@@ -356,6 +261,108 @@
     font-size: 12px;
     color: #64748b;
   }
+
+  /* ---- Pure CSS modal preview (no JavaScript) ---- */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.65);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal-overlay:target {
+    display: flex;
+  }
+  .modal-box {
+    background: #ffffff;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 900px;
+    max-height: 88vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4);
+  }
+  .modal-header {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .modal-title {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .modal-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .btn-print {
+    font-size: 12px;
+    background: #059669;
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  .btn-print:hover { background: #047857; }
+  .btn-newtab {
+    font-size: 12px;
+    background: #4f46e5;
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .btn-newtab:hover { background: #4338ca; }
+  .btn-close {
+    color: #cbd5e1;
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 1;
+  }
+  .btn-close:hover { color: #ffffff; background: rgba(255,255,255,0.1); }
+  .modal-body {
+    flex: 1;
+    min-height: 0;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+  }
+  /* Updated to target iframes properly to ensure Canvas preview loads seamlessly */
+  .modal-body iframe,
+  .modal-body img {
+    width: 100%;
+    height: 100%;
+    min-height: 65vh;
+    border: 0;
+    display: block;
+    object-fit: contain;
+    background: #ffffff;
+    flex-grow: 1;
+  }
 </style>
 </head>
 <body>
@@ -364,13 +371,9 @@
 
   <!-- Top Banner Hero Section -->
   <div class="hero">
-    <div class="hero-img-wrap">
-      <img src="$COURSE_FILE_URL$/files/YOUR_BANNER_IMAGE.jpg" alt="EMS Clinical Banner"
-           onerror="this.src='https://placehold.co/300x180/1e293b/ffffff?text=EMS+Clinical';" />
-    </div>
     <div class="hero-text">
       <span class="badge">Fall 2026 Clinical Portal</span>
-      <h1>Paramedic &amp; EMT Clinical Hub</h1>
+      <h1>EMT Clinical Hub</h1>
       <p>Welcome! Please reference FISDAP for official schedules and tracking. Use the interactive modules below for paperwork access, parking guidelines, and live navigation.</p>
     </div>
   </div>
@@ -380,50 +383,35 @@
     <section>
       <div class="section-header">
         <h2 class="section-title"><span class="icon-box icon-indigo">📋</span> Clinical Paperwork &amp; References</h2>
-        <span class="hint-text">Click a button to load preview below</span>
+        <span class="hint-text">Click a document to open a preview</span>
       </div>
 
       <!-- Interactive Paperwork Buttons Grid -->
       <div class="paperwork-grid">
-        <button class="paperwork-btn" onclick="loadDocument('Professional Behavior Evaluation', 'https://easternflorida.instructure.com/courses/1512147/files/69473082/download?wrap=1')">
+        <a href="#doc-behavior-eval" class="paperwork-btn">
           <span class="label">Professional Behavior Eval</span>
           <span class="view-pill">View ↗</span>
-        </button>
+        </a>
 
-        <button class="paperwork-btn" onclick="loadDocument('Clinical Cover Sheet', 'https://easternflorida.instructure.com/courses/1512147/files/69473089/download?wrap=1')">
+        <a href="#doc-cover-sheet" class="paperwork-btn">
           <span class="label">Clinical Cover Sheet</span>
           <span class="view-pill">View ↗</span>
-        </button>
+        </a>
 
-        <button class="paperwork-btn" onclick="loadDocument('Clinical ER Demo Sheet', 'https://easternflorida.instructure.com/courses/1512147/files/69473083/download?wrap=1')">
+        <a href="#doc-er-demo" class="paperwork-btn">
           <span class="label">Clinical ER Demo Sheet</span>
           <span class="view-pill">View ↗</span>
-        </button>
+        </a>
 
-        <button class="paperwork-btn" onclick="loadDocument('Master Sig Log', 'https://easternflorida.instructure.com/courses/1512147/files/69473078/download?wrap=1')">
+        <a href="#doc-sig-log" class="paperwork-btn">
           <span class="label">Master Sig Log</span>
           <span class="view-pill">View ↗</span>
-        </button>
+        </a>
 
-        <button class="paperwork-btn" onclick="loadDocument('Preceptor Evaluation', 'https://easternflorida.instructure.com/courses/1512147/files/69473084/download?wrap=1')">
+        <a href="#doc-preceptor-eval" class="paperwork-btn">
           <span class="label">Preceptor Evaluation</span>
           <span class="view-pill">View ↗</span>
-        </button>
-      </div>
-
-      <!-- Interactive Document Viewer Iframe Container -->
-      <div id="document-viewer-container" class="viewer hidden">
-        <div class="viewer-header">
-          <span id="viewer-title" class="viewer-title">📄 Document Preview</span>
-          <div class="viewer-actions">
-            <a id="viewer-print-link" href="#" target="_blank" class="btn-print">🖨️ Print / Open PDF</a>
-            <a id="viewer-download-link" href="#" target="_blank" class="btn-newtab">Open in New Tab ↗</a>
-            <button class="btn-close" onclick="closeDocumentViewer()">&times;</button>
-          </div>
-        </div>
-        <div class="viewer-frame-wrap">
-          <iframe id="document-iframe" src=""></iframe>
-        </div>
+        </a>
       </div>
 
       <div class="tip-bar">
@@ -450,7 +438,7 @@
             <p>Health First facility designated student parking.</p>
           </div>
           <div class="site-actions">
-            <button class="btn-map" onclick="loadDocument('Palm Bay Hospital – Parking Map', 'https://easternflorida.instructure.com/courses/1512147/files/69473090/download?wrap=1')">View Parking Map (PDF)</button>
+            <a class="btn-map" href="#doc-pbh-map">View Parking Map (PDF)</a>
             <a class="btn-directions" href="https://www.google.com/maps/dir/?api=1&destination=Health+First+Palm+Bay+Hospital&destination_place_id=ChIJvf5Y978S3ogR4SQuAiqHcjc" target="_blank">🧭 Get Directions</a>
           </div>
         </div>
@@ -466,7 +454,7 @@
             <p>Main trauma center and campus parking zone.</p>
           </div>
           <div class="site-actions">
-            <button class="btn-map" onclick="loadDocument('Holmes Regional – Parking Map', 'https://easternflorida.instructure.com/courses/1512147/files/69473091/download?wrap=1')">View Parking Map (PDF)</button>
+            <a class="btn-map" href="#doc-hrmc-map">View Parking Map (PDF)</a>
             <a class="btn-directions" href="https://www.google.com/maps/dir/?api=1&destination=Holmes+Regional+Medical+Center+Melbourne+FL&destination_place_id=ChIJh-lRY-wR3ogRpsfqZWTD4q4" target="_blank">🧭 Get Directions</a>
           </div>
         </div>
@@ -482,7 +470,7 @@
             <p>Coastal campus emergency and designated entrance.</p>
           </div>
           <div class="site-actions">
-            <button class="btn-map" onclick="loadDocument('Cape Canaveral Hospital – Parking Map', 'https://easternflorida.instructure.com/courses/1512147/files/69473079/download?wrap=1')">View Parking Map (PDF)</button>
+            <a class="btn-map" href="#doc-cch-map">View Parking Map (PDF)</a>
             <a class="btn-directions" href="https://www.google.com/maps/dir/?api=1&destination=Cape+Canaveral+Hospital&destination_place_id=ChIJLdpl6_qn4IgRAbW0xvA1W1U" target="_blank">🧭 Get Directions</a>
           </div>
         </div>
@@ -498,7 +486,7 @@
             <p>Designated check-in perimeter and student parking zone.</p>
           </div>
           <div class="site-actions">
-            <button class="btn-map" onclick="loadDocument('Coastal Parking Lot – Aerial Map', '$COURSE_FILE_URL$/files/COASTAL_PARKING_MAP.jpg')">View Aerial Map (JPG)</button>
+            <a class="btn-map" href="#doc-lot-map">View Aerial Map (JPG)</a>
             <a class="btn-directions" href="https://www.google.com/maps/dir/?api=1&destination=Cape+Canaveral+Hospital" target="_blank">🧭 Get Directions</a>
           </div>
         </div>
@@ -515,43 +503,153 @@
 
 </div>
 
-<!-- JavaScript to Handle Iframe Loading -->
-<script>
-  function loadDocument(title, url) {
-    const container = document.getElementById('document-viewer-container');
-    const titleEl = document.getElementById('viewer-title');
-    const iframeEl = document.getElementById('document-iframe');
-    const downloadLink = document.getElementById('viewer-download-link');
-    const printLink = document.getElementById('viewer-print-link');
+<!-- ============ CSS-only preview modals (triggered by #id in the URL) ============ -->
 
-    // Canvas's /download endpoint forces a file save even inside an iframe, and its
-    // /preview endpoint often just redirects back to /download for files without
-    // Canvadocs support (same forced-download problem). To get a real inline preview
-    // we route PDFs through Google's document viewer, which fetches the file itself
-    // and renders it as content the browser will display in an iframe.
-    let previewUrl = url;
-    const lowerUrl = url.toLowerCase();
-    if (lowerUrl.includes('.pdf') || /\/download(\?|$)/.test(url)) {
-      previewUrl = 'https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(url);
-    }
+<div class="modal-overlay" id="doc-behavior-eval">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">📄 Professional Behavior Evaluation</span>
+      <div class="modal-actions">
+        <!-- Kept direct download links optional for users who still want to download/print via the top bar -->
+        <a class="btn-print" href="https://easternflorida.instructure.com/courses/1512147/files/69473082/download?wrap=1" target="_blank">🖨️ Print / Open PDF</a>
+        <a class="btn-newtab" href="https://easternflorida.instructure.com/courses/1512147/files/69473082/download?wrap=1" target="_blank">Open in New Tab ↗</a>
+        <a class="btn-close" href="#">&times;</a>
+      </div>
+    </div>
+    <div class="modal-body">
+      <!-- Changed from <object> download endpoint to <iframe> preview endpoint -->
+      <iframe src="https://easternflorida.instructure.com/courses/1512147/files/69473082/preview" title="Professional Behavior Evaluation"></iframe>
+    </div>
+  </div>
+</div>
 
-    titleEl.textContent = '📄 Preview: ' + title;
-    iframeEl.src = previewUrl;
-    downloadLink.href = url;
-    printLink.href = url;
+<div class="modal-overlay" id="doc-cover-sheet">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">📄 Clinical Cover Sheet</span>
+      <div class="modal-actions">
+        <a class="btn-print" href="https://easternflorida.instructure.com/courses/1512147/files/69473089/download?wrap=1" target="_blank">🖨️ Print / Open PDF</a>
+        <a class="btn-newtab" href="https://easternflorida.instructure.com/courses/1512147/files/69473089/download?wrap=1" target="_blank">Open in New Tab ↗</a>
+        <a class="btn-close" href="#">&times;</a>
+      </div>
+    </div>
+    <div class="modal-body">
+      <iframe src="https://easternflorida.instructure.com/courses/1512147/files/69473089/preview" title="Clinical Cover Sheet"></iframe>
+    </div>
+  </div>
+</div>
 
-    container.classList.remove('hidden');
-    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
+<div class="modal-overlay" id="doc-er-demo">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">📄 Clinical ER Demo Sheet</span>
+      <div class="modal-actions">
+        <a class="btn-print" href="https://easternflorida.instructure.com/courses/1512147/files/69473083/download?wrap=1" target="_blank">🖨️ Print / Open PDF</a>
+        <a class="btn-newtab" href="https://easternflorida.instructure.com/courses/1512147/files/69473083/download?wrap=1" target="_blank">Open in New Tab ↗</a>
+        <a class="btn-close" href="#">&times;</a>
+      </div>
+    </div>
+    <div class="modal-body">
+      <iframe src="https://easternflorida.instructure.com/courses/1512147/files/69473083/preview" title="Clinical ER Demo Sheet"></iframe>
+    </div>
+  </div>
+</div>
 
-  function closeDocumentViewer() {
-    const container = document.getElementById('document-viewer-container');
-    const iframeEl = document.getElementById('document-iframe');
+<div class="modal-overlay" id="doc-sig-log">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">📄 Master Sig Log</span>
+      <div class="modal-actions">
+        <a class="btn-print" href="https://easternflorida.instructure.com/courses/1512147/files/69473078/download?wrap=1" target="_blank">🖨️ Print / Open PDF</a>
+        <a class="btn-newtab" href="https://easternflorida.instructure.com/courses/1512147/files/69473078/download?wrap=1" target="_blank">Open in New Tab ↗</a>
+        <a class="btn-close" href="#">&times;</a>
+      </div>
+    </div>
+    <div class="modal-body">
+      <iframe src="https://easternflorida.instructure.com/courses/1512147/files/69473078/preview" title="Master Sig Log"></iframe>
+    </div>
+  </div>
+</div>
 
-    container.classList.add('hidden');
-    iframeEl.src = ''; // Clear source to stop background loading
-  }
-</script>
+<div class="modal-overlay" id="doc-preceptor-eval">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">📄 Preceptor Evaluation</span>
+      <div class="modal-actions">
+        <a class="btn-print" href="https://easternflorida.instructure.com/courses/1512147/files/69473084/download?wrap=1" target="_blank">🖨️ Print / Open PDF</a>
+        <a class="btn-newtab" href="https://easternflorida.instructure.com/courses/1512147/files/69473084/download?wrap=1" target="_blank">Open in New Tab ↗</a>
+        <a class="btn-close" href="#">&times;</a>
+      </div>
+    </div>
+    <div class="modal-body">
+      <iframe src="https://easternflorida.instructure.com/courses/1512147/files/69473084/preview" title="Preceptor Evaluation"></iframe>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="doc-pbh-map">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">📄 Palm Bay Hospital – Parking Map</span>
+      <div class="modal-actions">
+        <a class="btn-print" href="https://easternflorida.instructure.com/courses/1512147/files/69473090/download?wrap=1" target="_blank">🖨️ Print / Open PDF</a>
+        <a class="btn-newtab" href="https://easternflorida.instructure.com/courses/1512147/files/69473090/download?wrap=1" target="_blank">Open in New Tab ↗</a>
+        <a class="btn-close" href="#">&times;</a>
+      </div>
+    </div>
+    <div class="modal-body">
+      <iframe src="https://easternflorida.instructure.com/courses/1512147/files/69473090/preview" title="Palm Bay Hospital Map"></iframe>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="doc-hrmc-map">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">📄 Holmes Regional – Parking Map</span>
+      <div class="modal-actions">
+        <a class="btn-print" href="https://easternflorida.instructure.com/courses/1512147/files/69473091/download?wrap=1" target="_blank">🖨️ Print / Open PDF</a>
+        <a class="btn-newtab" href="https://easternflorida.instructure.com/courses/1512147/files/69473091/download?wrap=1" target="_blank">Open in New Tab ↗</a>
+        <a class="btn-close" href="#">&times;</a>
+      </div>
+    </div>
+    <div class="modal-body">
+      <iframe src="https://easternflorida.instructure.com/courses/1512147/files/69473091/preview" title="Holmes Regional Map"></iframe>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="doc-cch-map">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">📄 Cape Canaveral Hospital – Parking Map</span>
+      <div class="modal-actions">
+        <a class="btn-print" href="https://easternflorida.instructure.com/courses/1512147/files/69473079/download?wrap=1" target="_blank">🖨️ Print / Open PDF</a>
+        <a class="btn-newtab" href="https://easternflorida.instructure.com/courses/1512147/files/69473079/download?wrap=1" target="_blank">Open in New Tab ↗</a>
+        <a class="btn-close" href="#">&times;</a>
+      </div>
+    </div>
+    <div class="modal-body">
+      <iframe src="https://easternflorida.instructure.com/courses/1512147/files/69473079/preview" title="Cape Canaveral Map"></iframe>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="doc-lot-map">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">📄 Coastal Parking Lot – Aerial Map</span>
+      <div class="modal-actions">
+        <a class="btn-print" href="https://placehold.co/800x600/f8fafc/94a3b8?text=Coastal+Parking+Map+(Placeholder)" target="_blank">🖨️ Print / Open</a>
+        <a class="btn-newtab" href="https://placehold.co/800x600/f8fafc/94a3b8?text=Coastal+Parking+Map+(Placeholder)" target="_blank">Open in New Tab ↗</a>
+        <a class="btn-close" href="#">&times;</a>
+      </div>
+    </div>
+    <div class="modal-body">
+      <img src="https://placehold.co/800x600/f8fafc/94a3b8?text=Coastal+Parking+Map+(Placeholder)" alt="Coastal Parking Lot aerial map" />
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
