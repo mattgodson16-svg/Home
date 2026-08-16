@@ -524,12 +524,15 @@
     const downloadLink = document.getElementById('viewer-download-link');
     const printLink = document.getElementById('viewer-print-link');
 
-    // Canvas's /download endpoint forces a file save even inside an iframe.
-    // Its /preview endpoint renders the file inline in Canvas's doc viewer instead,
-    // so we use that for the embedded preview and keep /download for the action buttons.
+    // Canvas's /download endpoint forces a file save even inside an iframe, and its
+    // /preview endpoint often just redirects back to /download for files without
+    // Canvadocs support (same forced-download problem). To get a real inline preview
+    // we route PDFs through Google's document viewer, which fetches the file itself
+    // and renders it as content the browser will display in an iframe.
     let previewUrl = url;
-    if (/\/download(\?|$)/.test(url)) {
-      previewUrl = url.replace(/\/download(\?.*)?$/, '/preview');
+    const lowerUrl = url.toLowerCase();
+    if (lowerUrl.includes('.pdf') || /\/download(\?|$)/.test(url)) {
+      previewUrl = 'https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(url);
     }
 
     titleEl.textContent = '📄 Preview: ' + title;
