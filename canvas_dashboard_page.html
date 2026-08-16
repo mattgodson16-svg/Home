@@ -1,35 +1,375 @@
-<!-- Orlando Health Melbourne Hospital Card -->
-<div class="site-card">
-  <div class="site-card-header">
-    <h3>Orlando Health Melbourne Hospital</h3>
-    <span class="badge">OHMH</span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fall 2026 EMS Clinical Portal Dashboard</title>
+  <style>
+    :root {
+      --primary-color: #003366;
+      --secondary-color: #0056b3;
+      --accent-color: #ffc107;
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-color: #333333;
+      --border-color: #dee2e6;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .portal-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Hero Banner Styling */
+    .hero-banner {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 30px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .hero-banner h1 {
+      margin: 0 0 10px 0;
+      font-size: 2rem;
+    }
+    .hero-banner p {
+      margin: 0;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    .hero-badge {
+      display: inline-block;
+      background-color: var(--accent-color);
+      color: #000;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 0.85rem;
+      margin-top: 10px;
+    }
+
+    /* Section Headings */
+    h2 {
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 8px;
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+
+    /* Grid Layouts */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+    .card-header h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      color: var(--primary-color);
+    }
+    .badge {
+      background-color: #e2e8f0;
+      color: #475569;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .card-body {
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+    .card-body p {
+      margin: 6px 0;
+    }
+
+    /* Buttons & Actions */
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      flex: 1;
+      text-align: center;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+    .btn-primary:hover {
+      background-color: var(--primary-color);
+    }
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+    }
+    .btn-outline:hover {
+      background-color: #f1f5f9;
+    }
+
+    /* Custom Message Modal Overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-box {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+    .modal-box h3 { margin-top: 0; color: var(--primary-color); }
+    .modal-box p { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+
+<div class="portal-container">
+
+  <div class="hero-banner">
+    <h1>Fall 2026 EMS Clinical Portal</h1>
+    <p>Welcome student clinicians. Access your required evaluation paperwork, clinical site details, and tracking resources below.</p>
+    <div class="hero-badge">FISDAP Tracking Active</div>
   </div>
-  <div class="site-card-body">
-    <p><strong>Address:</strong> 250 N Wickham Rd, Melbourne, FL 32935</p>
-    <p><strong>Clinical Focus:</strong> Emergency Department, ICU, Acute Care</p>
+
+  <h2>Paperwork & Evaluation References</h2>
+  <div class="grid-container">
+    <div class="card">
+      <div class="card-header">
+        <h3>Professional Behavior</h3>
+        <span class="badge">Eval</span>
+      </div>
+      <div class="card-body">
+        <p>Standard rubric for evaluating student professionalism, communication, and attitude on shift.</p>
+      </div>
+      <div class="card-actions">
+        <a href="#" class="btn btn-outline" onclick="showPortalModal('Opening Professional Behavior Evaluation Document'); return false;">📄 View Form</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3>Clinical Cover Sheet</h3>
+        <span class="badge">Docs</span>
+      </div>
+      <div class="card-body">
+        <p>Mandatory cover sheet accompanying all completed clinical shift documentation packets.</p>
+      </div>
+      <div class="card-actions">
+        <a href="#" class="btn btn-outline" onclick="showPortalModal('Opening Clinical Cover Sheet'); return false;">📄 View Form</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3>Clinical ER Demo Sheet</h3>
+        <span class="badge">Skills</span>
+      </div>
+      <div class="card-body">
+        <p>Demonstration verification tracking sheet for Emergency Room clinical competencies.</p>
+      </div>
+      <div class="card-actions">
+        <a href="#" class="btn btn-outline" onclick="showPortalModal('Opening Clinical ER Demo Sheet'); return false;">📄 View Form</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3>Master Signature Log</h3>
+        <span class="badge">Admin</span>
+      </div>
+      <div class="card-body">
+        <p>Official preceptor and instructor signature verification log for clinical hours.</p>
+      </div>
+      <div class="card-actions">
+        <a href="#" class="btn btn-outline" onclick="showPortalModal('Opening Master Signature Log'); return false;">📄 View Form</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3>Preceptor Evaluation</h3>
+        <span class="badge">Feedback</span>
+      </div>
+      <div class="card-body">
+        <p>End-of-shift feedback and grading rubric completed by assigned site preceptors.</p>
+      </div>
+      <div class="card-actions">
+        <a href="#" class="btn btn-outline" onclick="showPortalModal('Opening Preceptor Evaluation Form'); return false;">📄 View Form</a>
+      </div>
+    </div>
   </div>
-  <div class="site-card-actions">
-    <a href="https://maps.google.com/?q=250+N+Wickham+Rd,+Melbourne,+FL+32935" target="_blank" class="btn btn-gps">
-      📍 GPS Navigation
-    </a>
-    <button class="btn btn-map" onclick="openModal('ohmh-parking')">🅿️ Parking Map</button>
+
+  <h2>Clinical Sites & Navigation</h2>
+  <div class="grid-container">
+    
+    <!-- Palm Bay Hospital -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Palm Bay Hospital</h3>
+        <span class="badge">PBH</span>
+      </div>
+      <div class="card-body">
+        <p><strong>Focus:</strong> Emergency & Acute Care</p>
+      </div>
+      <div class="card-actions">
+        <a href="https://maps.google.com/?q=Palm+Bay+Hospital" target="_blank" class="btn btn-primary">📍 GPS</a>
+        <button class="btn btn-outline" onclick="showPortalModal('Loading PBH Parking Map')">🅿️ Parking</button>
+      </div>
+    </div>
+
+    <!-- Holmes Regional Medical Center -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Holmes Regional Medical Center</h3>
+        <span class="badge">HRMC</span>
+      </div>
+      <div class="card-body">
+        <p><strong>Focus:</strong> Trauma Center, Emergency & Critical Care</p>
+      </div>
+      <div class="card-actions">
+        <a href="https://maps.google.com/?q=Holmes+Regional+Medical+Center" target="_blank" class="btn btn-primary">📍 GPS</a>
+        <button class="btn btn-outline" onclick="showPortalModal('Loading HRMC Parking Map')">🅿️ Parking</button>
+      </div>
+    </div>
+
+    <!-- Cape Canaveral Hospital -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Cape Canaveral Hospital</h3>
+        <span class="badge">CCH</span>
+      </div>
+      <div class="card-body">
+        <p><strong>Focus:</strong> Emergency & Surgical Services</p>
+      </div>
+      <div class="card-actions">
+        <a href="https://maps.google.com/?q=Cape+Canaveral+Hospital" target="_blank" class="btn btn-primary">📍 GPS</a>
+        <button class="btn btn-outline" onclick="showPortalModal('Loading CCH Parking Map')">🅿️ Parking</button>
+      </div>
+    </div>
+
+    <!-- Coastal Parking Lot -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Coastal Parking Lot</h3>
+        <span class="badge">LOT</span>
+      </div>
+      <div class="card-body">
+        <p><strong>Focus:</strong> Designated Student Staging Area</p>
+      </div>
+      <div class="card-actions">
+        <a href="https://maps.google.com/?q=Coastal+Parking+Lot" target="_blank" class="btn btn-primary">📍 GPS</a>
+        <button class="btn btn-outline" onclick="showPortalModal('Loading Staging Map')">🅿️ Info</button>
+      </div>
+    </div>
+
+    <!-- Orlando Health Melbourne Hospital -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Orlando Health Melbourne Hospital</h3>
+        <span class="badge">OHMH</span>
+      </div>
+      <div class="card-body">
+        <p><strong>Address:</strong> 250 N Wickham Rd, Melbourne, FL 32935</p>
+        <p><strong>Focus:</strong> Emergency Department, ICU, Acute Care</p>
+      </div>
+      <div class="card-actions">
+        <a href="https://maps.google.com/?q=250+N+Wickham+Rd,+Melbourne,+FL+32935" target="_blank" class="btn btn-primary">📍 GPS</a>
+        <button class="btn btn-outline" onclick="showPortalModal('Loading OHMH Parking Map')">🅿️ Parking</button>
+      </div>
+    </div>
+
+    <!-- Orlando Health Sebastian River Hospital -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Orlando Health Sebastian River Hospital</h3>
+        <span class="badge">OHSRH</span>
+      </div>
+      <div class="card-body">
+        <p><strong>Address:</strong> 13695 US Highway 1, Sebastian, FL 32958</p>
+        <p><strong>Focus:</strong> Emergency Department, Surgical / Acute Care</p>
+      </div>
+      <div class="card-actions">
+        <a href="https://maps.google.com/?q=13695+US+Highway+1,+Sebastian,+FL+32958" target="_blank" class="btn btn-primary">📍 GPS</a>
+        <button class="btn btn-outline" onclick="showPortalModal('Loading OHSRH Parking Map')">🅿️ Parking</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div id="portalModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3>EMS Portal Notification</h3>
+    <p id="modalMessage">Notification message goes here.</p>
+    <button class="btn btn-primary" onclick="closePortalModal()" style="width:100%;">OK</button>
   </div>
 </div>
 
-<!-- Orlando Health Sebastian River Hospital Card -->
-<div class="site-card">
-  <div class="site-card-header">
-    <h3>Orlando Health Sebastian River Hospital</h3>
-    <span class="badge">OHSRH</span>
-  </div>
-  <div class="site-card-body">
-    <p><strong>Address:</strong> 13695 US Highway 1, Sebastian, FL 32958</p>
-    <p><strong>Clinical Focus:</strong> Emergency Department, Surgical / Acute Care</p>
-  </div>
-  <div class="site-card-actions">
-    <a href="https://maps.google.com/?q=13695+US+Highway+1,+Sebastian,+FL+32958" target="_blank" class="btn btn-gps">
-      📍 GPS Navigation
-    </a>
-    <button class="btn btn-map" onclick="openModal('ohsrh-parking')">🅿️ Parking Map</button>
-  </div>
-</div>
+<script>
+  function showPortalModal(message) {
+    document.getElementById('modalMessage').textContent = message;
+    document.getElementById('portalModal').style.display = 'flex';
+  }
+
+  function closePortalModal() {
+    document.getElementById('portalModal').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
