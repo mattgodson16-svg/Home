@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EMS Clinical Portal Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; }
   body {
@@ -12,22 +12,22 @@
     background: #f8fafc;
     color: #1e293b;
     margin: 0;
-    padding: 32px 16px;
+    padding: 24px 16px;
   }
 
   .page {
-    max-width: 1024px;
+    max-width: 1080px;
     margin: 0 auto;
     background: #ffffff;
     border-radius: 16px;
-    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05);
     border: 1px solid #e2e8f0;
     overflow: hidden;
   }
 
-  /* Hero */
+  /* Hero Banner */
   .hero {
-    background: linear-gradient(to right, #0f172a, #1e1b4b, #1e3a8a);
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #1e3a8a 100%);
     padding: 36px 32px;
     color: #ffffff;
   }
@@ -40,7 +40,7 @@
     background: rgba(37, 99, 235, 0.4);
     color: #93c5fd;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     padding: 4px 12px;
     border-radius: 999px;
     text-transform: uppercase;
@@ -49,9 +49,10 @@
   }
   .hero-text h1 {
     font-size: 28px;
-    font-weight: 700;
-    margin: 8px 0 0;
+    font-weight: 800;
+    margin: 10px 0 0;
     color: #ffffff;
+    letter-spacing: -0.02em;
   }
   .hero-text p {
     color: #cbd5e1;
@@ -60,12 +61,12 @@
     line-height: 1.6;
   }
 
-  /* Body sections */
+  /* Body Sections */
   .body-content {
     padding: 32px;
   }
   section + section {
-    margin-top: 32px;
+    margin-top: 36px;
   }
 
   .section-header {
@@ -74,7 +75,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
   }
   .section-title {
     font-size: 20px;
@@ -82,11 +83,11 @@
     color: #0f172a;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     margin: 0;
   }
   .icon-box {
-    padding: 8px;
+    padding: 8px 10px;
     border-radius: 8px;
     font-size: 16px;
   }
@@ -94,7 +95,8 @@
   .icon-emerald { background: #ecfdf5; color: #059669; }
   .hint-text {
     font-size: 12px;
-    color: #94a3b8;
+    color: #64748b;
+    font-weight: 500;
   }
   .section-sub {
     font-size: 14px;
@@ -102,15 +104,15 @@
     margin-top: 4px;
   }
 
-  /* Paperwork grid */
+  /* Paperwork Grid */
   .paperwork-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
   }
   .paperwork-btn {
     text-align: left;
-    padding: 16px;
+    padding: 18px 16px;
     border-radius: 12px;
     border: 1px solid #e2e8f0;
     background: #ffffff;
@@ -118,28 +120,31 @@
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: all 0.2s ease;
     font-family: inherit;
     width: 100%;
     text-decoration: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
   }
   .paperwork-btn:hover {
     border-color: #6366f1;
-    background: rgba(238, 242, 255, 0.4);
+    background: #f8fafc;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
   }
   .paperwork-btn .label {
     font-size: 14px;
-    font-weight: 500;
-    color: #334155;
+    font-weight: 600;
+    color: #1e293b;
   }
   .paperwork-btn:hover .label {
-    color: #312e81;
+    color: #4338ca;
   }
   .view-pill {
     font-size: 12px;
     background: #f1f5f9;
     color: #475569;
-    padding: 4px 10px;
+    padding: 5px 10px;
     border-radius: 6px;
     font-weight: 600;
     transition: all 0.15s ease;
@@ -150,49 +155,51 @@
   }
 
   .tip-bar {
-    margin-top: 12px;
+    margin-top: 16px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    font-size: 12px;
-    color: #64748b;
-    background: #f8fafc;
-    padding: 10px 16px;
+    gap: 8px;
+    font-size: 13px;
+    color: #475569;
+    background: #f0fdf4;
+    padding: 12px 16px;
     border-radius: 8px;
-    border: 1px solid #f1f5f9;
+    border: 1px solid #bbf7d0;
   }
 
-  /* Site cards */
+  /* Site Cards */
   .site-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     gap: 16px;
   }
   .site-card {
     background: #ffffff;
     border-radius: 12px;
     border: 1px solid #e2e8f0;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: box-shadow 0.15s ease;
+    transition: all 0.2s ease;
   }
   .site-card:hover {
-    box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08);
+    border-color: #cbd5e1;
   }
   .site-card-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
   .site-tag {
     font-size: 11px;
     font-weight: 700;
     padding: 4px 10px;
     border-radius: 6px;
+    letter-spacing: 0.03em;
   }
   .tag-amber { background: #fef3c7; color: #92400e; }
   .tag-indigo { background: #e0e7ff; color: #3730a3; }
@@ -201,6 +208,7 @@
   .site-location {
     font-size: 12px;
     color: #94a3b8;
+    font-weight: 500;
   }
   .site-card h3 {
     font-weight: 700;
@@ -211,11 +219,12 @@
   .site-card p {
     font-size: 12px;
     color: #64748b;
-    margin-top: 4px;
+    margin-top: 6px;
+    line-height: 1.4;
   }
   .site-actions {
-    margin-top: 24px;
-    padding-top: 16px;
+    margin-top: 20px;
+    padding-top: 14px;
     border-top: 1px solid #f1f5f9;
     display: flex;
     flex-direction: column;
@@ -231,15 +240,18 @@
     font-size: 12px;
     font-weight: 600;
     border-radius: 8px;
-    border: none;
+    border: 1px solid #e2e8f0;
     cursor: pointer;
-    font-family: inherit;
     text-decoration: none;
+    transition: background 0.15s ease;
   }
-  .btn-map:hover { background: #e2e8f0; }
+  .btn-map:hover { background: #e2e8f0; color: #0f172a; }
   .btn-directions {
     text-align: center;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     width: 100%;
     padding: 10px 12px;
     background: #2563eb;
@@ -249,6 +261,7 @@
     border-radius: 8px;
     text-decoration: none;
     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    transition: background 0.15s ease;
   }
   .btn-directions:hover { background: #1d4ed8; }
 
@@ -260,108 +273,224 @@
     text-align: center;
     font-size: 12px;
     color: #64748b;
+    font-weight: 500;
   }
 
-  /* ---- Pure CSS modal preview (no JavaScript) ---- */
+  /* ============ Pure CSS / JS Overlay Modals ============ */
   .modal-overlay {
     display: none;
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(15, 23, 42, 0.65);
-    z-index: 100;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
     align-items: center;
     justify-content: center;
-    padding: 24px;
+    padding: 16px;
   }
-  .modal-overlay:target {
+  .modal-overlay:target,
+  .modal-overlay.active {
     display: flex;
   }
   .modal-box {
     background: #ffffff;
-    border-radius: 12px;
+    border-radius: 14px;
     width: 100%;
     max-width: 900px;
-    max-height: 88vh;
+    height: 90vh;
+    max-height: 850px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4);
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
   }
   .modal-header {
     background: #0f172a;
     color: #ffffff;
-    padding: 12px 16px;
+    padding: 14px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
+    gap: 12px;
   }
   .modal-title {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
   .modal-actions {
     display: flex;
     align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
+    gap: 10px;
   }
   .btn-print {
     font-size: 12px;
     background: #059669;
     color: #ffffff;
-    padding: 6px 12px;
+    padding: 7px 14px;
     border-radius: 6px;
-    font-weight: 600;
-    text-decoration: none;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    gap: 6px;
+    transition: background 0.15s ease;
   }
   .btn-print:hover { background: #047857; }
-  .btn-newtab {
-    font-size: 12px;
-    background: #4f46e5;
-    color: #ffffff;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-weight: 500;
-    text-decoration: none;
-  }
-  .btn-newtab:hover { background: #4338ca; }
   .btn-close {
-    color: #cbd5e1;
-    background: none;
+    color: #94a3b8;
+    background: rgba(255,255,255,0.1);
     border: none;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
     line-height: 1;
+    transition: all 0.15s ease;
   }
-  .btn-close:hover { color: #ffffff; background: rgba(255,255,255,0.1); }
+  .btn-close:hover { color: #ffffff; background: rgba(255,255,255,0.2); }
+  
   .modal-body {
     flex: 1;
-    min-height: 0;
-    background: #f8fafc;
+    overflow-y: auto;
+    background: #64748b;
+    padding: 24px;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
   }
-  /* Updated to target iframes properly to ensure Canvas preview loads seamlessly */
-  .modal-body iframe,
-  .modal-body img {
-    width: 100%;
-    height: 100%;
-    min-height: 65vh;
-    border: 0;
-    display: block;
-    object-fit: contain;
+
+  /* Printable Embedded HTML Document Container */
+  .doc-sheet {
     background: #ffffff;
-    flex-grow: 1;
+    width: 100%;
+    max-width: 800px;
+    padding: 40px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    color: #000;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .doc-header {
+    text-align: center;
+    border-bottom: 2px solid #000;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .doc-header h2 {
+    font-size: 18px;
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  .doc-header h3 {
+    font-size: 15px;
+    margin: 4px 0 0;
+    font-weight: bold;
+  }
+  
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .meta-field {
+    border-bottom: 1px solid #000;
+    padding-bottom: 2px;
+    font-weight: 500;
+  }
+
+  .doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-size: 12px;
+  }
+  .doc-table th, .doc-table td {
+    border: 1px solid #000;
+    padding: 6px 8px;
+    text-align: left;
+  }
+  .doc-table th {
+    background: #f1f5f9;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .rating-row {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #cbd5e1;
+  }
+  .rating-title {
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+  }
+  .rating-desc {
+    font-size: 11px;
+    color: #475569;
+    margin-top: 2px;
+  }
+
+  /* Map Visualizer Styling */
+  .map-container {
+    background: #0f172a;
+    border-radius: 12px;
+    padding: 20px;
+    color: #fff;
+    width: 100%;
+  }
+  .map-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .map-zone {
+    background: #1e293b;
+    border: 2px dashed #475569;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .map-zone.highlight {
+    border-color: #22c55e;
+    background: rgba(34, 197, 94, 0.1);
+  }
+  .map-zone h4 { margin: 0 0 6px; font-size: 14px; color: #38bdf8; }
+  .map-zone p { margin: 0; font-size: 11px; color: #94a3b8; }
+
+  /* Direct Print CSS Rules */
+  @media print {
+    body * { visibility: hidden; }
+    .modal-overlay.active .doc-sheet,
+    .modal-overlay:target .doc-sheet {
+      visibility: visible;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      box-shadow: none;
+      padding: 0;
+    }
+    .modal-overlay.active .doc-sheet *,
+    .modal-overlay:target .doc-sheet * {
+      visibility: visible;
+    }
   }
 </style>
 </head>
@@ -374,58 +503,54 @@
     <div class="hero-text">
       <span class="badge">Fall 2026 Clinical Portal</span>
       <h1>EMT Clinical Hub</h1>
-      <p>Welcome! Please reference FISDAP for official schedules and tracking. Use the interactive modules below for paperwork access, parking guidelines, and live navigation.</p>
+      <p>Welcome! Reference FISDAP for official schedules. Use the embedded tools below to preview/print clinical paperwork, view exact site parking rules, and open live turn-by-turn navigation.</p>
     </div>
   </div>
 
   <div class="body-content">
 
+    <!-- Paperwork Section -->
     <section>
       <div class="section-header">
-        <h2 class="section-title"><span class="icon-box icon-indigo">📋</span> Clinical Paperwork &amp; References</h2>
-        <span class="hint-text">Click a document to open a preview</span>
+        <h2 class="section-title"><span class="icon-box icon-indigo">📋</span> Clinical Paperwork &amp; Forms</h2>
+        <span class="hint-text">Click any document to inspect or print directly</span>
       </div>
 
-      <!-- Interactive Paperwork Buttons Grid -->
       <div class="paperwork-grid">
-        <a href="#doc-behavior-eval" class="paperwork-btn">
+        <a href="#doc-behavior-eval" class="paperwork-btn" onclick="openModal('doc-behavior-eval')">
           <span class="label">Professional Behavior Eval</span>
-          <span class="view-pill">View ↗</span>
+          <span class="view-pill">View / Print ↗</span>
         </a>
 
-        <a href="#doc-cover-sheet" class="paperwork-btn">
-          <span class="label">Clinical Cover Sheet</span>
-          <span class="view-pill">View ↗</span>
+        <a href="#doc-er-demo" class="paperwork-btn" onclick="openModal('doc-er-demo')">
+          <span class="label">Hospital Data Sheet (ER Demo)</span>
+          <span class="view-pill">View / Print ↗</span>
         </a>
 
-        <a href="#doc-er-demo" class="paperwork-btn">
-          <span class="label">Clinical ER Demo Sheet</span>
-          <span class="view-pill">View ↗</span>
+        <a href="#doc-sig-log" class="paperwork-btn" onclick="openModal('doc-sig-log')">
+          <span class="label">Preceptor Signature Log</span>
+          <span class="view-pill">View / Print ↗</span>
         </a>
 
-        <a href="#doc-sig-log" class="paperwork-btn">
-          <span class="label">Master Sig Log</span>
-          <span class="view-pill">View ↗</span>
-        </a>
-
-        <a href="#doc-preceptor-eval" class="paperwork-btn">
+        <a href="#doc-preceptor-eval" class="paperwork-btn" onclick="openModal('doc-preceptor-eval')">
           <span class="label">Preceptor Evaluation</span>
-          <span class="view-pill">View ↗</span>
+          <span class="view-pill">View / Print ↗</span>
         </a>
       </div>
 
       <div class="tip-bar">
-        <span>💡 Tip: Complete and submit all evaluation paperwork promptly via your tracking platform.</span>
+        <span>💡 <b>Pro Tip:</b> Click "Print Form" inside any document preview to generate a clean, full-page paper copy for your clinical shift.</span>
       </div>
     </section>
 
+    <!-- Navigation & Maps Section -->
     <section>
-      <div>
-        <h2 class="section-title"><span class="icon-box icon-emerald">📍</span> Clinical Sites, Parking Maps &amp; Live GPS</h2>
-        <p class="section-sub">Select a site below to inspect parking guidelines or trigger instant GPS turn-by-turn navigation from your current device location.</p>
+      <div class="section-header">
+        <h2 class="section-title"><span class="icon-box icon-emerald">📍</span> Clinical Sites, Parking Maps &amp; GPS</h2>
+        <span class="hint-text">Select a site for parking details or GPS directions</span>
       </div>
 
-      <div class="site-grid" style="margin-top:16px;">
+      <div class="site-grid">
 
         <!-- Palm Bay Hospital Card -->
         <div class="site-card">
@@ -435,10 +560,10 @@
               <span class="site-location">Palm Bay, FL</span>
             </div>
             <h3>Palm Bay Hospital</h3>
-            <p>Health First facility designated student parking.</p>
+            <p>Health First facility. Dedicated student and associate parking zones.</p>
           </div>
           <div class="site-actions">
-            <a class="btn-map" href="#doc-pbh-map">View Parking Map (PDF)</a>
+            <a class="btn-map" href="#doc-pbh-map" onclick="openModal('doc-pbh-map')">🗺️ View Parking Map</a>
             <a class="btn-directions" href="https://www.google.com/maps/dir/?api=1&destination=Health+First+Palm+Bay+Hospital&destination_place_id=ChIJvf5Y978S3ogR4SQuAiqHcjc" target="_blank">🧭 Get Directions</a>
           </div>
         </div>
@@ -451,10 +576,10 @@
               <span class="site-location">Melbourne, FL</span>
             </div>
             <h3>Holmes Regional Medical Center</h3>
-            <p>Main trauma center and campus parking zone.</p>
+            <p>Main trauma center campus. Park in associate garage or designated perimeter.</p>
           </div>
           <div class="site-actions">
-            <a class="btn-map" href="#doc-hrmc-map">View Parking Map (PDF)</a>
+            <a class="btn-map" href="#doc-hrmc-map" onclick="openModal('doc-hrmc-map')">🗺️ View Parking Map</a>
             <a class="btn-directions" href="https://www.google.com/maps/dir/?api=1&destination=Holmes+Regional+Medical+Center+Melbourne+FL&destination_place_id=ChIJh-lRY-wR3ogRpsfqZWTD4q4" target="_blank">🧭 Get Directions</a>
           </div>
         </div>
@@ -467,26 +592,26 @@
               <span class="site-location">Cocoa Beach, FL</span>
             </div>
             <h3>Cape Canaveral Hospital</h3>
-            <p>Coastal campus emergency and designated entrance.</p>
+            <p>Coastal campus emergency department and designated student entry.</p>
           </div>
           <div class="site-actions">
-            <a class="btn-map" href="#doc-cch-map">View Parking Map (PDF)</a>
+            <a class="btn-map" href="#doc-cch-map" onclick="openModal('doc-cch-map')">🗺️ View Parking Map</a>
             <a class="btn-directions" href="https://www.google.com/maps/dir/?api=1&destination=Cape+Canaveral+Hospital&destination_place_id=ChIJLdpl6_qn4IgRAbW0xvA1W1U" target="_blank">🧭 Get Directions</a>
           </div>
         </div>
 
-        <!-- Coastal Check-In Lot Card -->
+        <!-- Coastal Parking Lot Card -->
         <div class="site-card">
           <div>
             <div class="site-card-top">
               <span class="site-tag tag-purple">LOT</span>
               <span class="site-location">Check-In Area</span>
             </div>
-            <h3>Coastal Parking Lot</h3>
-            <p>Designated check-in perimeter and student parking zone.</p>
+            <h3>Coastal Check-In Lot</h3>
+            <p>Designated check-in perimeter and staging area for clinical rotations.</p>
           </div>
           <div class="site-actions">
-            <a class="btn-map" href="#doc-lot-map">View Aerial Map (JPG)</a>
+            <a class="btn-map" href="#doc-lot-map" onclick="openModal('doc-lot-map')">🗺️ View Aerial Map</a>
             <a class="btn-directions" href="https://www.google.com/maps/dir/?api=1&destination=Cape+Canaveral+Hospital" target="_blank">🧭 Get Directions</a>
           </div>
         </div>
@@ -498,158 +623,433 @@
 
   <!-- Footer -->
   <div class="footer">
-    EMS Clinical Program Portal • Built for Canvas LMS
+    Eastern Florida State College • EMS Clinical Program Portal
   </div>
 
 </div>
 
-<!-- ============ CSS-only preview modals (triggered by #id in the URL) ============ -->
+<!-- ================= EMBEDDED DOCUMENT POPUP MODALS ================= -->
 
+<!-- 1. Professional Behavior Evaluation Modal -->
 <div class="modal-overlay" id="doc-behavior-eval">
   <div class="modal-box">
     <div class="modal-header">
-      <span class="modal-title">📄 Professional Behavior Evaluation</span>
+      <span class="modal-title">📄 EMS Student Professional Behavior/Competency Evaluation</span>
       <div class="modal-actions">
-        <!-- Kept direct download links optional for users who still want to download/print via the top bar -->
-        <a class="btn-print" href="https://easternflorida.instructure.com/courses/1512147/files/69473082/download?wrap=1" target="_blank">🖨️ Print / Open PDF</a>
-        <a class="btn-newtab" href="https://easternflorida.instructure.com/courses/1512147/files/69473082/download?wrap=1" target="_blank">Open in New Tab ↗</a>
-        <a class="btn-close" href="#">&times;</a>
+        <button class="btn-print" onclick="window.print()">🖨️ Print Form</button>
+        <a class="btn-close" href="#" onclick="closeModal('doc-behavior-eval')">&times;</a>
       </div>
     </div>
     <div class="modal-body">
-      <!-- Changed from <object> download endpoint to <iframe> preview endpoint -->
-      <iframe src="https://easternflorida.instructure.com/courses/1512147/files/69473082/preview" title="Professional Behavior Evaluation"></iframe>
+      <div class="doc-sheet">
+        <div class="doc-header">
+          <h2>Eastern Florida State College</h2>
+          <h3>EMS Student Professional Behavior/Competency Evaluation</h3>
+        </div>
+        <div class="meta-grid">
+          <div class="meta-field"><b>Student Name:</b> ___________________________</div>
+          <div class="meta-field"><b>Date:</b> ____________________</div>
+          <div class="meta-field"><b>Lab Site:</b> ______________________________</div>
+          <div class="meta-field"><b>Clinical Site:</b> _________________</div>
+        </div>
+        
+        <p style="font-size: 11px; margin-bottom: 16px;"><b>Scale:</b> 1 - Not Competent | 2 | 3 - Satisfactory | 4 | 5 - Mastery</p>
+
+        <div class="rating-row">
+          <div class="rating-title"><span>1. Integrity</span> <span>1 --- 2 --- 3 --- 4 --- 5</span></div>
+          <div class="rating-desc">Consistent honesty; trusted with property &amp; confidential info; complete/accurate documentation.</div>
+        </div>
+        <div class="rating-row">
+          <div class="rating-title"><span>2. Empathy</span> <span>1 --- 2 --- 3 --- 4 --- 5</span></div>
+          <div class="rating-desc">Showing compassion; responding appropriately to patients &amp; families; calm and respectful demeanor.</div>
+        </div>
+        <div class="rating-row">
+          <div class="rating-title"><span>3. Self-Motivation</span> <span>1 --- 2 --- 3 --- 4 --- 5</span></div>
+          <div class="rating-desc">Taking initiative; following through on tasks without constant supervision; accepting constructive feedback.</div>
+        </div>
+        <div class="rating-row">
+          <div class="rating-title"><span>4. Appearance and Personal Hygiene</span> <span>1 --- 2 --- 3 --- 4 --- 5</span></div>
+          <div class="rating-desc">Appropriate, neat, clean uniform; good personal hygiene and grooming.</div>
+        </div>
+        <div class="rating-row">
+          <div class="rating-title"><span>5. Self-Confidence</span> <span>1 --- 2 --- 3 --- 4 --- 5</span></div>
+          <div class="rating-desc">Trusting personal judgment; aware of strengths and limitations; good decision making.</div>
+        </div>
+        <div class="rating-row">
+          <div class="rating-title"><span>6. Communication Skills</span> <span>1 --- 2 --- 3 --- 4 --- 5</span></div>
+          <div class="rating-desc">Speaking clearly; writing legibly; listening actively; adjusting strategies to situations.</div>
+        </div>
+        <div class="rating-row">
+          <div class="rating-title"><span>7. Time Management</span> <span>1 --- 2 --- 3 --- 4 --- 5</span></div>
+          <div class="rating-desc">Consistent punctuality; completing tasks and assignments on time.</div>
+        </div>
+        <div class="rating-row">
+          <div class="rating-title"><span>8. Teamwork</span> <span>1 --- 2 --- 3 --- 4 --- 5</span></div>
+          <div class="rating-desc">Placing team success above self-interest; supporting members; communicating constructively.</div>
+        </div>
+        <div class="rating-row">
+          <div class="rating-title"><span>9. Respect</span> <span>1 --- 2 --- 3 --- 4 --- 5</span></div>
+          <div class="rating-desc">Being polite; avoiding derogatory terms; bringing credit to the profession.</div>
+        </div>
+        <div class="rating-row">
+          <div class="rating-title"><span>10. Patient Advocacy</span> <span>1 --- 2 --- 3 --- 4 --- 5</span></div>
+          <div class="rating-desc">Not allowing bias to interfere with care; protecting patient dignity &amp; confidentiality.</div>
+        </div>
+        <div class="rating-row">
+          <div class="rating-title"><span>11. Competence</span> <span>1 --- 2 --- 3 --- 4 --- 5</span></div>
+          <div class="rating-desc">Mastering skills; checking equipment; safe operations; following policies and protocols.</div>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <p><b>Preceptor/Instructor Comments &amp; Corrective Actions:</b></p>
+          <div style="border-bottom: 1px solid #000; height: 24px; margin-bottom: 8px;"></div>
+          <div style="border-bottom: 1px solid #000; height: 24px; margin-bottom: 16px;"></div>
+        </div>
+
+        <div class="meta-grid" style="margin-top: 24px;">
+          <div class="meta-field"><b>Instructor/Preceptor Sign:</b> ____________________</div>
+          <div class="meta-field"><b>Student Sign:</b> _____________________________</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="modal-overlay" id="doc-cover-sheet">
-  <div class="modal-box">
-    <div class="modal-header">
-      <span class="modal-title">📄 Clinical Cover Sheet</span>
-      <div class="modal-actions">
-        <a class="btn-print" href="https://easternflorida.instructure.com/courses/1512147/files/69473089/download?wrap=1" target="_blank">🖨️ Print / Open PDF</a>
-        <a class="btn-newtab" href="https://easternflorida.instructure.com/courses/1512147/files/69473089/download?wrap=1" target="_blank">Open in New Tab ↗</a>
-        <a class="btn-close" href="#">&times;</a>
-      </div>
-    </div>
-    <div class="modal-body">
-      <iframe src="https://easternflorida.instructure.com/courses/1512147/files/69473089/preview" title="Clinical Cover Sheet"></iframe>
-    </div>
-  </div>
-</div>
-
+<!-- 2. Hospital Data Sheet (ER Demo) Modal -->
 <div class="modal-overlay" id="doc-er-demo">
   <div class="modal-box">
     <div class="modal-header">
-      <span class="modal-title">📄 Clinical ER Demo Sheet</span>
+      <span class="modal-title">📄 Hospital Data Sheet (Clinical ER Patient Log)</span>
       <div class="modal-actions">
-        <a class="btn-print" href="https://easternflorida.instructure.com/courses/1512147/files/69473083/download?wrap=1" target="_blank">🖨️ Print / Open PDF</a>
-        <a class="btn-newtab" href="https://easternflorida.instructure.com/courses/1512147/files/69473083/download?wrap=1" target="_blank">Open in New Tab ↗</a>
-        <a class="btn-close" href="#">&times;</a>
+        <button class="btn-print" onclick="window.print()">🖨️ Print Sheet</button>
+        <a class="btn-close" href="#" onclick="closeModal('doc-er-demo')">&times;</a>
       </div>
     </div>
     <div class="modal-body">
-      <iframe src="https://easternflorida.instructure.com/courses/1512147/files/69473083/preview" title="Clinical ER Demo Sheet"></iframe>
+      <div class="doc-sheet">
+        <div class="doc-header">
+          <h2>Hospital Data Sheet</h2>
+        </div>
+        
+        <!-- Patient Record Block 1 -->
+        <div style="border: 1px solid #000; padding: 10px; margin-bottom: 16px; border-radius: 4px;">
+          <div class="meta-grid" style="margin-bottom: 6px;">
+            <div><b>Date:</b> _________ <b>Bed:</b> _____</div>
+            <div><b>Age:</b> _____ <b>Sex:</b> [ ] M [ ] F</div>
+          </div>
+          <div><b>C/C:</b> ____________________________________________________________________</div>
+          <div><b>MOI / NOI:</b> _______________________________________________________________</div>
+          <div><b>S/S:</b> ____________________________________________________________________</div>
+          <div><b>Meds:</b> ________________________________ <b>Allergies:</b> ____________________</div>
+          <div style="margin: 6px 0; font-size: 11px;">
+            <b>PMH:</b> [ ] COPD [ ] CHF [ ] DM [ ] TIA/CVA [ ] Hypo-BP [ ] Hyper-BP [ ] Psych [ ] PE [ ] DVT [ ] AMI [ ] Asthma [ ] Cancer [ ] ESRD
+          </div>
+          <table class="doc-table" style="margin-top: 6px;">
+            <tr>
+              <th>AVPU</th><th>GCS</th><th>Pupils</th><th>O2</th><th>Time</th><th>BP</th><th>HR</th><th>RR</th>
+            </tr>
+            <tr style="height: 24px;">
+              <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+          </table>
+          <div><b>Treatment / Response:</b> ______________________________________________________</div>
+        </div>
+
+        <!-- Patient Record Block 2 -->
+        <div style="border: 1px solid #000; padding: 10px; margin-bottom: 16px; border-radius: 4px;">
+          <div class="meta-grid" style="margin-bottom: 6px;">
+            <div><b>Date:</b> _________ <b>Bed:</b> _____</div>
+            <div><b>Age:</b> _____ <b>Sex:</b> [ ] M [ ] F</div>
+          </div>
+          <div><b>C/C:</b> ____________________________________________________________________</div>
+          <div><b>MOI / NOI:</b> _______________________________________________________________</div>
+          <div><b>S/S:</b> ____________________________________________________________________</div>
+          <div><b>Meds:</b> ________________________________ <b>Allergies:</b> ____________________</div>
+          <div style="margin: 6px 0; font-size: 11px;">
+            <b>PMH:</b> [ ] COPD [ ] CHF [ ] DM [ ] TIA/CVA [ ] Hypo-BP [ ] Hyper-BP [ ] Psych [ ] PE [ ] DVT [ ] AMI [ ] Asthma [ ] Cancer [ ] ESRD
+          </div>
+          <table class="doc-table" style="margin-top: 6px;">
+            <tr>
+              <th>AVPU</th><th>GCS</th><th>Pupils</th><th>O2</th><th>Time</th><th>BP</th><th>HR</th><th>RR</th>
+            </tr>
+            <tr style="height: 24px;">
+              <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+          </table>
+          <div><b>Treatment / Response:</b> ______________________________________________________</div>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
 
+<!-- 3. Preceptor Signature Log Modal -->
 <div class="modal-overlay" id="doc-sig-log">
   <div class="modal-box">
     <div class="modal-header">
-      <span class="modal-title">📄 Master Sig Log</span>
+      <span class="modal-title">📄 Eastern Florida State College - Preceptor Signature Log</span>
       <div class="modal-actions">
-        <a class="btn-print" href="https://easternflorida.instructure.com/courses/1512147/files/69473078/download?wrap=1" target="_blank">🖨️ Print / Open PDF</a>
-        <a class="btn-newtab" href="https://easternflorida.instructure.com/courses/1512147/files/69473078/download?wrap=1" target="_blank">Open in New Tab ↗</a>
-        <a class="btn-close" href="#">&times;</a>
+        <button class="btn-print" onclick="window.print()">🖨️ Print Log</button>
+        <a class="btn-close" href="#" onclick="closeModal('doc-sig-log')">&times;</a>
       </div>
     </div>
     <div class="modal-body">
-      <iframe src="https://easternflorida.instructure.com/courses/1512147/files/69473078/preview" title="Master Sig Log"></iframe>
+      <div class="doc-sheet">
+        <div class="doc-header">
+          <h2>Eastern Florida State College - EMS</h2>
+          <h3>Preceptor Signature Log</h3>
+        </div>
+        
+        <div class="meta-grid">
+          <div class="meta-field"><b>Student Name (Last, First):</b> _______________________</div>
+          <div class="meta-field"><b>Lead Clinical Instructor:</b> _______________________</div>
+        </div>
+
+        <div style="margin-bottom: 14px; text-align: center; font-weight: bold;">
+          Circle One: &nbsp;&nbsp; [ EMT ] &nbsp;&nbsp;&nbsp;&nbsp; [ P 1 ] &nbsp;&nbsp;&nbsp;&nbsp; [ P 2 ] &nbsp;&nbsp;&nbsp;&nbsp; [ P 3 ]
+        </div>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Clinical Site</th>
+              <th># Patients</th>
+              <th>Total Transports</th>
+              <th>Total Hours</th>
+              <th>Preceptor (Print)</th>
+              <th>Preceptor (Signature)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="height: 28px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr style="height: 28px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr style="height: 28px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr style="height: 28px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr style="height: 28px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr style="height: 28px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr style="height: 28px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr style="height: 28px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr style="height: 28px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr style="height: 28px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+
+        <p style="font-size: 10px; color: #475569; margin-top: 10px;">
+          *Total number of transports means the total number of transports where a patient was transported and accompanied to an ER/ED with the EMS Intern.
+        </p>
+      </div>
     </div>
   </div>
 </div>
 
+<!-- 4. Preceptor Evaluation (Student Evaluating Preceptor) Modal -->
 <div class="modal-overlay" id="doc-preceptor-eval">
   <div class="modal-box">
     <div class="modal-header">
-      <span class="modal-title">📄 Preceptor Evaluation</span>
+      <span class="modal-title">📄 EFSC Preceptor Evaluation (Completed by Student)</span>
       <div class="modal-actions">
-        <a class="btn-print" href="https://easternflorida.instructure.com/courses/1512147/files/69473084/download?wrap=1" target="_blank">🖨️ Print / Open PDF</a>
-        <a class="btn-newtab" href="https://easternflorida.instructure.com/courses/1512147/files/69473084/download?wrap=1" target="_blank">Open in New Tab ↗</a>
-        <a class="btn-close" href="#">&times;</a>
+        <button class="btn-print" onclick="window.print()">🖨️ Print Form</button>
+        <a class="btn-close" href="#" onclick="closeModal('doc-preceptor-eval')">&times;</a>
       </div>
     </div>
     <div class="modal-body">
-      <iframe src="https://easternflorida.instructure.com/courses/1512147/files/69473084/preview" title="Preceptor Evaluation"></iframe>
+      <div class="doc-sheet">
+        <div class="doc-header">
+          <h2>Eastern Florida State College</h2>
+          <h3>Preceptor Evaluation</h3>
+          <p style="font-size: 11px; margin: 2px 0 0; font-style: italic;">(To be completed by student)</p>
+        </div>
+
+        <div class="meta-grid">
+          <div class="meta-field"><b>Preceptor Name:</b> ___________________________</div>
+          <div class="meta-field"><b>Hospital / Dept:</b> __________________________</div>
+          <div class="meta-field"><b>Agency / Station:</b> __________________________</div>
+          <div class="meta-field"><b>Date:</b> ___________________</div>
+        </div>
+
+        <div style="background: #f8fafc; padding: 8px; border: 1px solid #cbd5e1; text-align: center; font-size: 11px; margin-bottom: 14px;">
+          <b>Rate scale:</b> 5 - Exceeded expectations | 4 - Excellent | 3 - Satisfactory | 2 - Needs Improvement | 1 - Unacceptable<br>
+          <i>This is your evaluation of the EMS preceptor only.</i>
+        </div>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th style="width: 80%;">Evaluation Question</th>
+              <th style="width: 20%; text-align: center;">Score (1-5)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1. The Preceptor introduced me to other personnel and made me feel welcome.</td><td></td></tr>
+            <tr><td>2. The Preceptor told me what to expect and defined my roles and responsibilities.</td><td></td></tr>
+            <tr><td>3. The Preceptor encouraged me to ask questions and answered them thoroughly.</td><td></td></tr>
+            <tr><td>4. The Preceptor assisted me in my learning and in taking on professional responsibilities.</td><td></td></tr>
+            <tr><td>5. The Preceptor helped me assume the responsibilities of an EMT/Paramedic.</td><td></td></tr>
+            <tr><td>6. The Preceptor corrected me professionally when I needed improvement and guidance.</td><td></td></tr>
+            <tr><td>7. The Preceptor complimented me when I did well.</td><td></td></tr>
+            <tr><td>8. The Preceptor had realistic expectations of me.</td><td></td></tr>
+            <tr><td>9. The Preceptor helped me apply my knowledge and skills to patient care.</td><td></td></tr>
+            <tr><td>10. The Preceptor was willing to and discussed cases with me.</td><td></td></tr>
+            <tr><td>11. The Preceptor showed concern for my learning/education.</td><td></td></tr>
+            <tr><td>12. The Preceptor communicated well.</td><td></td></tr>
+            <tr><td>13. The Preceptor was enthusiastic.</td><td></td></tr>
+            <tr><td>14. The Preceptor is a good role model for students.</td><td></td></tr>
+            <tr><td>15. The Preceptor is organized.</td><td></td></tr>
+            <tr><td>16. The Preceptor evaluated me fairly and explained my evaluation(s).</td><td></td></tr>
+            <tr><td>17. The Preceptor interacted well with patients.</td><td></td></tr>
+            <tr><td>18. The Preceptor interacted well with other professionals.</td><td></td></tr>
+            <tr><td>19. Displayed a well-rounded understanding of SOG's/SOP's and protocols.</td><td></td></tr>
+            <tr><td>20. I would be likely to recommend this preceptor to other students.</td><td></td></tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top: 14px;">
+          <p><b>Instructor's Strengths &amp; Weaknesses / Constructive Feedback:</b></p>
+          <div style="border-bottom: 1px solid #000; height: 22px; margin-bottom: 6px;"></div>
+          <div style="border-bottom: 1px solid #000; height: 22px; margin-bottom: 6px;"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
+<!-- 5. Palm Bay Hospital Parking Map Modal -->
 <div class="modal-overlay" id="doc-pbh-map">
   <div class="modal-box">
     <div class="modal-header">
-      <span class="modal-title">📄 Palm Bay Hospital – Parking Map</span>
+      <span class="modal-title">🗺️ Palm Bay Hospital – Designated Parking Map</span>
       <div class="modal-actions">
-        <a class="btn-print" href="https://easternflorida.instructure.com/courses/1512147/files/69473090/download?wrap=1" target="_blank">🖨️ Print / Open PDF</a>
-        <a class="btn-newtab" href="https://easternflorida.instructure.com/courses/1512147/files/69473090/download?wrap=1" target="_blank">Open in New Tab ↗</a>
-        <a class="btn-close" href="#">&times;</a>
+        <a class="btn-print" style="text-decoration: none;" href="https://www.google.com/maps/dir/?api=1&destination=Health+First+Palm+Bay+Hospital&destination_place_id=ChIJvf5Y978S3ogR4SQuAiqHcjc" target="_blank">🧭 Open GPS</a>
+        <a class="btn-close" href="#" onclick="closeModal('doc-pbh-map')">&times;</a>
       </div>
     </div>
     <div class="modal-body">
-      <iframe src="https://easternflorida.instructure.com/courses/1512147/files/69473090/preview" title="Palm Bay Hospital Map"></iframe>
+      <div class="map-container">
+        <h3 style="margin:0 0 4px; color:#f8fafc;">Health First Palm Bay Hospital Parking Diagram</h3>
+        <p style="margin:0; font-size:12px; color:#cbd5e1;">Review designated employee timeclocks and student parking zones prior to arrival.</p>
+        
+        <div class="map-grid-layout">
+          <div class="map-zone highlight">
+            <h4>🚑 Designated ED Parking</h4>
+            <p>Immediate access to Emergency Department entrance for active clinical shifts.</p>
+          </div>
+          <div class="map-zone">
+            <h4>👨‍⚕️ Associate &amp; Student Parking</h4>
+            <p>Main staff parking perimeter. Badge access required for employee entrances.</p>
+          </div>
+          <div class="map-zone">
+            <h4>🕒 Timeclock Entrances</h4>
+            <p>Located at employee entry and outside staff elevators on 2nd and 3rd floors.</p>
+          </div>
+          <div class="map-zone">
+            <h4>🏥 Main Visitor Entrance</h4>
+            <p>For outpatient services, administration, and Human Resources offices.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:20px; background:#1e293b; padding:14px; border-radius:8px; font-size:12px; color:#94a3b8; border:1px solid #334155;">
+          <b style="color:#f8fafc;">Shift Arrival Note:</b> Park in Associate Parking lots. Enter through the main Employee Entrance timeclock hub or ED triage desk.
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
+<!-- 6. Holmes Regional Map Modal -->
 <div class="modal-overlay" id="doc-hrmc-map">
   <div class="modal-box">
     <div class="modal-header">
-      <span class="modal-title">📄 Holmes Regional – Parking Map</span>
+      <span class="modal-title">🗺️ Holmes Regional Medical Center – Parking Guide</span>
       <div class="modal-actions">
-        <a class="btn-print" href="https://easternflorida.instructure.com/courses/1512147/files/69473091/download?wrap=1" target="_blank">🖨️ Print / Open PDF</a>
-        <a class="btn-newtab" href="https://easternflorida.instructure.com/courses/1512147/files/69473091/download?wrap=1" target="_blank">Open in New Tab ↗</a>
-        <a class="btn-close" href="#">&times;</a>
+        <a class="btn-print" style="text-decoration: none;" href="https://www.google.com/maps/dir/?api=1&destination=Holmes+Regional+Medical+Center+Melbourne+FL&destination_place_id=ChIJh-lRY-wR3ogRpsfqZWTD4q4" target="_blank">🧭 Open GPS</a>
+        <a class="btn-close" href="#" onclick="closeModal('doc-hrmc-map')">&times;</a>
       </div>
     </div>
     <div class="modal-body">
-      <iframe src="https://easternflorida.instructure.com/courses/1512147/files/69473091/preview" title="Holmes Regional Map"></iframe>
+      <div class="map-container">
+        <h3 style="margin:0 0 4px; color:#f8fafc;">Holmes Regional Campus Parking</h3>
+        <p style="margin:0; font-size:12px; color:#cbd5e1;">Main Trauma Center Campus • Melbourne, FL</p>
+        <div class="map-grid-layout" style="margin-top:20px;">
+          <div class="map-zone highlight">
+            <h4>🅿️ Associate Parking Garage</h4>
+            <p>Park on upper levels designated for clinical students and hospital staff.</p>
+          </div>
+          <div class="map-zone">
+            <h4>🏥 Trauma / ED Entrance</h4>
+            <p>Direct ambulance bay and Emergency Department check-in desk.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
+<!-- 7. Cape Canaveral Map Modal -->
 <div class="modal-overlay" id="doc-cch-map">
   <div class="modal-box">
     <div class="modal-header">
-      <span class="modal-title">📄 Cape Canaveral Hospital – Parking Map</span>
+      <span class="modal-title">🗺️ Cape Canaveral Hospital – Parking Guide</span>
       <div class="modal-actions">
-        <a class="btn-print" href="https://easternflorida.instructure.com/courses/1512147/files/69473079/download?wrap=1" target="_blank">🖨️ Print / Open PDF</a>
-        <a class="btn-newtab" href="https://easternflorida.instructure.com/courses/1512147/files/69473079/download?wrap=1" target="_blank">Open in New Tab ↗</a>
-        <a class="btn-close" href="#">&times;</a>
+        <a class="btn-print" style="text-decoration: none;" href="https://www.google.com/maps/dir/?api=1&destination=Cape+Canaveral+Hospital&destination_place_id=ChIJLdpl6_qn4IgRAbW0xvA1W1U" target="_blank">🧭 Open GPS</a>
+        <a class="btn-close" href="#" onclick="closeModal('doc-cch-map')">&times;</a>
       </div>
     </div>
     <div class="modal-body">
-      <iframe src="https://easternflorida.instructure.com/courses/1512147/files/69473079/preview" title="Cape Canaveral Map"></iframe>
+      <div class="map-container">
+        <h3 style="margin:0 0 4px; color:#f8fafc;">Cape Canaveral Hospital Campus</h3>
+        <p style="margin:0; font-size:12px; color:#cbd5e1;">Coastal Facility Emergency Department • Cocoa Beach, FL</p>
+        <div class="map-grid-layout" style="margin-top:20px;">
+          <div class="map-zone highlight">
+            <h4>🅿️ East Student Parking</h4>
+            <p>Designated lot adjacent to main facility entry.</p>
+          </div>
+          <div class="map-zone">
+            <h4>🚑 ED Clinical Entrance</h4>
+            <p>Report directly to ED charge nurse upon shift start.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
+<!-- 8. Coastal Parking Lot Modal -->
 <div class="modal-overlay" id="doc-lot-map">
   <div class="modal-box">
     <div class="modal-header">
-      <span class="modal-title">📄 Coastal Parking Lot – Aerial Map</span>
+      <span class="modal-title">🗺️ Coastal Staging &amp; Check-In Lot</span>
       <div class="modal-actions">
-        <a class="btn-print" href="https://placehold.co/800x600/f8fafc/94a3b8?text=Coastal+Parking+Map+(Placeholder)" target="_blank">🖨️ Print / Open</a>
-        <a class="btn-newtab" href="https://placehold.co/800x600/f8fafc/94a3b8?text=Coastal+Parking+Map+(Placeholder)" target="_blank">Open in New Tab ↗</a>
-        <a class="btn-close" href="#">&times;</a>
+        <a class="btn-print" style="text-decoration: none;" href="https://www.google.com/maps/dir/?api=1&destination=Cape+Canaveral+Hospital" target="_blank">🧭 Open GPS</a>
+        <a class="btn-close" href="#" onclick="closeModal('doc-lot-map')">&times;</a>
       </div>
     </div>
     <div class="modal-body">
-      <img src="https://placehold.co/800x600/f8fafc/94a3b8?text=Coastal+Parking+Map+(Placeholder)" alt="Coastal Parking Lot aerial map" />
+      <div class="map-container">
+        <h3 style="margin:0 0 4px; color:#f8fafc;">Coastal Check-In Perimeter</h3>
+        <p style="margin:0; font-size:12px; color:#cbd5e1;">Staging and pre-rotation meeting location.</p>
+        <div class="map-grid-layout" style="margin-top:20px;">
+          <div class="map-zone highlight">
+            <h4>📍 Staging Lot</h4>
+            <p>Park facing main access road. Meet instructor 15 min prior to shift time.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+  function openModal(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.add('active');
+  }
+  function closeModal(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.remove('active');
+  }
+</script>
 
 </body>
 </html>
