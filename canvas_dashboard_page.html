@@ -524,8 +524,16 @@
     const downloadLink = document.getElementById('viewer-download-link');
     const printLink = document.getElementById('viewer-print-link');
 
+    // Canvas's /download endpoint forces a file save even inside an iframe.
+    // Its /preview endpoint renders the file inline in Canvas's doc viewer instead,
+    // so we use that for the embedded preview and keep /download for the action buttons.
+    let previewUrl = url;
+    if (/\/download(\?|$)/.test(url)) {
+      previewUrl = url.replace(/\/download(\?.*)?$/, '/preview');
+    }
+
     titleEl.textContent = '📄 Preview: ' + title;
-    iframeEl.src = url;
+    iframeEl.src = previewUrl;
     downloadLink.href = url;
     printLink.href = url;
 
