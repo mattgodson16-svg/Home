@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fall 2026 EMS Clinical Portal Dashboard</title>
+  <title>Fall 2026 EMS Clinical Portal & Assessment Run Sheet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
     :root {
       --primary-color: #003366;
       --secondary-color: #0056b3;
@@ -13,10 +16,26 @@
       --card-bg: #ffffff;
       --text-color: #333333;
       --border-color: #dee2e6;
+      --housing: #101a1d;
+      --housing-2: #0a1214;
+      --housing-line: #22343a;
+      --paper: #f5efe0;
+      --paper-2: #eee5cf;
+      --paper-edge: #d9cca8;
+      --ink: #241f16;
+      --ink-soft: #6b5f4c;
+      --ekg: #35e6a0;
+      --red: #e0454b;
+      --red-dark: #7a2226;
+      --amber: #eda320;
+      --green: #359469;
+      --green-dark: #143d28;
+      --blue: #4b9ad6;
+      --blue-dark: #163a52;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
       margin: 0;
@@ -35,7 +54,7 @@
       color: white;
       padding: 30px;
       border-radius: 8px;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
     .hero-banner h1 {
@@ -58,12 +77,47 @@
       margin-top: 10px;
     }
 
+    /* Main Portal Navigation Tabs */
+    .portal-nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+    .portal-tab-btn {
+      flex: 1;
+      padding: 12px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: white;
+      color: var(--primary-color);
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      transition: all 0.2s ease;
+    }
+    .portal-tab-btn.active {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 8px rgba(0,51,102,0.2);
+    }
+
+    .portal-section-content {
+      display: none;
+    }
+    .portal-section-content.active {
+      display: block;
+    }
+
     /* Section Headings */
     h2 {
       color: var(--primary-color);
       border-bottom: 2px solid var(--border-color);
       padding-bottom: 8px;
-      margin-top: 40px;
+      margin-top: 30px;
       margin-bottom: 20px;
     }
 
@@ -153,6 +207,132 @@
     .btn-outline:hover {
       background-color: #f1f5f9;
     }
+
+    /* Embedded Run Sheet Styles */
+    #rs-root, #rs-root * { box-sizing: border-box; }
+    #rs-root {
+      font-family: 'Source Sans 3', -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--housing);
+      color: var(--paper);
+      padding: 18px;
+      border-radius: 8px;
+      width: 100%;
+      min-height: 700px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    #rs-root .disp { font-family: 'Oswald', Impact, 'Arial Narrow', sans-serif; letter-spacing: 0.02em; }
+    #rs-root .mono { font-family: 'JetBrains Mono', 'Courier New', monospace; }
+    #rs-root button { font-family: inherit; cursor: pointer; }
+
+    .rs-monitor {
+      background: linear-gradient(180deg, var(--housing-2), var(--housing));
+      border: 1px solid var(--housing-line);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .rs-monitor::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, rgba(53,230,160,0.035) 0px, rgba(53,230,160,0.035) 1px, transparent 1px, transparent 22px);
+      pointer-events: none;
+    }
+    .rs-mon-top { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; position:relative; z-index:1; }
+    .rs-mon-id { display:flex; gap:12px; align-items:center; }
+    .rs-star { width:34px; height:34px; border-radius:50%; background:var(--red); display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; box-shadow:0 0 0 3px rgba(224,69,75,0.18); }
+    .rs-mon-id h1 { margin:0; font-size:19px; color:#fff; text-transform:uppercase; }
+    .rs-mon-id p { margin:2px 0 0; font-size:11.5px; color:#8ea5a2; letter-spacing:0.04em; text-transform:uppercase; }
+    .rs-vital { text-align:right; }
+    .rs-vital .num { font-size:30px; color:var(--ekg); line-height:1; }
+    .rs-vital .lbl { font-size:10px; color:#8ea5a2; text-transform:uppercase; letter-spacing:0.12em; margin-top:3px; }
+
+    .rs-ekg-wrap { position:relative; z-index:1; margin-top:12px; height:46px; }
+    .rs-ekg-wrap svg { width:100%; height:100%; display:block; }
+    .rs-ekg-path { fill:none; stroke:var(--ekg); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; filter: drop-shadow(0 0 3px rgba(53,230,160,0.6)); }
+
+    .rs-progress-track { position:relative; z-index:1; margin-top:12px; height:8px; border-radius:999px; background:#1c2b2f; overflow:hidden; border:1px solid var(--housing-line); }
+    .rs-progress-fill { height:100%; width:0%; background:linear-gradient(90deg, var(--ekg), #7ef7c6); transition: width .4s ease; }
+
+    .rs-modes { display:flex; gap:8px; margin-bottom:14px; }
+    .rs-mode-btn { flex:1; padding:10px 14px; border-radius:8px; border:1px solid var(--housing-line); background:var(--housing-2); color:#a9bdb9; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+    .rs-mode-btn.active { background:var(--ekg); color:#0a1a13; border-color:var(--ekg); }
+
+    .rs-tags { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; }
+    .rs-tag {
+      position:relative;
+      padding:8px 16px 8px 22px;
+      font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em;
+      border:none; border-radius:3px 8px 8px 3px;
+      color:#fff; opacity:0.55; filter:saturate(0.5); cursor: pointer;
+    }
+    .rs-tag.active { opacity:1; filter:saturate(1); box-shadow: 0 3px 0 rgba(0,0,0,0.25); transform: translateY(-1px); }
+    .rs-tag::before { content:""; position:absolute; left:8px; top:50%; transform:translateY(-50%); width:6px; height:6px; border-radius:50%; background:var(--housing); }
+    .rs-tag[data-cat="all"]   { background:#4b5a5f; }
+    .rs-tag[data-cat="prep"]    { background:var(--red); }
+    .rs-tag[data-cat="history"] { background:var(--amber); }
+    .rs-tag[data-cat="exam"]    { background:var(--green); }
+    .rs-tag[data-cat="handoff"] { background:var(--blue); }
+
+    .rs-clip { background: var(--paper); border-radius: 10px; padding: 18px 16px 22px; box-shadow: inset 0 0 0 1px var(--paper-edge), 0 10px 24px rgba(0,0,0,0.35); position:relative; }
+    .rs-clip::before {
+      content:""; position:absolute; top:-11px; left:50%; transform:translateX(-50%);
+      width:74px; height:20px; border-radius:10px; background:#8b8f92; box-shadow: inset 0 2px 3px rgba(0,0,0,0.35), 0 2px 3px rgba(0,0,0,0.3);
+    }
+    .rs-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+
+    .rs-card { background:#fffdf6; border:1px solid var(--paper-edge); border-radius:6px; padding:13px 13px 11px; display:flex; flex-direction:column; justify-content:space-between; border-left-width:5px; transition: transform .12s ease, box-shadow .12s ease; cursor: pointer; }
+    .rs-card:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(36,31,22,0.15); }
+    .rs-card[data-cat="prep"]    { border-left-color: var(--red); }
+    .rs-card[data-cat="history"] { border-left-color: var(--amber); }
+    .rs-card[data-cat="exam"]    { border-left-color: var(--green); }
+    .rs-card[data-cat="handoff"] { border-left-color: var(--blue); }
+
+    .rs-card-top { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+    .rs-card-check { display:flex; align-items:center; gap:9px; }
+    .rs-check-box { width:19px; height:19px; border:2px solid var(--ink-soft); border-radius:4px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; color:transparent; cursor: pointer; }
+    .rs-check-box.done { background:var(--green); border-color:var(--green-dark); color:#fff; }
+    .rs-card h4 { margin:0; font-size:14.5px; color:var(--ink); line-height:1.25; }
+    .rs-card h4.done { text-decoration: line-through; color:var(--ink-soft); }
+    .rs-num { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--ink-soft); }
+    .rs-card p.sub { margin:6px 0 4px; font-size:11.5px; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.03em; }
+    .rs-card p.desc { margin:0 0 10px; font-size:12px; color:#4a4234; line-height:1.4; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+    .rs-card-foot { display:flex; justify-content:space-between; align-items:center; border-top:1px dashed var(--paper-edge); padding-top:8px; font-size:11px; }
+    .rs-view-link { color:var(--blue-dark); font-weight:700; }
+    .rs-stamp { font-size:9.5px; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; padding:2px 7px; border-radius:3px; }
+    .rs-stamp.pending { background:#efe6cc; color:var(--ink-soft); }
+    .rs-stamp.done { background:var(--green-dark); color:#bdf3d6; transform: rotate(-4deg); }
+
+    .rs-toolbar { display:flex; justify-content:flex-end; gap:8px; margin: 0 0 12px; }
+    .rs-reset-btn { padding:7px 13px; border-radius:6px; background:transparent; color:#8ea5a2; border:1px solid var(--housing-line); font-size:11.5px; font-weight:600; cursor: pointer; }
+    .rs-reset-btn:hover { color:#fff; border-color:#3a4d52; }
+
+    .rs-modal-bg { position:fixed; inset:0; background:rgba(6,10,11,0.72); display:flex; align-items:center; justify-content:center; z-index:99999; padding:16px; }
+    .rs-modal { background:var(--paper); border-radius:10px; max-width:600px; width:100%; max-height:82vh; overflow-y:auto; box-shadow:0 24px 48px rgba(0,0,0,0.5); border-top:6px solid var(--tagcolor, var(--red)); }
+    .rs-modal-head { padding:18px 20px 12px; border-bottom:1px dashed var(--paper-edge); display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+    .rs-modal-head h3 { margin:0 0 3px; font-size:17px; color:var(--ink); }
+    .rs-modal-head p { margin:0; font-size:12px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.04em; font-weight:700; }
+    .rs-modal-close { background:none; border:none; font-size:18px; color:var(--ink-soft); font-weight:700; padding:2px 6px; cursor: pointer; }
+    .rs-modal-body { padding:16px 20px 20px; color:#3a3324; font-size:13.5px; line-height:1.6; }
+    .rs-modal-body .rs-overview { background:#fffdf6; border:1px solid var(--paper-edge); border-radius:8px; padding:12px 13px; margin-bottom:14px; }
+    .rs-modal-body .rs-detail-label { font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; font-weight:800; color:var(--ink-soft); }
+    .rs-modal-body p.line { margin:5px 0; padding-left:4px; }
+    .rs-modal-foot { padding:0 20px 18px; display:flex; justify-content:flex-end; }
+    .rs-modal-mark { padding:9px 18px; border-radius:7px; border:none; font-weight:700; font-size:13px; color:#fff; cursor: pointer; }
+
+    .rs-sim-card { background:var(--paper); border-radius:10px; padding:20px; color:var(--ink); }
+    .rs-sim-eyebrow { display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:#fff; background:var(--red); padding:3px 10px; border-radius:3px 8px 8px 3px; }
+    .rs-sim-step-badge { background:#e7ddc0; color:var(--ink-soft); font-size:11.5px; font-weight:700; padding:4px 11px; border-radius:999px; }
+    .rs-sim-title { margin:10px 0 4px; font-size:18px; color:var(--ink); }
+    .rs-sim-desc { font-size:13.5px; color:#4a4234; line-height:1.6; margin-bottom:18px; white-space:pre-line; }
+    .rs-sim-opt { width:100%; text-align:left; padding:12px 15px; background:#fffdf6; border:1.5px solid var(--paper-edge); color:var(--ink); border-radius:8px; font-size:13.5px; font-weight:600; display:flex; justify-content:space-between; align-items:center; margin-bottom:9px; cursor: pointer; }
+    .rs-sim-opt:hover:not(:disabled) { border-color: var(--blue); }
+    .rs-sim-opt:disabled { cursor:default; }
+    .rs-sim-opt .go { font-size:11px; color:var(--ink-soft); font-weight:700; }
+    .rs-sim-feedback { margin-top:8px; padding:12px 14px; border-radius:8px; font-size:13px; line-height:1.5; }
+    .rs-sim-next { padding:10px 20px; background:var(--ink); color:var(--paper); font-weight:700; border-radius:7px; border:none; font-size:13px; cursor: pointer; }
+    .rs-hidden { display:none !important; }
   </style>
 </head>
 <body>
@@ -162,185 +342,571 @@
   <!-- Hero Banner -->
   <div class="hero-banner">
     <h1>Fall 2026 EMS Clinical Portal</h1>
-    <p>Welcome student clinicians. Access your required evaluation paperwork, clinical site details, and tracking resources below.</p>
+    <p>Welcome student clinicians. Access your required evaluation paperwork, clinical site details, and interactive clinical assessment run sheets below.</p>
     <div class="hero-badge">FISDAP Tracking Active</div>
   </div>
 
-  <!-- Paperwork & References Section -->
-  <h2>Paperwork & Evaluation References</h2>
-  <div class="grid-container">
-    
-    <!-- Professional Behavior / Student Eval -->
-    <div class="card">
-      <div class="card-header">
-        <h3>Professional Behavior</h3>
-        <span class="badge">Eval</span>
+  <!-- Main Portal Navigation Tabs -->
+  <div class="portal-nav">
+    <button id="tab-portal-btn" class="portal-tab-btn active" onclick="switchPortalTab('portal')">📁 Portal &amp; Clinical Sites</button>
+    <button id="tab-runsheet-btn" class="portal-tab-btn" onclick="switchPortalTab('runsheet')">📋 Patient Assessment Run Sheet</button>
+  </div>
+
+  <!-- PORTAL & CLINICAL SITES TAB CONTENT -->
+  <div id="section-portal" class="portal-section-content active">
+
+    <!-- Paperwork & References Section -->
+    <h2>Paperwork & Evaluation References</h2>
+    <div class="grid-container">
+      
+      <!-- Professional Behavior / Student Eval -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Professional Behavior</h3>
+          <span class="badge">Eval</span>
+        </div>
+        <div class="card-body">
+          <p>Standard rubric for evaluating student professionalism, communication, and attitude on shift.</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://easternflorida.instructure.com/courses/1512147/files/69473082?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">📄 View Form</a>
+        </div>
       </div>
-      <div class="card-body">
-        <p>Standard rubric for evaluating student professionalism, communication, and attitude on shift.</p>
+
+      <!-- Clinical Cover Sheet -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Clinical Cover Sheet</h3>
+          <span class="badge">Docs</span>
+        </div>
+        <div class="card-body">
+          <p>Mandatory cover sheet accompanying all completed clinical shift documentation packets.</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://easternflorida.instructure.com/courses/1512147/files/69473089?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">📄 View Form</a>
+        </div>
       </div>
-      <div class="card-actions">
-        <a href="https://easternflorida.instructure.com/courses/1512147/files/69473082?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">📄 View Form</a>
+
+      <!-- Clinical ER Demo Sheet -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Clinical ER Demo Sheet</h3>
+          <span class="badge">Skills</span>
+        </div>
+        <div class="card-body">
+          <p>Demonstration verification tracking sheet for Emergency Room clinical competencies.</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://easternflorida.instructure.com/courses/1512147/files/69473083?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">📄 View Form</a>
+        </div>
       </div>
+
+      <!-- Master Signature Log -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Master Signature Log</h3>
+          <span class="badge">Admin</span>
+        </div>
+        <div class="card-body">
+          <p>Official preceptor and instructor signature verification log for clinical hours.</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://easternflorida.instructure.com/courses/1512147/files/69473078?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">📄 View Form</a>
+        </div>
+      </div>
+
+      <!-- Preceptor Evaluation -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Preceptor Evaluation</h3>
+          <span class="badge">Feedback</span>
+        </div>
+        <div class="card-body">
+          <p>End-of-shift feedback and grading rubric completed by assigned site preceptors.</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://easternflorida.instructure.com/courses/1512147/files/69473084?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">📄 View Form</a>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Clinical Cover Sheet -->
-    <div class="card">
-      <div class="card-header">
-        <h3>Clinical Cover Sheet</h3>
-        <span class="badge">Docs</span>
+    <!-- Clinical Sites & Navigation Section -->
+    <h2>Clinical Sites & Navigation</h2>
+    <div class="grid-container">
+      
+      <!-- Palm Bay Hospital -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Palm Bay Hospital</h3>
+          <span class="badge">PBH</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Focus:</strong> Emergency & Acute Care</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://maps.google.com/?q=Palm+Bay+Hospital" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📍 GPS</a>
+          <a href="https://easternflorida.instructure.com/courses/1512147/files/69473090?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">🅿️ Parking</a>
+        </div>
       </div>
-      <div class="card-body">
-        <p>Mandatory cover sheet accompanying all completed clinical shift documentation packets.</p>
-      </div>
-      <div class="card-actions">
-        <a href="https://easternflorida.instructure.com/courses/1512147/files/69473089?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">📄 View Form</a>
-      </div>
-    </div>
 
-    <!-- Clinical ER Demo Sheet -->
-    <div class="card">
-      <div class="card-header">
-        <h3>Clinical ER Demo Sheet</h3>
-        <span class="badge">Skills</span>
+      <!-- Holmes Regional Medical Center -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Holmes Regional Medical Center</h3>
+          <span class="badge">HRMC</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Focus:</strong> Trauma Center, Emergency & Critical Care</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://maps.google.com/?q=Holmes+Regional+Medical+Center" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📍 GPS</a>
+          <a href="https://easternflorida.instructure.com/courses/1512147/files/69473091?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">🅿️ Parking</a>
+        </div>
       </div>
-      <div class="card-body">
-        <p>Demonstration verification tracking sheet for Emergency Room clinical competencies.</p>
-      </div>
-      <div class="card-actions">
-        <a href="https://easternflorida.instructure.com/courses/1512147/files/69473083?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">📄 View Form</a>
-      </div>
-    </div>
 
-    <!-- Master Signature Log -->
-    <div class="card">
-      <div class="card-header">
-        <h3>Master Signature Log</h3>
-        <span class="badge">Admin</span>
+      <!-- Cape Canaveral Hospital -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Cape Canaveral Hospital</h3>
+          <span class="badge">CCH</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Focus:</strong> Emergency & Surgical Services</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://maps.google.com/?q=Cape+Canaveral+Hospital" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📍 GPS</a>
+          <a href="https://easternflorida.instructure.com/courses/1512147/files/69473079?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">🅿️ Parking</a>
+        </div>
       </div>
-      <div class="card-body">
-        <p>Official preceptor and instructor signature verification log for clinical hours.</p>
-      </div>
-      <div class="card-actions">
-        <a href="https://easternflorida.instructure.com/courses/1512147/files/69473078?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">📄 View Form</a>
-      </div>
-    </div>
 
-    <!-- Preceptor Evaluation -->
-    <div class="card">
-      <div class="card-header">
-        <h3>Preceptor Evaluation</h3>
-        <span class="badge">Feedback</span>
+      <!-- Coastal Parking Lot -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Coastal Parking Lot</h3>
+          <span class="badge">LOT</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Focus:</strong> Designated Student Staging Area</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://maps.google.com/?q=Coastal+Parking+Lot" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📍 GPS</a>
+          <a href="https://maps.google.com/?q=Coastal+Parking+Lot" target="_blank" rel="noopener noreferrer" class="btn btn-outline">🅿️ Info</a>
+        </div>
       </div>
-      <div class="card-body">
-        <p>End-of-shift feedback and grading rubric completed by assigned site preceptors.</p>
+
+      <!-- Orlando Health Melbourne Hospital -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Orlando Health Melbourne Hospital</h3>
+          <span class="badge">OHMH</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Address:</strong> 250 N Wickham Rd, Melbourne, FL 32935</p>
+          <p><strong>Focus:</strong> Emergency Department, ICU, Acute Care</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://maps.google.com/?q=250+N+Wickham+Rd,+Melbourne,+FL+32935" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📍 GPS</a>
+          <a href="https://easternflorida.instructure.com/courses/1512147/files/69473078?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">🅿️ Parking</a>
+        </div>
       </div>
-      <div class="card-actions">
-        <a href="https://easternflorida.instructure.com/courses/1512147/files/69473084?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">📄 View Form</a>
+
+      <!-- Orlando Health Sebastian River Hospital -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Orlando Health Sebastian River Hospital</h3>
+          <span class="badge">OHSRH</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Address:</strong> 13695 US Highway 1, Sebastian, FL 32958</p>
+          <p><strong>Focus:</strong> Emergency Department, Surgical / Acute Care</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://maps.google.com/?q=13695+US+Highway+1,+Sebastian,+FL+32958" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📍 GPS</a>
+          <a href="https://easternflorida.instructure.com/courses/1512147/files/69473078?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">🅿️ Parking</a>
+        </div>
       </div>
+
     </div>
 
   </div>
 
-  <!-- Clinical Sites & Navigation Section -->
-  <h2>Clinical Sites & Navigation</h2>
-  <div class="grid-container">
-    
-    <!-- Palm Bay Hospital -->
-    <div class="card">
-      <div class="card-header">
-        <h3>Palm Bay Hospital</h3>
-        <span class="badge">PBH</span>
-      </div>
-      <div class="card-body">
-        <p><strong>Focus:</strong> Emergency & Acute Care</p>
-      </div>
-      <div class="card-actions">
-        <a href="https://maps.google.com/?q=Palm+Bay+Hospital" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📍 GPS</a>
-        <a href="https://easternflorida.instructure.com/courses/1512147/files/69473090?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">🅿️ Parking</a>
-      </div>
-    </div>
+  <!-- PATIENT ASSESSMENT RUN SHEET TAB CONTENT -->
+  <div id="section-runsheet" class="portal-section-content">
+    <div id="rs-root">
 
-    <!-- Holmes Regional Medical Center -->
-    <div class="card">
-      <div class="card-header">
-        <h3>Holmes Regional Medical Center</h3>
-        <span class="badge">HRMC</span>
+      <!-- MONITOR HEADER -->
+      <div class="rs-monitor">
+        <div class="rs-mon-top">
+          <div class="rs-mon-id">
+            <div class="rs-star">🚑</div>
+            <div>
+              <h1 class="disp">Run Sheet: Patient Assessment</h1>
+              <p>Primary Survey · History · Detailed Exam · Reassessment &amp; Hand-off</p>
+            </div>
+          </div>
+          <div class="rs-vital">
+            <div id="rs-progress-num" class="num mono">0%</div>
+            <div class="lbl">assessment complete</div>
+          </div>
+        </div>
+        <div class="rs-ekg-wrap">
+          <svg viewBox="0 0 600 46" preserveAspectRatio="none">
+            <path class="rs-ekg-path" id="rs-ekg-path" d="M0,23 L60,23 L75,23 L85,6 L95,40 L105,23 L140,23 L155,23 L165,10 L175,23 L185,23 L245,23 L260,23 L270,6 L280,40 L290,23 L325,23 L340,23 L350,10 L360,23 L370,23 L430,23 L445,23 L455,6 L465,40 L475,23 L510,23 L525,23 L535,10 L545,23 L555,23 L600,23" />
+          </svg>
+        </div>
+        <div class="rs-progress-track"><div id="rs-progress-fill" class="rs-progress-fill"></div></div>
       </div>
-      <div class="card-body">
-        <p><strong>Focus:</strong> Trauma Center, Emergency & Critical Care</p>
-      </div>
-      <div class="card-actions">
-        <a href="https://maps.google.com/?q=Holmes+Regional+Medical+Center" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📍 GPS</a>
-        <a href="https://easternflorida.instructure.com/courses/1512147/files/69473091?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">🅿️ Parking</a>
-      </div>
-    </div>
 
-    <!-- Cape Canaveral Hospital -->
-    <div class="card">
-      <div class="card-header">
-        <h3>Cape Canaveral Hospital</h3>
-        <span class="badge">CCH</span>
+      <!-- MODE TABS -->
+      <div class="rs-modes">
+        <button id="rs-mode-guide-btn" class="rs-mode-btn active" onclick="rsSwitchMode('guide')">📋 Checklist &amp; Protocol Guide</button>
+        <button id="rs-mode-sim-btn" class="rs-mode-btn" onclick="rsSwitchMode('sim')">🧠 Scenario Simulator</button>
       </div>
-      <div class="card-body">
-        <p><strong>Focus:</strong> Emergency & Surgical Services</p>
-      </div>
-      <div class="card-actions">
-        <a href="https://maps.google.com/?q=Cape+Canaveral+Hospital" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📍 GPS</a>
-        <a href="https://easternflorida.instructure.com/courses/1512147/files/69473079?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">🅿️ Parking</a>
-      </div>
-    </div>
 
-    <!-- Coastal Parking Lot -->
-    <div class="card">
-      <div class="card-header">
-        <h3>Coastal Parking Lot</h3>
-        <span class="badge">LOT</span>
+      <!-- GUIDE VIEW -->
+      <div id="rs-view-guide">
+        <div class="rs-toolbar">
+          <button class="rs-reset-btn" onclick="rsReset()">↺ Clear run sheet</button>
+        </div>
+        <div class="rs-tags">
+          <button class="rs-tag active" data-cat="all" onclick="rsFilter('all')">All Steps</button>
+          <button class="rs-tag" data-cat="prep" onclick="rsFilter('prep')">Primary Survey</button>
+          <button class="rs-tag" data-cat="history" onclick="rsFilter('history')">History &amp; Vitals</button>
+          <button class="rs-tag" data-cat="exam" onclick="rsFilter('exam')">Detailed Exam</button>
+          <button class="rs-tag" data-cat="handoff" onclick="rsFilter('handoff')">Reassess &amp; Hand-off</button>
+        </div>
+        <div class="rs-clip">
+          <div id="rs-grid" class="rs-grid"></div>
+        </div>
       </div>
-      <div class="card-body">
-        <p><strong>Focus:</strong> Designated Student Staging Area</p>
-      </div>
-      <div class="card-actions">
-        <a href="https://maps.google.com/?q=Coastal+Parking+Lot" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📍 GPS</a>
-        <a href="https://maps.google.com/?q=Coastal+Parking+Lot" target="_blank" rel="noopener noreferrer" class="btn btn-outline">🅿️ Info</a>
-      </div>
-    </div>
 
-    <!-- Orlando Health Melbourne Hospital -->
-    <div class="card">
-      <div class="card-header">
-        <h3>Orlando Health Melbourne Hospital</h3>
-        <span class="badge">OHMH</span>
+      <!-- SIMULATOR VIEW -->
+      <div id="rs-view-sim" class="rs-hidden">
+        <div class="rs-sim-card">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+              <span class="rs-sim-eyebrow">Field Scenario</span>
+              <h3 id="rs-sim-title" class="rs-sim-title disp">Dispatch</h3>
+            </div>
+            <span id="rs-sim-step-badge" class="rs-sim-step-badge mono">1 / 3</span>
+          </div>
+          <p id="rs-sim-desc" class="rs-sim-desc"></p>
+          <div id="rs-sim-options"></div>
+          <div id="rs-sim-feedback" class="rs-sim-feedback rs-hidden"></div>
+          <div style="display:flex; justify-content:flex-end; margin-top:10px;">
+            <button id="rs-sim-next" class="rs-sim-next rs-hidden" onclick="rsNextSim()">Next Call ➔</button>
+          </div>
+        </div>
       </div>
-      <div class="card-body">
-        <p><strong>Address:</strong> 250 N Wickham Rd, Melbourne, FL 32935</p>
-        <p><strong>Focus:</strong> Emergency Department, ICU, Acute Care</p>
-      </div>
-      <div class="card-actions">
-        <a href="https://maps.google.com/?q=250+N+Wickham+Rd,+Melbourne,+FL+32935" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📍 GPS</a>
-        <a href="https://easternflorida.instructure.com/courses/1512147/files/69473078?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">🅿️ Parking</a>
-      </div>
-    </div>
 
-    <!-- Orlando Health Sebastian River Hospital -->
-    <div class="card">
-      <div class="card-header">
-        <h3>Orlando Health Sebastian River Hospital</h3>
-        <span class="badge">OHSRH</span>
-      </div>
-      <div class="card-body">
-        <p><strong>Address:</strong> 13695 US Highway 1, Sebastian, FL 32958</p>
-        <p><strong>Focus:</strong> Emergency Department, Surgical / Acute Care</p>
-      </div>
-      <div class="card-actions">
-        <a href="https://maps.google.com/?q=13695+US+Highway+1,+Sebastian,+FL+32958" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📍 GPS</a>
-        <a href="https://easternflorida.instructure.com/courses/1512147/files/69473078?wrap=1" target="_blank" rel="noopener noreferrer" class="btn btn-outline">🅿️ Parking</a>
-      </div>
     </div>
-
   </div>
 
 </div>
+
+<!-- MODAL -->
+<div id="rs-modal-bg" class="rs-modal-bg rs-hidden" onclick="if(event.target===this) rsCloseModal()">
+  <div id="rs-modal" class="rs-modal">
+    <div class="rs-modal-head">
+      <div>
+        <h3 id="rs-modal-title"></h3>
+        <p id="rs-modal-sub"></p>
+      </div>
+      <button class="rs-modal-close" onclick="rsCloseModal()">✕</button>
+    </div>
+    <div class="rs-modal-body">
+      <div class="rs-overview"><strong>Overview:</strong> <span id="rs-modal-overview"></span></div>
+      <div class="rs-detail-label">Protocol Detail</div>
+      <div id="rs-modal-details" style="margin-top:6px;"></div>
+    </div>
+    <div class="rs-modal-foot">
+      <button id="rs-modal-mark" class="rs-modal-mark" onclick="rsToggleFromModal()">Mark Complete</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Top-level portal tab switcher
+  function switchPortalTab(tabName) {
+    document.getElementById('section-portal').classList.remove('active');
+    document.getElementById('section-runsheet').classList.remove('active');
+    document.getElementById('tab-portal-btn').classList.remove('active');
+    document.getElementById('tab-runsheet-btn').classList.remove('active');
+
+    if (tabName === 'portal') {
+      document.getElementById('section-portal').classList.add('active');
+      document.getElementById('tab-portal-btn').classList.add('active');
+    } else {
+      document.getElementById('section-runsheet').classList.add('active');
+      document.getElementById('tab-runsheet-btn').classList.add('active');
+    }
+  }
+
+  // Run Sheet App Logic
+  (function(){
+    var rsData = [
+      // PRIMARY SURVEY
+      { id:'ssbsi', category:'prep', title:'SS / BSI', subtitle:'Scene Safety & Body Substance Isolation', desc:'Confirm the scene is safe to enter and don appropriate PPE before making patient contact.', details:['Scan for hazards: traffic, fire, unstable structures, violence, hostile bystanders, hazmat.','Don PPE matched to exposure risk — gloves, eye protection, mask, gown.','Re-evaluate scene safety continuously; it can change mid-call.'] },
+      { id:'moinoi', category:'prep', title:'MOI / NOI', subtitle:'Mechanism of Injury / Nature of Illness', desc:'Decide whether you are dealing with trauma (forces applied to the body) or a medical complaint (underlying illness).', details:['MOI (trauma): vehicle speed/damage, fall height, weapon type, entrapment.','NOI (medical): chief complaint, environmental clues, medical alert jewelry, medications on scene.'] },
+      { id:'numpts', category:'prep', title:'Number of Patients', subtitle:'Triage & Resource Assessment', desc:'Count every patient on scene and judge whether your resources can handle the load.', details:['If patient count exceeds what your unit can manage, request mutual aid or trigger MCI protocol early.','Do a quick visual triage before committing fully to one patient.'] },
+      { id:'resources', category:'prep', title:'Additional Resources', subtitle:'Rescue, Engine, Ladder, PD/SO, Utilities, etc.', desc:'Call for specialized units early — waiting until you are already overwhelmed costs time.', details:['PD/SO: violent scenes, traffic control, unsecured scenes.','Fire / Engine / Rescue: extrication, heavy lifting, fire suppression.','Utilities: downed electrical lines, gas leaks.'] },
+      { id:'cspine', category:'prep', title:'Consider C-Spine', subtitle:'Spinal Motion Restriction — Medical & Trauma', desc:'Screen every patient, not just obvious trauma, for spinal injury risk.', details:['Look for midline spinal tenderness, neuro deficits, distracting injury, intoxication, or high-risk MOI.','Medical patients can need C-spine precautions too (e.g., syncope with a fall).','Apply manual stabilization or a collar when indicated.'] },
+      { id:'genimp', category:'prep', title:'General Impression', subtitle:'What do I see as I walk up?', desc:'Form a first impression of age, sex, positioning, distress level, and any obvious life threats before you even touch the patient.', details:['Sick vs. not sick — trust this gut read and confirm it with data.','Note posture (tripod, guarding), obvious hemorrhage, or abnormal color.'] },
+      { id:'loc', category:'prep', title:'LOC — AVPU Scale', subtitle:'Level of Consciousness', desc:'Grade responsiveness on a 4-point scale as your very first neuro check.', details:['A — Alert: patient tracks you as you walk up, answers spontaneously.','V — Verbal: eyes open only when you speak to them.','P — Painful: requires a sternal rub or pinch to open eyes / respond.','U — Unresponsive: no reaction to verbal or painful stimuli.'] },
+      { id:'aaox4', category:'prep', title:'Mental Status — AAOx4', subtitle:'Awake, Alert & Oriented x4', desc:'Test orientation across four spheres to quantify mental status.', details:['Person — "What is your name?"','Place — "What city or state are we in?"','Time — "What is the month or year?"','Event — "Who is the current president?"'] },
+      { id:'gcs', category:'prep', title:'GCS — Glasgow Coma Scale', subtitle:'Numeric Neurological Score (3–15)', desc:'Score eye opening, verbal response, and motor response to trend neuro status objectively over time.', details:['Eye response: 1–4 points.','Verbal response: 1–5 points.','Motor response: 1–6 points.','Especially important to trend for any patient scoring V, P, or U on AVPU.'] },
+      { id:'pearrl', category:'prep', title:'PEARRL', subtitle:'Pupils Equal, Round, Reactive to Light', desc:'Check pupil size, symmetry, and light reactivity with a penlight.', details:['Critical for altered mental status, suspected stroke, and head trauma.','Note any inequality (anisocoria), sluggish reaction, or non-reactivity.'] },
+      { id:'cc', category:'prep', title:'Chief Complaint (CC)', subtitle:'Primary Reason EMS Was Called', desc:'Ask directly: "What is the main reason you called for help today?"', details:['Get this in the patient’s own words whenever possible.','This drives your focused vs. rapid exam decision later.'] },
+      { id:'airway', category:'prep', title:'Life Threats — Airway (A)', subtitle:'Primary Survey', desc:'Confirm the airway is open and staying open.', details:['Patent if the patient can talk and is moving air without obstruction.','Look, listen, feel for compromise; intervene immediately if not patent.'] },
+      { id:'breathing', category:'prep', title:'Life Threats — Breathing (B)', subtitle:'Primary Survey', desc:'Assess the quality and adequacy of respiration and correct hypoxia.', details:['RRQD — Rate, Rhythm, Quality, Depth.','Lung sounds — wheezing, rales, rhonchi.','SpO2 target range: 94%–99%.','Give O2 as needed via nasal cannula, NRB, or BVM.'] },
+      { id:'circulation', category:'prep', title:'Life Threats — Circulation (C)', subtitle:'Primary Survey', desc:'Evaluate perfusion and control any severe bleeding.', details:['RRQ — Rate, Rhythm, Quality of pulse.','Capillary refill.','Skin — temperature, color, condition.'] },
+      { id:'transportdec', category:'prep', title:'Decision of Transport (D)', subtitle:'Stay & Play vs. Load & Go', desc:'Set your transport priority based on patient acuity.', details:['Load & Go: unstable airway, uncontrolled bleeding, shock, severe head injury.','Stay & Play: stable medical patient where on-scene treatment is appropriate.'] },
+      { id:'expose', category:'prep', title:'Expose the Area (E)', subtitle:'Chief Complaint or Injury Site', desc:'Expose clothing around the CC or injury to fully visualize the problem.', details:['Balance patient dignity with the need for full visualization.','Look for lacerations, swelling, deformity, or rash you couldn’t see through clothing.'] },
+
+      // HISTORY & VITALS
+      { id:'focusrapid', category:'history', title:'Focused or Rapid Exam?', subtitle:'Decision Point Based on CC', desc:'Choose exam depth based on chief complaint and stability — an isolated complaint gets a focused exam, an unstable or unclear presentation gets a rapid full-body exam.', details:['Focused: single, isolated, non-critical complaint (e.g., isolated ankle injury).','Rapid: altered LOC, significant MOI, unstable vitals, or unclear complaint.'] },
+      { id:'sample', category:'history', title:'SAMPLE History', subtitle:'Patient Medical Background', desc:'Gather a structured medical history from the patient, family, or bystanders.', details:['S — Signs & Symptoms: what you see/find, and what they tell you.','A — Allergies: medications, animals, and food.','M — Medications: current prescriptions related to the CC.','P — Past Medical History: pertinent conditions.','L — Last Oral Intake: food, drink, or medication.','E — Events leading up to the call: what were they doing?'] },
+      { id:'opqrst', category:'history', title:'OPQRST', subtitle:'Pain & Symptom Analysis', desc:'Characterize the chief complaint in detail, especially pain.', details:['O — Onset: sudden/acute or gradual?','P — Provocation: what makes it better or worse?','Q — Quality: "Can you describe what it feels like?"','R — Radiates: does it move anywhere else in the body?','S — Severity: rate 0–10.','T — Time: when did this start — minutes, hours, days?'] },
+      { id:'vitals', category:'history', title:'Baseline Vitals', subtitle:'Objective Clinical Measurements', desc:'Obtain a complete baseline vital sign set as early as possible.', details:['HR — Heart Rate','BP — Blood Pressure','RR — Respiratory Rate','SpO2 — Pulse Oxygenation','Temp — Temperature','BGL — Blood Glucose Level'] },
+      { id:'intervention', category:'history', title:'Intervention / Treatment', subtitle:'Protocol-Guided Emergency Care', desc:'Deliver treatment based on findings and local protocol, then re-check response.', details:['Examples: oxygen, aspirin, nitroglycerin, albuterol, bandaging, CPR/AED.','Reassess the patient after every intervention to confirm effect.'] },
+      { id:'transportphase', category:'history', title:'Transport', subtitle:'If Stayed & Played on Scene', desc:'Once on-scene care is complete, package and move to definitive care.', details:['Secure patient and equipment before moving.','Choose lights/sirens vs. routine transport based on acuity.'] },
+
+      // DETAILED EXAM
+      { id:'dcapbtls', category:'exam', title:'DCAP-BTLS', subtitle:'Applied Throughout the Full Body Exam', desc:'This mnemonic is the lens you look through at every region of the body during the detailed exam.', details:['D — Deformities','C — Contusions','A — Abrasions','P — Punctures/Penetrations','B — Burns','T — Tenderness','L — Lacerations','S — Swelling'] },
+      { id:'head', category:'exam', title:'Head', subtitle:'Full Body Detailed Exam — Region 1', desc:'Begin the head-to-toe exam here; DCAP-BTLS is assumed at every subsequent region.', details:['Palpate scalp and skull for deformity, tenderness, or crepitus.','Note any active bleeding or swelling.'] },
+      { id:'forehead', category:'exam', title:'Forehead', subtitle:'Full Body Detailed Exam', desc:'Inspect the forehead specifically for embedded material.', details:['Check for foreign bodies.'] },
+      { id:'eyes', category:'exam', title:'Eyes', subtitle:'Full Body Detailed Exam', desc:'Examine both eyes for pupil response and signs of trauma or illness.', details:['PEARRL — pupils equal, round, reactive to light.','Conjunctivitis.','Jaundice.','Tearing or blood.','Raccoon eyes (periorbital ecchymosis) — suspect facial or head trauma.'] },
+      { id:'ears', category:'exam', title:'Ears', subtitle:'Full Body Detailed Exam', desc:'Inspect the ear canal and area behind the ear.', details:['Foreign bodies.','Excessive wax.','Fluid — blood or CSF (cerebral spinal fluid).','Battle sign behind the ears — suspect head trauma.'] },
+      { id:'nose', category:'exam', title:'Nose', subtitle:'Full Body Detailed Exam', desc:'Check the nose for fluid and burn indicators.', details:['Fluid — blood or CSF.','Burned nasal hairs.','Soot.'] },
+      { id:'mouth', category:'exam', title:'Mouth', subtitle:'Full Body Detailed Exam', desc:'Inspect the oral cavity for airway hazards and clinical clues.', details:['Foreign bodies — food, teeth, or dentures.','Odors — ETOH, ketones.','Blood.','Confirm tongue is intact.'] },
+      { id:'facebones', category:'exam', title:'Face Bones Intact', subtitle:'Full Body Detailed Exam', desc:'Palpate the major facial bones for stability and deformity.', details:['Maxilla.','Mandible.','Orbital socket.'] },
+      { id:'neck', category:'exam', title:'Neck / Cervical Spine', subtitle:'Full Body Detailed Exam', desc:'Assess the neck for airway, vascular, and spinal findings.', details:['JVD — jugular venous distension.','Tracheal deviation.','C-spine instability — "stair stepping" on palpation.'] },
+      { id:'clavicles', category:'exam', title:'Clavicles', subtitle:'Full Body Detailed Exam', desc:'Palpate both clavicles for integrity.', details:['Intact structure.','Crepitus — bone on bone.','Subcutaneous emphysema — air trapped under the skin.'] },
+      { id:'chest', category:'exam', title:'Chest', subtitle:'Full Body Detailed Exam', desc:'Inspect and auscultate the chest.', details:['Equal chest rise and fall.','Medication patches.','Pacemaker / defibrillator devices.','Lung sounds.'] },
+      { id:'abdomen', category:'exam', title:'Abdomen (ABD)', subtitle:'Full Body Detailed Exam', desc:'Palpate all quadrants for tenderness and abnormal findings.', details:['Tenderness / rebound tenderness.','Hernia.','Guarding.','Distension.','Pulsating masses.'] },
+      { id:'pelvis', category:'exam', title:'Pelvis', subtitle:'Full Body Detailed Exam', desc:'Assess pelvic stability and related findings.', details:['Intact pelvis — press down and in.','Incontinence (urination or defecation) — possible loss of consciousness.','Priapism — spinal injury or ED-drug related.'] },
+      { id:'legs', category:'exam', title:'Legs', subtitle:'Full Body Detailed Exam', desc:'Check bilateral legs for symmetry, perfusion, and neuro status.', details:['Length.','Positioning.','Pulse.','Motor.','Sensation.','Medical alert tags.'] },
+      { id:'arms', category:'exam', title:'Arms', subtitle:'Full Body Detailed Exam', desc:'Check bilateral arms for symmetry, perfusion, and neuro status.', details:['Length.','Positioning.','Pulse.','Motor.','Sensation.','Medical alert tags.'] },
+      { id:'back', category:'exam', title:'Back', subtitle:'Full Body Detailed Exam — Final Region', desc:'Log-roll to inspect the back and spine.', details:['Inline spinal cord alignment.','Kyphosis.','Scoliosis.'] },
+
+      // REASSESS & HAND-OFF
+      { id:'reassess', category:'handoff', title:'Ongoing Reassessment', subtitle:'Every 5 min unstable / 15 min stable', desc:'Repeat key elements of your assessment on an interval matched to patient stability.', details:['Chief complaint.','Primary survey — ABCs.','Secondary — OPQRST changes and vitals.','Interventions or treatments and the patient’s response to them.'] },
+      { id:'encode', category:'handoff', title:'Encode / Hospital Report', subtitle:'Hand-off to Hospital or ALS Unit', desc:'Deliver a concise radio report or verbal hand-off to the receiving team.', details:['Age / gender and chief complaint.','Vitals.','Exam findings.','Treatment rendered.','ETA.'] }
+    ];
+
+    var rsCatColors = { prep:'#e0454b', history:'#eda320', exam:'#359469', handoff:'#4b9ad6' };
+    var rsCatLabels = { prep:'Primary Survey', history:'History & Vitals', exam:'Detailed Exam', handoff:'Reassess & Hand-off' };
+    var rsCompleted = {};
+    var rsCurrentFilter = 'all';
+    var rsCurrentModalId = null;
+
+    function rsRender(filter){
+      filter = filter || rsCurrentFilter;
+      rsCurrentFilter = filter;
+      var grid = document.getElementById('rs-grid');
+      grid.innerHTML = '';
+      var items = filter === 'all' ? rsData : rsData.filter(function(i){ return i.category === filter; });
+      items.forEach(function(item, idx){
+        var done = !!rsCompleted[item.id];
+        var card = document.createElement('div');
+        card.className = 'rs-card';
+        card.setAttribute('data-cat', item.category);
+        card.onclick = function(e){
+          if (e.target.closest('.rs-check-box')) return;
+          rsOpenModal(item.id);
+        };
+        card.innerHTML =
+          '<div>' +
+            '<div class="rs-card-top">' +
+              '<div class="rs-card-check">' +
+                '<span class="rs-check-box' + (done ? ' done' : '') + '" onclick="rsToggle(\'' + item.id + '\', event)">' + (done ? '✓' : '') + '</span>' +
+                '<h4 class="' + (done ? 'done' : '') + '">' + item.title + '</h4>' +
+              '</div>' +
+              '<span class="rs-num mono">#' + (idx + 1) + '</span>' +
+            '</div>' +
+            '<p class="sub">' + item.subtitle + '</p>' +
+            '<p class="desc">' + item.desc + '</p>' +
+          '</div>' +
+          '<div class="rs-card-foot">' +
+            '<span class="rs-view-link">📖 View protocol</span>' +
+            '<span class="rs-stamp ' + (done ? 'done' : 'pending') + '">' + (done ? 'Completed' : rsCatLabels[item.category]) + '</span>' +
+          '</div>';
+        grid.appendChild(card);
+      });
+      rsUpdateProgress();
+    }
+
+    function rsToggle(id, evt){
+      if (evt) evt.stopPropagation();
+      rsCompleted[id] = !rsCompleted[id];
+      rsRender();
+      if (rsCurrentModalId === id) rsUpdateModalMarkBtn(id);
+    }
+
+    function rsToggleFromModal(){
+      if (rsCurrentModalId) rsToggle(rsCurrentModalId, null);
+    }
+
+    function rsFilter(cat){
+      document.querySelectorAll('.rs-tag').forEach(function(btn){ btn.classList.remove('active'); });
+      var el = document.querySelector('.rs-tag[data-cat="' + cat + '"]');
+      if (el) el.classList.add('active');
+      rsRender(cat);
+    }
+
+    function rsUpdateProgress(){
+      var total = rsData.length;
+      var done = rsData.filter(function(i){ return rsCompleted[i.id]; }).length;
+      var pct = Math.round((done / total) * 100);
+      document.getElementById('rs-progress-fill').style.width = pct + '%';
+      document.getElementById('rs-progress-num').innerText = pct + '%';
+    }
+
+    function rsOpenModal(id){
+      var item = rsData.find(function(i){ return i.id === id; });
+      if (!item) return;
+      rsCurrentModalId = id;
+      document.getElementById('rs-modal-title').innerText = item.title;
+      document.getElementById('rs-modal-sub').innerText = item.subtitle;
+      document.getElementById('rs-modal-overview').innerText = item.desc;
+      document.getElementById('rs-modal').style.setProperty('--tagcolor', rsCatColors[item.category]);
+      var detailsHtml = item.details.map(function(l){ return '<p class="line">• ' + l + '</p>'; }).join('');
+      document.getElementById('rs-modal-details').innerHTML = detailsHtml;
+      rsUpdateModalMarkBtn(id);
+      document.getElementById('rs-modal-bg').classList.remove('rs-hidden');
+    }
+
+    function rsUpdateModalMarkBtn(id){
+      var btn = document.getElementById('rs-modal-mark');
+      var done = !!rsCompleted[id];
+      var item = rsData.find(function(i){ return i.id === id; });
+      btn.innerText = done ? '✓ Marked Complete — Undo' : 'Mark Complete';
+      btn.style.background = done ? '#4a4234' : rsCatColors[item.category];
+    }
+
+    function rsCloseModal(){
+      document.getElementById('rs-modal-bg').classList.add('rs-hidden');
+      rsCurrentModalId = null;
+    }
+
+    function rsReset(){
+      if (confirm('Clear all progress on this run sheet?')) {
+        rsCompleted = {};
+        rsRender();
+      }
+    }
+
+    function rsSwitchMode(mode){
+      var g = document.getElementById('rs-view-guide');
+      var s = document.getElementById('rs-view-sim');
+      var bg = document.getElementById('rs-mode-guide-btn');
+      var bs = document.getElementById('rs-mode-sim-btn');
+      if (mode === 'guide') {
+        g.classList.remove('rs-hidden'); s.classList.add('rs-hidden');
+        bg.classList.add('active'); bs.classList.remove('active');
+      } else {
+        g.classList.add('rs-hidden'); s.classList.remove('rs-hidden');
+        bs.classList.add('active'); bg.classList.remove('active');
+        rsInitSim();
+      }
+    }
+
+    var rsScenarios = [
+      {
+        title: 'Call 1: MVC Into a Utility Pole',
+        desc: 'You arrive to a sedan that struck a utility pole. Wires are sparking across the hood. The driver is slumped over the wheel, unmoving.',
+        question: 'What is your immediate first action?',
+        options: [
+          { text: 'Approach and check the driver’s pulse right away.', correct:false, feedback:'Not yet — downed lines make this scene an electrocution hazard until it’s controlled.' },
+          { text: 'Stage safely, confirm scene safety, and request Utilities & Fire/Rescue.', correct:true, feedback:'Correct. SS/BSI comes before patient contact, every time.' },
+          { text: 'Call out to assess AVPU through the windshield.', correct:false, feedback:'The scene isn’t secured yet — safety first, assessment second.' }
+        ]
+      },
+      {
+        title: 'Call 2: Difficulty Breathing',
+        desc: 'Scene is secured, PPE is on. You approach a 45-year-old female with severe shortness of breath. As you walk up, she turns her head and tracks you with her eyes before you say anything.',
+        question: 'Based on that reaction, what is her AVPU rating?',
+        options: [
+          { text: 'V — Verbal Stimuli', correct:false, feedback:'Not quite — she responded before you spoke, so it’s not a verbal-stimulus response.' },
+          { text: 'A — Alert (tracks me as I walk up)', correct:true, feedback:'Correct. Spontaneous tracking on approach is the definition of Alert.' },
+          { text: 'U — Unresponsive', correct:false, feedback:'She is clearly reacting to you, so this isn’t Unresponsive.' }
+        ]
+      },
+      {
+        title: 'Call 3: Fall From a Ladder',
+        desc: 'During your detailed exam of a patient who fell 12 feet, you find bruising directly behind both ears and clear fluid draining from the left nostril.',
+        question: 'What do these findings most strongly suggest, and what should you do?',
+        options: [
+          { text: 'Normal exam variant — no action needed.', correct:false, feedback:'These are classic red-flag findings, not incidental ones.' },
+          { text: 'Battle sign and possible CSF drainage — suspect basilar skull fracture and treat as significant head trauma.', correct:true, feedback:'Correct. Battle sign (bruising behind the ears) and CSF from the nose both point to basilar skull fracture — protect the C-spine, avoid nasal packing/NPA, and transport accordingly.' },
+          { text: 'Sinus infection — no change in treatment plan.', correct:false, feedback:'Given the mechanism and paired findings, infection is far less likely than skull fracture.' }
+        ]
+      }
+    ];
+    var rsSimIdx = 0;
+
+    function rsInitSim(){ rsSimIdx = 0; rsLoadSimStep(); }
+
+    function rsLoadSimStep(){
+      var scen = rsScenarios[rsSimIdx];
+      document.getElementById('rs-sim-title').innerText = scen.title;
+      document.getElementById('rs-sim-desc').innerText = scen.desc + '\n\n' + scen.question;
+      document.getElementById('rs-sim-step-badge').innerText = (rsSimIdx + 1) + ' / ' + rsScenarios.length;
+      var opts = document.getElementById('rs-sim-options');
+      opts.innerHTML = '';
+      document.getElementById('rs-sim-feedback').classList.add('rs-hidden');
+      document.getElementById('rs-sim-next').classList.add('rs-hidden');
+      scen.options.forEach(function(opt){
+        var btn = document.createElement('button');
+        btn.className = 'rs-sim-opt';
+        btn.innerHTML = '<span>' + opt.text + '</span><span class="go">Select ➔</span>';
+        btn.onclick = function(){ rsCheckSim(opt.correct, opt.feedback, btn); };
+        opts.appendChild(btn);
+      });
+    }
+
+    function rsCheckSim(correct, feedback, selectedBtn){
+      var fb = document.getElementById('rs-sim-feedback');
+      fb.classList.remove('rs-hidden');
+      if (correct) {
+        fb.style.background = '#e5f5ec'; fb.style.border = '1px solid #7fc9a4'; fb.style.color = '#143d28';
+        fb.innerHTML = '<strong>✅ Correct.</strong> ' + feedback;
+        document.getElementById('rs-sim-next').classList.remove('rs-hidden');
+        document.querySelectorAll('.rs-sim-opt').forEach(function(b){ b.disabled = true; });
+        selectedBtn.style.borderColor = '#359469'; selectedBtn.style.background = '#eaf7f0';
+      } else {
+        fb.style.background = '#fbe8e8'; fb.style.border = '1px solid #e9a3a5'; fb.style.color = '#7a2226';
+        fb.innerHTML = '<strong>❌ Not quite.</strong> ' + feedback;
+        selectedBtn.style.borderColor = '#e0454b'; selectedBtn.style.background = '#fdecec';
+      }
+    }
+
+    function rsNextSim(){
+      rsSimIdx++;
+      if (rsSimIdx < rsScenarios.length) {
+        rsLoadSimStep();
+      } else {
+        document.getElementById('rs-sim-title').innerText = '🎉 Run Complete';
+        document.getElementById('rs-sim-desc').innerText = 'You’ve worked through this call set. Restart to run it again.';
+        document.getElementById('rs-sim-options').innerHTML = '<button class="rs-sim-opt" onclick="rsInitSim()" style="justify-content:center;"><span>Restart Scenarios</span></button>';
+        document.getElementById('rs-sim-next').classList.add('rs-hidden');
+        document.getElementById('rs-sim-feedback').classList.add('rs-hidden');
+      }
+    }
+
+    window.rsToggle = rsToggle;
+    window.rsToggleFromModal = rsToggleFromModal;
+    window.rsFilter = rsFilter;
+    window.rsCloseModal = rsCloseModal;
+    window.rsReset = rsReset;
+    window.rsSwitchMode = rsSwitchMode;
+    window.rsNextSim = rsNextSim;
+    window.rsInitSim = rsInitSim;
+
+    rsRender('all');
+  })();
+</script>
 
 </body>
 </html>
