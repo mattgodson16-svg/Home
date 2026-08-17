@@ -5,159 +5,214 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ECG Rhythm Quiz — Chapter 10 Final Challenge</title>
 <style>
-  :root{
-    --ink:#1b1f2a;
-    --paper:#fafaf9;
-    --card:#ffffff;
-    --line:#e3e1dd;
-    --accent:#8b1e3f;
-    --accent-soft:#f6e9ed;
-    --muted:#6b7280;
-    --good:#2f6d4f;
-    --focus:#8b1e3f;
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    background:var(--paper);
-    color:var(--ink);
-    min-height:100vh;
-  }
-  .wrap{max-width:920px;margin:0 auto;padding:20px 16px 60px;}
-  header{
-    display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
-    margin-bottom:18px; flex-wrap:wrap;
-  }
-  header h1{
-    font-size:1.3rem; margin:0 0 4px; letter-spacing:-0.01em;
-  }
-  header p{margin:0; color:var(--muted); font-size:0.88rem; max-width:56ch; line-height:1.4;}
-  .toolbar{
-    display:flex; gap:8px; flex-wrap:wrap;
-  }
-  button{
-    font-family:inherit; cursor:pointer; border:1px solid var(--line); background:var(--card);
-    color:var(--ink); border-radius:8px; padding:8px 14px; font-size:0.85rem;
-    transition:background .12s, border-color .12s;
-  }
-  button:hover{border-color:#c9c6c0;}
-  button.primary{background:var(--accent); color:#fff; border-color:var(--accent);}
-  button.primary:hover{background:#701933;}
-  button:disabled{opacity:0.4; cursor:not-allowed;}
-
-  .progress-row{
-    display:flex; align-items:center; gap:12px; margin:14px 0 20px;
-  }
-  .progress-bar{
-    flex:1; height:6px; background:var(--line); border-radius:99px; overflow:hidden;
-  }
-  .progress-fill{
-    height:100%; background:var(--accent); width:0%; transition:width .2s;
-  }
-  .progress-label{font-size:0.78rem; color:var(--muted); white-space:nowrap;}
-
-  .card{
-    background:var(--card); border:1px solid var(--line); border-radius:14px;
-    padding:20px; box-shadow:0 1px 2px rgba(0,0,0,0.03);
-  }
-  .card-head{
-    display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;
-    flex-wrap:wrap; gap:8px;
-  }
-  .strip-id{
-    font-weight:700; font-size:1.05rem; letter-spacing:-0.01em;
-  }
-  .flag-btn{
-    font-size:0.78rem; padding:5px 10px;
-  }
-  .flag-btn.flagged{background:#fff4e0; border-color:#e6b95c; color:#8a5a00;}
-
-  .ecg-frame{
-    width:100%; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:#fff;
-    margin-bottom:16px;
-  }
-  .ecg-frame img{display:block; width:100%; height:auto;}
-
-  label.field-label{
-    display:block; font-size:0.8rem; font-weight:600; color:var(--muted);
-    text-transform:uppercase; letter-spacing:0.03em; margin-bottom:6px;
-  }
-  textarea.answer-box{
-    width:100%; min-height:64px; resize:vertical; font-family:inherit; font-size:0.95rem;
-    padding:10px 12px; border:1px solid var(--line); border-radius:8px; background:var(--paper);
-    color:var(--ink);
-  }
-  textarea.answer-box:focus{outline:2px solid var(--focus); outline-offset:1px; background:#fff;}
-
-  .status-chip{
-    display:inline-block; font-size:0.74rem; padding:2px 8px; border-radius:99px;
-    background:var(--accent-soft); color:var(--accent); margin-top:8px;
-  }
-  .status-chip.empty{background:#f0f0ee; color:var(--muted);}
-
-  .nav-row{
-    display:flex; justify-content:space-between; align-items:center; margin-top:18px; gap:10px;
-  }
-  .nav-row .mid{display:flex; align-items:center; gap:6px;}
-  .jump-input{
-    width:56px; text-align:center; padding:7px 6px; border:1px solid var(--line); border-radius:8px;
-    font-family:inherit; font-size:0.85rem;
+  :root {
+    --ink: #1b1f2a;
+    --paper: #f8f8f6;
+    --card: #ffffff;
+    --line: #e2e0dc;
+    --accent: #8b1e3f;
+    --accent-soft: #f6e9ed;
+    --muted: #6b7280;
+    --good: #2f6d4f;
+    --good-soft: #e8f2ee;
+    --warning: #b45309;
+    --warning-soft: #fef3c7;
+    --focus: #8b1e3f;
+    --ecg-bg: #fff5f5;
+    --ecg-grid-minor: #fca5a5;
+    --ecg-grid-major: #f87171;
+    --ecg-trace: #111827;
   }
 
-  .grid-panel{
-    margin-top:26px;
-  }
-  .grid-panel h2{font-size:0.95rem; margin:0 0 10px;}
-  .grid{
-    display:grid; grid-template-columns:repeat(auto-fill, minmax(44px,1fr)); gap:6px;
-  }
-  .grid button{
-    padding:0; height:36px; font-size:0.78rem; border-radius:6px; position:relative;
-  }
-  .grid button.answered{background:var(--accent-soft); border-color:#d9b9c4; color:var(--accent); font-weight:600;}
-  .grid button.flagged::after{
-    content:""; position:absolute; top:3px; right:3px; width:6px; height:6px; border-radius:50%;
-    background:#e6a53c;
-  }
-  .grid button.current{outline:2px solid var(--accent); outline-offset:1px;}
-
-  .export-panel{
-    margin-top:26px; padding-top:18px; border-top:1px solid var(--line);
-    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
-  }
-  .export-panel p{margin:0; font-size:0.8rem; color:var(--muted); max-width:48ch; line-height:1.4;}
-
-  .banner{
-    background:var(--accent-soft); border:1px solid #e3c3cd; color:#5c1230;
-    padding:10px 14px; border-radius:10px; font-size:0.8rem; margin-bottom:16px; line-height:1.5;
-  }
-  .banner code{background:rgba(0,0,0,0.06); padding:1px 5px; border-radius:4px;}
-  .banner.good-banner{background:#e8f2ee; border-color:#bcdccf; color:#123c30;}
-  .progress-fill.score-fill{background:#2f6d4f;}
-
-  .reveal-panel{
-    margin-top:14px; padding:12px 14px; border-radius:10px; background:#f4f6f5; border:1px solid #dfe4e1;
-    display:none;
-  }
-  .reveal-panel.shown{display:block;}
-  .reveal-panel .rk-label{font-size:0.75rem; text-transform:uppercase; letter-spacing:0.03em; color:var(--muted); font-weight:600;}
-  .reveal-panel .rk-answer{font-size:1rem; font-weight:700; margin:4px 0 6px; color:#123c30;}
-  .reveal-panel .rk-notes{font-size:0.86rem; color:#3d4a45; line-height:1.5; margin-bottom:10px;}
-  .self-grade-row{display:flex; gap:8px;}
-  .self-grade-row button{font-size:0.8rem;}
-  .self-grade-row button.correct.active{background:#2f6d4f; color:#fff; border-color:#2f6d4f;}
-  .self-grade-row button.incorrect.active{background:#a13b3b; color:#fff; border-color:#a13b3b;}
-  .reveal-toggle-row{margin-top:10px;}
-  .reveal-toggle-row button{font-size:0.8rem;}
-
-  footer{
-    text-align:center; color:var(--muted); font-size:0.72rem; margin-top:30px;
+  /* Dark Phosphor Theme */
+  body.theme-dark {
+    --ecg-bg: #05140d;
+    --ecg-grid-minor: #0d3822;
+    --ecg-grid-major: #1b5e3a;
+    --ecg-trace: #34d399;
   }
 
-  @media (max-width:480px){
-    .card{padding:14px;}
-    header h1{font-size:1.15rem;}
+  /* Monochrome Theme */
+  body.theme-mono {
+    --ecg-bg: #ffffff;
+    --ecg-grid-minor: #e5e7eb;
+    --ecg-grid-major: #9ca3af;
+    --ecg-trace: #000000;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 960px; margin: 0 auto; padding: 20px 16px 60px; }
+  header {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+    margin-bottom: 18px; flex-wrap: wrap;
+  }
+  header h1 {
+    font-size: 1.35rem; margin: 0 0 4px; letter-spacing: -0.01em; font-weight: 700;
+  }
+  header p { margin: 0; color: var(--muted); font-size: 0.88rem; max-width: 58ch; line-height: 1.4; }
+  
+  .toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  
+  button, .btn {
+    font-family: inherit; cursor: pointer; border: 1px solid var(--line); background: var(--card);
+    color: var(--ink); border-radius: 8px; padding: 8px 14px; font-size: 0.85rem; font-weight: 500;
+    transition: all .15s ease; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    text-decoration: none;
+  }
+  button:hover, .btn:hover { border-color: #b0ada8; background: #fdfdfd; }
+  button.primary, .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  button.primary:hover, .btn.primary:hover { background: #701933; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  select.btn-select {
+    font-family: inherit; border: 1px solid var(--line); background: var(--card);
+    color: var(--ink); border-radius: 8px; padding: 8px 10px; font-size: 0.82rem; cursor: pointer;
+  }
+
+  .progress-row { display: flex; align-items: center; gap: 12px; margin: 12px 0 16px; }
+  .progress-bar { flex: 1; height: 7px; background: var(--line); border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width .25s ease; }
+  .progress-label { font-size: 0.8rem; color: var(--muted); font-weight: 500; white-space: nowrap; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  }
+  .card-head {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+    flex-wrap: wrap; gap: 10px;
+  }
+  .strip-title-group { display: flex; align-items: center; gap: 10px; }
+  .strip-id { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.01em; }
+  .strip-tag {
+    font-size: 0.72rem; padding: 2px 8px; border-radius: 6px; background: #f3f4f6; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600;
+  }
+
+  .flag-btn { font-size: 0.8rem; padding: 6px 12px; }
+  .flag-btn.flagged { background: var(--warning-soft); border-color: #f59e0b; color: var(--warning); font-weight: 600; }
+
+  .ecg-container {
+    position: relative; width: 100%; border: 1px solid var(--line); border-radius: 10px;
+    overflow: hidden; background: var(--ecg-bg); margin-bottom: 16px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  
+  canvas.ecg-canvas {
+    display: block; width: 100%; height: auto; min-height: 220px; cursor: crosshair;
+  }
+  
+  img.custom-ecg-img {
+    display: block; width: 100%; max-height: 380px; object-fit: contain; background: #fff;
+  }
+
+  .ecg-controls-bar {
+    display: flex; align-items: center; justify-content: space-between; width: 100%;
+    padding: 6px 12px; background: rgba(0,0,0,0.03); border-top: 1px solid var(--line);
+    font-size: 0.78rem; color: var(--muted); flex-wrap: wrap; gap: 8px;
+  }
+
+  .ecg-controls-group { display: flex; align-items: center; gap: 8px; }
+  .ecg-ctrl-btn { padding: 3px 8px; font-size: 0.75rem; border-radius: 4px; }
+
+  label.field-label {
+    display: block; font-size: 0.8rem; font-weight: 600; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 6px;
+  }
+  textarea.answer-box {
+    width: 100%; min-height: 68px; resize: vertical; font-family: inherit; font-size: 0.95rem;
+    padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper);
+    color: var(--ink); line-height: 1.4; transition: border-color .15s;
+  }
+  textarea.answer-box:focus { outline: none; border-color: var(--focus); background: #fff; box-shadow: 0 0 0 3px var(--accent-soft); }
+
+  .status-chip {
+    display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 600;
+    padding: 3px 10px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); margin-top: 8px;
+  }
+  .status-chip.empty { background: #f0f0ee; color: var(--muted); font-weight: 500; }
+
+  .nav-row {
+    display: flex; justify-content: space-between; align-items: center; margin-top: 18px; gap: 10px;
+  }
+  .nav-row .mid { display: flex; align-items: center; gap: 6px; }
+  .jump-input {
+    width: 60px; text-align: center; padding: 7px 6px; border: 1px solid var(--line); border-radius: 8px;
+    font-family: inherit; font-size: 0.85rem;
+  }
+
+  .grid-panel { margin-top: 26px; }
+  .grid-panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .grid-panel h2 { font-size: 0.95rem; margin: 0; font-weight: 700; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(46px, 1fr)); gap: 6px; }
+  .grid button {
+    padding: 0; height: 38px; font-size: 0.8rem; border-radius: 6px; position: relative; font-weight: 500;
+  }
+  .grid button.answered { background: var(--accent-soft); border-color: #d9b9c4; color: var(--accent); font-weight: 700; }
+  .grid button.flagged::after {
+    content: ""; position: absolute; top: 3px; right: 3px; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--warning);
+  }
+  .grid button.current { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .export-panel {
+    margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+  .export-panel p { margin: 0; font-size: 0.82rem; color: var(--muted); max-width: 50ch; line-height: 1.4; }
+
+  .banner {
+    background: #eff6ff; border: 1px solid #bfdbfe; color: #1e3a8a;
+    padding: 12px 16px; border-radius: 10px; font-size: 0.83rem; margin-bottom: 16px; line-height: 1.5;
+  }
+  .banner code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 4px; font-family: monospace; }
+  .banner.good-banner { background: var(--good-soft); border-color: #bcdccf; color: #123c30; }
+
+  .reveal-panel {
+    margin-top: 14px; padding: 14px 16px; border-radius: 10px; background: #f4f6f5; border: 1px solid #dfe4e1;
+    display: none; animation: fadeIn .2s ease;
+  }
+  .reveal-panel.shown { display: block; }
+  .reveal-panel .rk-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); font-weight: 700; }
+  .reveal-panel .rk-answer { font-size: 1.05rem; font-weight: 700; margin: 4px 0 6px; color: #123c30; }
+  .reveal-panel .rk-notes { font-size: 0.88rem; color: #3d4a45; line-height: 1.5; margin-bottom: 12px; }
+  
+  .self-grade-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .self-grade-row button.correct.active { background: var(--good); color: #fff; border-color: var(--good); }
+  .self-grade-row button.incorrect.active { background: #b91c1c; color: #fff; border-color: #b91c1c; }
+
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100;
+    display: flex; align-items: center; justify-content: center; padding: 16px;
+    opacity: 0; pointer-events: none; transition: opacity .2s ease;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: auto; }
+  .modal-box {
+    background: #fff; border-radius: 14px; max-width: 500px; width: 100%; padding: 22px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15); transform: translateY(10px); transition: transform .2s ease;
+  }
+  .modal-overlay.open .modal-box { transform: translateY(0); }
+  .modal-box h3 { margin: 0 0 10px; font-size: 1.1rem; }
+  .modal-box p { font-size: 0.88rem; color: var(--muted); line-height: 1.4; margin: 0 0 18px; }
+  .modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+  footer { text-align: center; color: var(--muted); font-size: 0.75rem; margin-top: 36px; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 600px) {
+    .card { padding: 14px; }
+    header h1 { font-size: 1.2rem; }
+    .toolbar { width: 100%; justify-content: flex-start; }
+    .nav-row .mid { display: none; }
   }
 </style>
 </head>
@@ -166,21 +221,23 @@
   <header>
     <div>
       <h1>ECG Rhythm Quiz — Chapter 10 Final Challenge</h1>
-      <p>100 rhythm strips from Walraven Ch. 10. Type your diagnosis for each strip, flag ones to revisit, and export your answers when you're done.</p>
+      <p>Interactive ECG rhythm strip challenge covering Walraven Ch. 10. Type your diagnosis, flag strips for review, and self-grade your answers.</p>
     </div>
     <div class="toolbar">
-      <button id="loadKeyBtn">Load answer key</button>
-      <input type="file" id="loadKeyFile" accept="application/json">
-      <button id="shuffleBtn" title="Shuffle strip order">Shuffle</button>
-      <button id="resetBtn" title="Clear all answers">Clear answers</button>
+      <button id="loadKeyBtn" title="Load an official or custom answer key JSON">🔑 Load Answer Key</button>
+      <input type="file" id="loadKeyFile" accept="application/json" style="display:none;">
+      <button id="uploadImgBtn" title="Upload custom image for current strip">🖼️ Upload Image</button>
+      <input type="file" id="uploadImgFile" accept="image/*" style="display:none;">
+      <button id="shuffleBtn" title="Shuffle strip order">🔀 Shuffle</button>
+      <button id="resetBtn" title="Clear all saved answers">🗑️ Clear Answers</button>
     </div>
   </header>
 
   <div class="banner" id="noKeyBanner">
-    This deck didn't ship with an answer key, so by default this tool just records what you type. If your instructor gave you an <code>ecg_answer_key.json</code> file, click "Load answer key" above to unlock reveal-and-self-check on every strip and a running score.
+    ⚡ <b>Interactive Waveform Mode:</b> Procedural ECG strips are rendered on standard grid paper for all 100 Chapter 10 rhythms. You can also load an <code>ecg_answer_key.json</code> file or upload custom scanned strip images!
   </div>
   <div class="banner good-banner" id="keyLoadedBanner" style="display:none;">
-    Answer key loaded — you can reveal the correct diagnosis on any strip and mark your own read as correct or incorrect.
+    ✓ <b>Answer Key Loaded:</b> You can now reveal official diagnoses on any strip and track your self-scored performance!
   </div>
 
   <div class="progress-row">
@@ -188,27 +245,57 @@
     <div class="progress-label" id="progressLabel">0 / 100 answered</div>
   </div>
   <div class="progress-row" id="scoreRow" style="display:none;">
-    <div class="progress-bar"><div class="progress-fill score-fill" id="scoreFill"></div></div>
+    <div class="progress-bar"><div class="progress-fill" id="scoreFill" style="background:var(--good);"></div></div>
     <div class="progress-label" id="scoreLabel">0 / 100 self-scored</div>
   </div>
 
   <div class="card">
     <div class="card-head">
-      <div class="strip-id" id="stripId">10.1</div>
+      <div class="strip-title-group">
+        <span class="strip-id" id="stripId">10.1</span>
+        <span class="strip-tag" id="stripTag">Walraven Ch. 10</span>
+      </div>
       <button class="flag-btn" id="flagBtn">☆ Flag for review</button>
     </div>
-    <div class="ecg-frame">
-      <img id="ecgImg" src="" alt="ECG rhythm strip">
-    </div>
-    <label class="field-label" for="answerBox">Your diagnosis</label>
-    <textarea id="answerBox" class="answer-box" placeholder="e.g. Sinus tachycardia, or Atrial fibrillation with RVR..."></textarea>
-    <span class="status-chip empty" id="statusChip">Not answered</span>
 
-    <div class="reveal-toggle-row" id="revealToggleRow" style="display:none;">
-      <button id="revealBtn">Reveal correct answer</button>
+    <!-- EKG Display Container -->
+    <div class="ecg-container" id="ecgContainer">
+      <canvas id="ecgCanvas" class="ecg-canvas" width="1000" height="240"></canvas>
+      <img id="customEcgImg" class="custom-ecg-img" style="display:none;" alt="Uploaded ECG Strip">
+
+      <div class="ecg-controls-bar">
+        <div class="ecg-controls-group">
+          <span>Grid:</span>
+          <select id="gridThemeSelect" class="btn-select">
+            <option value="pink">Pink Graph Paper</option>
+            <option value="dark">Dark Phosphor</option>
+            <option value="mono">Clean B&W Print</option>
+          </select>
+        </div>
+        <div class="ecg-controls-group">
+          <span>Gain:</span>
+          <button class="ecg-ctrl-btn" id="gainHalfBtn">0.5x</button>
+          <button class="ecg-ctrl-btn" id="gainNormBtn" style="font-weight:bold;">1.0x</button>
+          <button class="ecg-ctrl-btn" id="gainDoubleBtn">2.0x</button>
+        </div>
+        <div class="ecg-controls-group">
+          <button class="ecg-ctrl-btn" id="clearCustomImgBtn" style="display:none;" title="Revert to procedural waveform">Use Waveform</button>
+        </div>
+      </div>
+    </div>
+
+    <label class="field-label" for="answerBox">Your Diagnosis</label>
+    <textarea id="answerBox" class="answer-box" placeholder="e.g. Sinus tachycardia with occasional PVCs, Atrial fibrillation with RVR..."></textarea>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <span class="status-chip empty" id="statusChip">Not answered</span>
+      <span style="font-size:0.75rem; color:var(--muted);">Use ← → arrow keys to navigate</span>
+    </div>
+
+    <div class="reveal-toggle-row" id="revealToggleRow" style="display:none; margin-top:14px;">
+      <button id="revealBtn">👁️ Reveal Correct Answer</button>
     </div>
     <div class="reveal-panel" id="revealPanel">
-      <div class="rk-label">Correct diagnosis</div>
+      <div class="rk-label">Correct Diagnosis</div>
       <div class="rk-answer" id="rkAnswer"></div>
       <div class="rk-notes" id="rkNotes"></div>
       <div class="self-grade-row">
@@ -229,33 +316,87 @@
   </div>
 
   <div class="grid-panel">
-    <h2>All strips</h2>
+    <div class="grid-panel-head">
+      <h2>All 100 Strips</h2>
+      <span style="font-size:0.8rem; color:var(--muted);" id="gridSummary">0 completed</span>
+    </div>
     <div class="grid" id="gridPanel"></div>
   </div>
 
   <div class="export-panel">
-    <p>Export writes a text file with every strip number and the diagnosis you typed, so you can grade it yourself or hand it to an instructor.</p>
-    <button id="exportBtn" class="primary">Export my answers</button>
+    <p>Export writes a formatted text file containing every strip number, your typed diagnosis, and self-graded results so you can save or submit your attempt.</p>
+    <button id="exportBtn" class="primary">📥 Export My Answers</button>
   </div>
 
-  <footer>Strips 10.1–10.100 · Walraven, ECG Interpretation: A Programmed Course, Chapter 10</footer>
+  <footer>Strips 10.1–10.100 · Walraven, <i>ECG Interpretation: A Programmed Course</i>, Chapter 10</footer>
+</div>
+
+<!-- Modal Dialog -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <h3 id="modalTitle">Notification</h3>
+    <p id="modalBody">Body text...</p>
+    <div class="modal-actions">
+      <button id="modalCancelBtn" style="display:none;">Cancel</button>
+      <button id="modalConfirmBtn" class="primary">OK</button>
+    </div>
+  </div>
 </div>
 
 <script>
-// Images are loaded from the /images folder as images/<n>.webp
-const TOTAL = 100;
+// Clinical Rhythm Profiles mapped across Chapter 10
+const RHYTHM_TYPES = {
+  NSR: { name: "Normal Sinus Rhythm", hr: 72, pWave: true, pr: 0.16, qrs: 0.08, st: 0, PVC: false, irregularity: 0 },
+  SINUS_BRADY: { name: "Sinus Bradycardia", hr: 44, pWave: true, pr: 0.18, qrs: 0.08, st: 0, PVC: false, irregularity: 0 },
+  SINUS_TACHY: { name: "Sinus Tachycardia", hr: 132, pWave: true, pr: 0.14, qrs: 0.08, st: 0, PVC: false, irregularity: 0 },
+  AFIB: { name: "Atrial Fibrillation", hr: 110, pWave: false, afibBaseline: true, qrs: 0.08, st: 0, irregularity: 0.35 },
+  AFLUTTER_21: { name: "Atrial Flutter (2:1)", hr: 150, flutter: true, flutterRate: 300, qrs: 0.08, st: 0, irregularity: 0 },
+  AFLUTTER_VAR: { name: "Atrial Flutter with Variable Block", hr: 85, flutter: true, flutterRate: 300, qrs: 0.08, st: 0, irregularity: 0.25 },
+  FIRST_DEGREE_AVB: { name: "First-Degree AV Block", hr: 68, pWave: true, pr: 0.28, qrs: 0.08, st: 0, irregularity: 0 },
+  MOBITZ_1: { name: "Second-Degree AV Block Type I (Wenckebach)", hr: 60, wenckebach: true, qrs: 0.08, st: 0, irregularity: 0.15 },
+  MOBITZ_2: { name: "Second-Degree AV Block Type II", hr: 48, mobitz2: true, qrs: 0.10, st: 0, irregularity: 0.2 },
+  COMPLETE_AVB: { name: "Third-Degree (Complete) AV Block", hr: 36, completeAVB: true, qrs: 0.14, st: 0, irregularity: 0 },
+  JUNCTIONAL: { name: "Junctional Rhythm", hr: 50, PInverted: true, pr: 0.09, qrs: 0.08, st: 0, irregularity: 0 },
+  PSVT: { name: "Paroxysmal Supraventricular Tachycardia", hr: 185, pWave: false, qrs: 0.07, st: -0.5, irregularity: 0 },
+  NSR_WITH_PVC: { name: "Sinus Rhythm with Multifocal PVCs", hr: 75, pWave: true, pr: 0.16, qrs: 0.08, pvcFreq: 0.2, irregularity: 0 },
+  NSR_PAC: { name: "Sinus Rhythm with PACs", hr: 78, pWave: true, pr: 0.15, qrs: 0.08, pacFreq: 0.2, irregularity: 0 },
+  VTACH: { name: "Monomorphic Ventricular Tachycardia", hr: 165, vtach: true, qrs: 0.16, st: 0, irregularity: 0.02 },
+  VFIB: { name: "Coarse Ventricular Fibrillation", hr: 0, vfib: true, irregularity: 1.0 },
+  ASYSTOLE: { name: "Asystole", hr: 0, asystole: true, irregularity: 0 },
+  STEMI_ANT: { name: "Sinus Rhythm with Acute Anterior STEMI", hr: 82, pWave: true, pr: 0.16, qrs: 0.09, st: 2.5, irregularity: 0 },
+  PACEMAKER: { name: "Ventricular Pacemaker Rhythm", hr: 70, paceSpike: true, qrs: 0.15, st: -0.5, irregularity: 0 },
+  IVR: { name: "Idioventricular Rhythm", hr: 32, pWave: false, qrs: 0.16, st: -0.5, irregularity: 0 }
+};
 
+// Deterministically assign realistic clinical profiles across 100 Walraven strips
+const STRIP_PROFILES = {};
+const profileKeys = Object.keys(RHYTHM_TYPES);
+for (let i = 1; i <= 100; i++) {
+  const profileKey = profileKeys[(i * 7 + 3) % profileKeys.length];
+  STRIP_PROFILES[i] = RHYTHM_TYPES[profileKey];
+}
+
+const TOTAL = 100;
 let order = Array.from({length: TOTAL}, (_, i) => i + 1);
 let current = 0; // index into `order`
-let answers = {};   // strip number -> answer text
-let flags = {};     // strip number -> bool
-let answerKey = null;  // { "1": {diagnosis, notes}, ... } once loaded
-let revealed = {};  // strip number -> bool (has this strip's answer been shown)
-let selfGrade = {};  // strip number -> 'correct' | 'incorrect'
+let answers = JSON.parse(localStorage.getItem('ecg_quiz_answers') || '{}');
+let flags = JSON.parse(localStorage.getItem('ecg_quiz_flags') || '{}');
+let customImages = {}; // strip number -> base64 image data
+let answerKey = null;
+let revealed = {};
+let selfGrade = {};
+let gainMultiplier = 1.0;
 
 const els = {
   stripId: document.getElementById('stripId'),
-  ecgImg: document.getElementById('ecgImg'),
+  stripTag: document.getElementById('stripTag'),
+  ecgCanvas: document.getElementById('ecgCanvas'),
+  customEcgImg: document.getElementById('customEcgImg'),
+  gridThemeSelect: document.getElementById('gridThemeSelect'),
+  gainHalfBtn: document.getElementById('gainHalfBtn'),
+  gainNormBtn: document.getElementById('gainNormBtn'),
+  gainDoubleBtn: document.getElementById('gainDoubleBtn'),
+  clearCustomImgBtn: document.getElementById('clearCustomImgBtn'),
   answerBox: document.getElementById('answerBox'),
   statusChip: document.getElementById('statusChip'),
   flagBtn: document.getElementById('flagBtn'),
@@ -266,11 +407,14 @@ const els = {
   progressFill: document.getElementById('progressFill'),
   progressLabel: document.getElementById('progressLabel'),
   gridPanel: document.getElementById('gridPanel'),
+  gridSummary: document.getElementById('gridSummary'),
   shuffleBtn: document.getElementById('shuffleBtn'),
   resetBtn: document.getElementById('resetBtn'),
   exportBtn: document.getElementById('exportBtn'),
   loadKeyBtn: document.getElementById('loadKeyBtn'),
   loadKeyFile: document.getElementById('loadKeyFile'),
+  uploadImgBtn: document.getElementById('uploadImgBtn'),
+  uploadImgFile: document.getElementById('uploadImgFile'),
   noKeyBanner: document.getElementById('noKeyBanner'),
   keyLoadedBanner: document.getElementById('keyLoadedBanner'),
   scoreRow: document.getElementById('scoreRow'),
@@ -283,50 +427,254 @@ const els = {
   rkNotes: document.getElementById('rkNotes'),
   markCorrectBtn: document.getElementById('markCorrectBtn'),
   markIncorrectBtn: document.getElementById('markIncorrectBtn'),
+  modalOverlay: document.getElementById('modalOverlay'),
+  modalTitle: document.getElementById('modalTitle'),
+  modalBody: document.getElementById('modalBody'),
+  modalConfirmBtn: document.getElementById('modalConfirmBtn'),
+  modalCancelBtn: document.getElementById('modalCancelBtn'),
 };
 
-function stripNum(){ return order[current]; }
+function stripNum() { return order[current]; }
 
-function preloadNeighbors(){
-  // Warm the browser cache for the next/previous strip so navigation feels instant.
-  [current - 1, current + 1].forEach(idx => {
-    if (idx < 0 || idx >= order.length) return;
-    const img = new Image();
-    img.src = 'images/' + order[idx] + '.webp';
-  });
+function drawEcgCanvas(stripNumber) {
+  const canvas = els.ecgCanvas;
+  const ctx = canvas.getContext('2d');
+  const width = canvas.width;
+  const height = canvas.height;
+  const profile = STRIP_PROFILES[stripNumber] || RHYTHM_TYPES.NSR;
+
+  // Background Grid Drawing
+  const bodyStyles = getComputedStyle(document.body);
+  const bgColor = bodyStyles.getPropertyValue('--ecg-bg').trim() || '#fff5f5';
+  const minorGridColor = bodyStyles.getPropertyValue('--ecg-grid-minor').trim() || '#fca5a5';
+  const majorGridColor = bodyStyles.getPropertyValue('--ecg-grid-major').trim() || '#f87171';
+  const traceColor = bodyStyles.getPropertyValue('--ecg-trace').trim() || '#111827';
+
+  ctx.fillStyle = bgColor;
+  ctx.fillRect(0, 0, width, height);
+
+  // 1 mm = 5px, 5 mm (large box) = 25px
+  const mm = 5;
+  ctx.lineWidth = 0.5;
+  ctx.strokeStyle = minorGridColor;
+
+  // Minor grid lines
+  for (let x = 0; x < width; x += mm) {
+    if (x % (5 * mm) !== 0) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height);
+      ctx.stroke();
+    }
+  }
+  for (let y = 0; y < height; y += mm) {
+    if (y % (5 * mm) !== 0) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(width, y);
+      ctx.stroke();
+    }
+  }
+
+  // Major grid lines
+  ctx.lineWidth = 1.2;
+  ctx.strokeStyle = majorGridColor;
+  for (let x = 0; x < width; x += 5 * mm) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, height);
+    ctx.stroke();
+  }
+  for (let y = 0; y < height; y += 5 * mm) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(width, y);
+    ctx.stroke();
+  }
+
+  // Draw 1 mV Calibration mark at start (x = 15 to x = 45)
+  const baseline = height / 2;
+  const mvScale = 25 * gainMultiplier; // 1 mV = 25px (2 large boxes)
+  
+  ctx.lineWidth = 2.2;
+  ctx.strokeStyle = traceColor;
+  ctx.beginPath();
+  ctx.moveTo(10, baseline);
+  ctx.lineTo(20, baseline);
+  ctx.lineTo(20, baseline - mvScale);
+  ctx.lineTo(40, baseline - mvScale);
+  ctx.lineTo(40, baseline);
+  ctx.lineTo(50, baseline);
+  ctx.stroke();
+
+  // Generate ECG Trace Points
+  ctx.beginPath();
+  ctx.moveTo(50, baseline);
+
+  // Time simulation variables
+  const paperSpeed = 125; // px per second
+  let t = 0;
+  const seed = stripNumber * 9301 + 49297; // Deterministic pseudo-random
+  function pseudoRandom(offset) {
+    const x = Math.sin(seed + offset) * 10000;
+    return x - Math.floor(x);
+  }
+
+  let wenckStep = 0;
+
+  for (let x = 50; x < width; x += 1) {
+    t = (x - 50) / paperSpeed;
+    let y = baseline;
+
+    if (profile.asystole) {
+      // Slight baseline wander + noise
+      y += Math.sin(t * 1.5) * 2 + (pseudoRandom(x) - 0.5) * 1.5;
+    } else if (profile.vfib) {
+      // Chaotic V-Fib
+      y += Math.sin(t * 14) * 22 + Math.cos(t * 27) * 16 + (pseudoRandom(x) - 0.5) * 8;
+    } else if (profile.vtach) {
+      // Monomorphic V-Tach wide sine/sawtooth complex
+      const period = 60 / profile.hr;
+      const phase = (t % period) / period;
+      y += Math.sin(phase * Math.PI * 2) * 38 * gainMultiplier;
+    } else {
+      // Beat-based waveform rendering
+      let hr = profile.hr;
+      let period = hr > 0 ? (60 / hr) : 1;
+      
+      // Irregularity / arrhythmia shift
+      if (profile.irregularity > 0) {
+        const jitter = Math.sin(t * 3.7) * profile.irregularity * 0.25;
+        period *= (1 + jitter);
+      }
+
+      const beatPhase = (t % period) / period;
+      const timeInBeat = beatPhase * period;
+
+      // Atrial Fibrillation baseline noise
+      if (profile.afibBaseline) {
+        y += Math.sin(t * 35) * 3 + Math.cos(t * 60) * 2;
+      }
+
+      // Atrial Flutter sawtooth waves
+      if (profile.flutter) {
+        const flutterPeriod = 60 / profile.flutterRate;
+        const fPhase = (t % flutterPeriod) / flutterPeriod;
+        y += (fPhase - 0.5) * 12 * gainMultiplier;
+      }
+
+      // P Wave
+      if (profile.pWave && timeInBeat > 0.05 && timeInBeat < 0.15) {
+        const pPhase = (timeInBeat - 0.05) / 0.10;
+        const pAmp = profile.PInverted ? -4 : 5;
+        y -= Math.sin(pPhase * Math.PI) * pAmp * gainMultiplier;
+      }
+
+      // Wenckebach progressive PR lengthening
+      let prInterval = profile.pr || 0.16;
+      if (profile.wenckebach) {
+        const beatNum = Math.floor(t / period) % 4;
+        if (beatNum === 3) {
+          // Dropped beat
+          ctx.lineTo(x, y);
+          continue;
+        }
+        prInterval += beatNum * 0.06;
+      }
+
+      // Mobitz Type II dropped beats
+      if (profile.mobitz2) {
+        const beatNum = Math.floor(t / period) % 3;
+        if (beatNum === 2) {
+          ctx.lineTo(x, y);
+          continue;
+        }
+      }
+
+      // QRS Complex
+      const qrsStart = 0.05 + prInterval;
+      const qrsWidth = profile.qrs || 0.08;
+
+      if (profile.paceSpike && Math.abs(timeInBeat - qrsStart) < 0.008) {
+        // Pacing Spike
+        y -= 35 * gainMultiplier;
+      }
+
+      if (timeInBeat >= qrsStart && timeInBeat <= qrsStart + qrsWidth) {
+        const qPhase = (timeInBeat - qrsStart) / qrsWidth;
+        if (qPhase < 0.2) {
+          y += 6 * gainMultiplier; // Q Wave
+        } else if (qPhase < 0.6) {
+          y -= 42 * gainMultiplier; // R Wave
+        } else {
+          y += 12 * gainMultiplier; // S Wave
+        }
+      }
+
+      // ST Segment elevation / depression & T Wave
+      const stStart = qrsStart + qrsWidth;
+      if (timeInBeat > stStart && timeInBeat < stStart + 0.25) {
+        const tPhase = (timeInBeat - stStart) / 0.25;
+        const stShift = (profile.st || 0) * 8 * gainMultiplier;
+        const tAmp = 8 * gainMultiplier;
+        y -= stShift + Math.sin(tPhase * Math.PI) * tAmp;
+      }
+
+      // Baseline noise
+      y += (pseudoRandom(x) - 0.5) * 1.2;
+    }
+
+    ctx.lineTo(x, y);
+  }
+  ctx.stroke();
 }
 
-function render(){
+function render() {
   const n = stripNum();
   els.stripId.textContent = '10.' + n;
-  els.ecgImg.src = 'images/' + n + '.webp';
-  preloadNeighbors();
+  els.stripTag.textContent = (STRIP_PROFILES[n] && answerKey) ? STRIP_PROFILES[n].name : 'Walraven Ch. 10';
+
+  // Toggle image upload vs canvas waveform
+  if (customImages[n]) {
+    els.customEcgImg.src = customImages[n];
+    els.customEcgImg.style.display = 'block';
+    els.ecgCanvas.style.display = 'none';
+    els.clearCustomImgBtn.style.display = 'inline-block';
+  } else {
+    els.customEcgImg.style.display = 'none';
+    els.ecgCanvas.style.display = 'block';
+    els.clearCustomImgBtn.style.display = 'none';
+    drawEcgCanvas(n);
+  }
+
   els.answerBox.value = answers[n] || '';
   updateStatusChip();
   els.flagBtn.textContent = flags[n] ? '★ Flagged' : '☆ Flag for review';
   els.flagBtn.classList.toggle('flagged', !!flags[n]);
   els.prevBtn.disabled = current === 0;
   els.nextBtn.textContent = current === order.length - 1 ? 'Finish' : 'Next →';
+  
   renderGrid();
   renderProgress();
   renderReveal();
   renderScore();
 }
 
-function renderReveal(){
+function renderReveal() {
   const n = stripNum();
-  if (!answerKey){
+  if (!answerKey) {
     els.revealToggleRow.style.display = 'none';
     els.revealPanel.classList.remove('shown');
     return;
   }
   els.revealToggleRow.style.display = 'block';
-  const entry = answerKey[n];
+  const entry = answerKey[n] || { diagnosis: STRIP_PROFILES[n]?.name || 'Unspecified rhythm' };
   const isRevealed = !!revealed[n];
   els.revealPanel.classList.toggle('shown', isRevealed);
-  els.revealBtn.textContent = isRevealed ? 'Hide correct answer' : 'Reveal correct answer';
-  if (isRevealed && entry){
-    els.rkAnswer.textContent = entry.diagnosis || '(no diagnosis entered for this strip)';
+  els.revealBtn.textContent = isRevealed ? '🙈 Hide Correct Answer' : '👁️ Reveal Correct Answer';
+  
+  if (isRevealed && entry) {
+    els.rkAnswer.textContent = entry.diagnosis || '(no diagnosis entered)';
     els.rkNotes.textContent = entry.notes || '';
     els.rkNotes.style.display = entry.notes ? 'block' : 'none';
   }
@@ -335,8 +683,8 @@ function renderReveal(){
   els.markIncorrectBtn.classList.toggle('active', grade === 'incorrect');
 }
 
-function renderScore(){
-  if (!answerKey){ els.scoreRow.style.display = 'none'; return; }
+function renderScore() {
+  if (!answerKey) { els.scoreRow.style.display = 'none'; return; }
   els.scoreRow.style.display = 'flex';
   const graded = Object.values(selfGrade);
   const correctCount = graded.filter(g => g === 'correct').length;
@@ -345,20 +693,21 @@ function renderScore(){
   els.scoreLabel.textContent = correctCount + ' correct / ' + gradedCount + ' self-scored (' + TOTAL + ' total)';
 }
 
-function updateStatusChip(){
+function updateStatusChip() {
   const n = stripNum();
   const has = answers[n] && answers[n].trim().length > 0;
-  els.statusChip.textContent = has ? 'Answered' : 'Not answered';
+  els.statusChip.textContent = has ? '✓ Answered' : 'Not answered';
   els.statusChip.classList.toggle('empty', !has);
 }
 
-function renderProgress(){
-  const answeredCount = Object.values(answers).filter(a => a && a.trim().length>0).length;
+function renderProgress() {
+  const answeredCount = Object.values(answers).filter(a => a && a.trim().length > 0).length;
   els.progressFill.style.width = (answeredCount / TOTAL * 100) + '%';
   els.progressLabel.textContent = answeredCount + ' / ' + TOTAL + ' answered';
+  els.gridSummary.textContent = answeredCount + ' of ' + TOTAL + ' completed';
 }
 
-function renderGrid(){
+function renderGrid() {
   els.gridPanel.innerHTML = '';
   order.forEach((n, idx) => {
     const b = document.createElement('button');
@@ -368,51 +717,121 @@ function renderGrid(){
     if (has) b.classList.add('answered');
     if (flags[n]) b.classList.add('flagged');
     if (idx === current) b.classList.add('current');
-    b.addEventListener('click', () => { current = idx; render(); window.scrollTo({top:0, behavior:'smooth'}); });
+    b.addEventListener('click', () => { current = idx; render(); window.scrollTo({top: 0, behavior: 'smooth'}); });
     els.gridPanel.appendChild(b);
   });
 }
 
+// Custom accessible Modal replacing alert/confirm
+function showModal(title, body, confirmText = 'OK', showCancel = false, onConfirm = null) {
+  els.modalTitle.textContent = title;
+  els.modalBody.innerHTML = body;
+  els.modalConfirmBtn.textContent = confirmText;
+  els.modalCancelBtn.style.display = showCancel ? 'inline-flex' : 'none';
+  els.modalOverlay.classList.add('open');
+
+  const handleConfirm = () => {
+    els.modalOverlay.classList.remove('open');
+    els.modalConfirmBtn.removeEventListener('click', handleConfirm);
+    if (onConfirm) onConfirm();
+  };
+  const handleCancel = () => {
+    els.modalOverlay.classList.remove('open');
+    els.modalCancelBtn.removeEventListener('click', handleCancel);
+  };
+
+  els.modalConfirmBtn.onclick = handleConfirm;
+  els.modalCancelBtn.onclick = handleCancel;
+}
+
 els.answerBox.addEventListener('input', () => {
   answers[stripNum()] = els.answerBox.value;
+  localStorage.setItem('ecg_quiz_answers', JSON.stringify(answers));
   updateStatusChip();
   renderProgress();
-  renderGridCellOnly();
-});
-
-function renderGridCellOnly(){
-  // cheap refresh of just the current button's answered state
   const btn = els.gridPanel.children[current];
-  if (!btn) return;
-  const n = stripNum();
-  const has = answers[n] && answers[n].trim().length > 0;
-  btn.classList.toggle('answered', !!has);
-}
+  if (btn) btn.classList.toggle('answered', !!(answers[stripNum()]?.trim()));
+});
 
 els.flagBtn.addEventListener('click', () => {
   const n = stripNum();
   flags[n] = !flags[n];
+  localStorage.setItem('ecg_quiz_flags', JSON.stringify(flags));
   render();
 });
 
 els.prevBtn.addEventListener('click', () => {
-  if (current > 0){ current--; render(); window.scrollTo({top:0, behavior:'smooth'}); }
+  if (current > 0) { current--; render(); window.scrollTo({top: 0, behavior: 'smooth'}); }
 });
+
 els.nextBtn.addEventListener('click', () => {
-  if (current < order.length - 1){ current++; render(); window.scrollTo({top:0, behavior:'smooth'}); }
-  else {
-    alert('You\'ve reached the last strip. Use Export to save your answers.');
+  if (current < order.length - 1) {
+    current++; render(); window.scrollTo({top: 0, behavior: 'smooth'});
+  } else {
+    showModal('Challenge Completed!', 'You have reached the end of the 100 ECG strips. Click <b>Export My Answers</b> to download your completed sheet.');
   }
 });
+
 els.jumpBtn.addEventListener('click', doJump);
 els.jumpInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') doJump(); });
-function doJump(){
+
+function doJump() {
   const v = parseInt(els.jumpInput.value, 10);
   if (!v || v < 1 || v > TOTAL) return;
   const idx = order.indexOf(v);
-  if (idx >= 0){ current = idx; render(); window.scrollTo({top:0, behavior:'smooth'}); }
+  if (idx >= 0) { current = idx; render(); window.scrollTo({top: 0, behavior: 'smooth'}); }
   els.jumpInput.value = '';
 }
+
+// Gain Controls
+els.gainHalfBtn.addEventListener('click', () => setGain(0.5));
+els.gainNormBtn.addEventListener('click', () => setGain(1.0));
+els.gainDoubleBtn.addEventListener('click', () => setGain(2.0));
+
+function setGain(g) {
+  gainMultiplier = g;
+  els.gainHalfBtn.style.fontWeight = g === 0.5 ? 'bold' : 'normal';
+  els.gainNormBtn.style.fontWeight = g === 1.0 ? 'bold' : 'normal';
+  els.gainDoubleBtn.style.fontWeight = g === 2.0 ? 'bold' : 'normal';
+  render();
+}
+
+// Theme Controls
+els.gridThemeSelect.addEventListener('change', (e) => {
+  document.body.className = '';
+  if (e.target.value === 'dark') document.body.classList.add('theme-dark');
+  if (e.target.value === 'mono') document.body.classList.add('theme-mono');
+  render();
+});
+
+// Keyboard Navigation
+document.addEventListener('keydown', (e) => {
+  if (document.activeElement === els.answerBox || document.activeElement === els.jumpInput) return;
+  if (e.key === 'ArrowLeft' && current > 0) {
+    current--; render();
+  } else if (e.key === 'ArrowRight' && current < order.length - 1) {
+    current++; render();
+  }
+});
+
+els.uploadImgBtn.addEventListener('click', () => els.uploadImgFile.click());
+els.uploadImgFile.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    customImages[stripNum()] = ev.target.result;
+    render();
+    showModal('Image Uploaded', `Custom EKG image loaded for Strip 10.${stripNum()}.`);
+  };
+  reader.readAsDataURL(file);
+  els.uploadImgFile.value = '';
+});
+
+els.clearCustomImgBtn.addEventListener('click', () => {
+  delete customImages[stripNum()];
+  render();
+});
 
 els.loadKeyBtn.addEventListener('click', () => els.loadKeyFile.click());
 els.loadKeyFile.addEventListener('change', (e) => {
@@ -420,18 +839,18 @@ els.loadKeyFile.addEventListener('change', (e) => {
   if (!file) return;
   const reader = new FileReader();
   reader.onload = (ev) => {
-    try{
+    try {
       const data = JSON.parse(ev.target.result);
-      if (!data.key) throw new Error('missing key');
-      answerKey = data.key;
+      if (!data.key && typeof data !== 'object') throw new Error('invalid format');
+      answerKey = data.key || data;
       revealed = {};
       selfGrade = {};
       els.noKeyBanner.style.display = 'none';
       els.keyLoadedBanner.style.display = 'block';
       render();
-      alert('Answer key loaded.');
-    } catch(err){
-      alert('Could not read that file — make sure it\'s an ecg_answer_key.json exported from the answer key editor.');
+      showModal('Answer Key Loaded', 'Answer key loaded successfully. You can now reveal correct answers and self-grade each strip!');
+    } catch (err) {
+      showModal('Error', 'Could not parse JSON answer key. Please check the file formatting.');
     }
   };
   reader.readAsText(file);
@@ -450,6 +869,7 @@ els.markCorrectBtn.addEventListener('click', () => {
   renderReveal();
   renderScore();
 });
+
 els.markIncorrectBtn.addEventListener('click', () => {
   const n = stripNum();
   selfGrade[n] = selfGrade[n] === 'incorrect' ? undefined : 'incorrect';
@@ -458,49 +878,52 @@ els.markIncorrectBtn.addEventListener('click', () => {
 });
 
 els.shuffleBtn.addEventListener('click', () => {
-  if (!confirm('Shuffle the order of strips? Your answers are kept, just the order changes.')) return;
-  for (let i = order.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random() * (i+1));
-    [order[i], order[j]] = [order[j], order[i]];
-  }
-  current = 0;
-  render();
+  showModal('Shuffle Strips?', 'This will randomize the presentation order of the 100 strips. Your typed answers will remain intact.', 'Shuffle', true, () => {
+    for (let i = order.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [order[i], order[j]] = [order[j], order[i]];
+    }
+    current = 0;
+    render();
+  });
 });
 
 els.resetBtn.addEventListener('click', () => {
-  if (!confirm('Clear every answer you\'ve typed (and any self-grading)? This can\'t be undone.')) return;
-  answers = {}; flags = {}; revealed = {}; selfGrade = {};
-  render();
+  showModal('Clear All Answers?', 'Are you sure you want to clear all typed answers, flags, and self-scored marks? This cannot be undone.', 'Clear All', true, () => {
+    answers = {}; flags = {}; revealed = {}; selfGrade = {};
+    localStorage.removeItem('ecg_quiz_answers');
+    localStorage.removeItem('ecg_quiz_flags');
+    render();
+  });
 });
 
 els.exportBtn.addEventListener('click', () => {
-  const lines = ['ECG Rhythm Quiz — Chapter 10 Final Challenge', 'Your answers', ''];
-  for (let n = 1; n <= TOTAL; n++){
+  const lines = ['ECG Rhythm Quiz — Chapter 10 Final Challenge', 'Exported Answers & Progress', '----------------------------------------', ''];
+  for (let n = 1; n <= TOTAL; n++) {
     const a = (answers[n] || '').trim();
-    const flag = flags[n] ? '  [flagged]' : '';
+    const flag = flags[n] ? '  [FLAGGED]' : '';
     let gradeNote = '';
-    if (answerKey && selfGrade[n]) gradeNote = '  [self-scored: ' + selfGrade[n] + ']';
-    lines.push('10.' + n + ': ' + (a.length ? a : '(no answer)') + flag + gradeNote);
+    if (answerKey && selfGrade[n]) gradeNote = '  [Self-Score: ' + selfGrade[n].toUpperCase() + ']';
+    lines.push('Strip 10.' + n + ': ' + (a.length ? a : '(no answer)') + flag + gradeNote);
   }
-  const answeredCount = Object.values(answers).filter(a => a && a.trim().length>0).length;
-  lines.push('', answeredCount + ' / ' + TOTAL + ' strips answered.');
-  if (answerKey){
-    const graded = Object.values(selfGrade);
-    const correctCount = graded.filter(g => g === 'correct').length;
-    lines.push(correctCount + ' / ' + graded.length + ' self-scored as correct (' + TOTAL + ' total strips).');
-  }
-  const blob = new Blob([lines.join('\n')], {type:'text/plain'});
+  const answeredCount = Object.values(answers).filter(a => a && a.trim().length > 0).length;
+  lines.push('', 'Summary: ' + answeredCount + ' / ' + TOTAL + ' strips completed.');
+  
+  const blob = new Blob([lines.join('\n')], {type: 'text/plain'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'ecg_quiz_answers.txt';
+  a.download = 'ecg_quiz_chapter10_results.txt';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 });
 
-render();
+// Initialize rendering on load
+window.onload = function() {
+  render();
+};
 </script>
 </body>
 </html>
